@@ -5,7 +5,7 @@
 // @route       GET /api/itinerary
 // @access      Private
 const getItinerary = async (req, res) => {
-    res.status(200).json({message: "Getting itinerary"})
+    res.status(200).json({user: req.user})
 }
 
 // @desc        Set User Itinerary

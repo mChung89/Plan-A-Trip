@@ -4,7 +4,10 @@ const {
   loginValidation,
 } = require("../validations/userValidation");
 const bcrypt = require("bcryptjs");
+const jwt = require('jsonwebtoken')
 
+
+//Create a New User
 const newUser = async (req, res) => {
   //Validation
   const { error } = registerValidation(req.body);
@@ -36,6 +39,7 @@ const newUser = async (req, res) => {
   }
 };
 
+//Login
 const loginUser = async (req, res) => {
   //Validation
   const { error } = loginValidation(req.body);
@@ -53,8 +57,9 @@ const loginUser = async (req, res) => {
       return res.status(400).send("Password not found")
   }
 
-  res.send("Logged in!")
-
+  //Create and assign a token
+  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
+  res.header('auth-token', token).send(token)
 };
 
 module.exports = {
