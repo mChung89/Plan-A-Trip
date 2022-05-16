@@ -15,7 +15,7 @@ const app = express()
 
 app.use(express.json())
 
-app.use('/itinerary', require('./routes/itineraryRoute'))
+app.use('/places', require('./routes/placeRoute'))
 app.use('/', require('./routes/authRoute'))
 // app.use(errorHandler)
 app.listen(port, () => console.log(`Server started on port: ${port}`))
