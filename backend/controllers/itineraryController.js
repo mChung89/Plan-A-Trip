@@ -11,12 +11,11 @@ const getItinerary = async (req, res) => {
 // @desc        Set User Itinerary
 // @route       POST /api/itinerary
 // @access      Private     
-const postItinerary = async (req, res) => {
-    if (!req.body) {
+const postItinerary = (req, res) => {
+    if (!req.body.title) {
         res.status(400)
         throw new Error('Please add something')
     }
-    console.log(req)
     res.status(200).json({message: `Posting ${req.body.title} to new itinerary`})
 }
 
