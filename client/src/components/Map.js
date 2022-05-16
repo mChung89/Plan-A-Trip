@@ -9,7 +9,7 @@ function Map () {
   });
 
   //Flatiron
-  const center = {lat: 40.705543976313464, lng: -74.01357140807622}
+  const center = useMemo(() => ({lat: 40.705543976313464, lng: -74.01357140807622}),[])
 
   if(!isLoaded) return <div>Loading...</div>
 
