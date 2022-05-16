@@ -1,50 +1,63 @@
-const User = require('../model/User')
-const { registerValidation, loginValidation } = require('../validations/userValidation')
-const bcrypt = require('bcryptjs')
+const User = require("../model/User");
+const {
+  registerValidation,
+  loginValidation,
+} = require("../validations/userValidation");
+const bcrypt = require("bcryptjs");
 
+const newUser = async (req, res) => {
+  //Validation
+  const { error } = registerValidation(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  // Check if user is in the database
+  const emailExist = await User.findOne({ email: req.body.email });
+  if (emailExist) {
+    return res.status(400).send("Email already exists");
+  }
+  // Hash the Password
+  const salt = await bcrypt.genSalt(10);
+  const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-//Validation
-const Joi = require('joi')
+  //Create the User
+  const user = new User({
+    name: req.body.name,
+    email: req.body.email,
+    password: hashedPassword,
+  });
 
-const schema = Joi.object({
-    name: Joi.string().min(6).required(),
-    email: Joi.string().min(6).required().email(),
-    password: Joi.string().min(6).required()
-})
+  //Create User in DB
+  try {
+    const savedUser = await user.save();
+    res.send({ user: savedUser._id });
+  } catch (err) {
+    res.status(400).send(err);
+  }
+};
 
-const newUser = async (req,res) => {
+const loginUser = async (req, res) => {
+  //Validation
+  const { error } = loginValidation(req.body);
+  if (error) {
+    return res.status(400).send(error.details[0].message);
+  }
+  // Check if user is in the database
+  const user = await User.findOne({ email: req.body.email });
+  if (!user) {
+    return res.status(400).send("Email not found");
+  }
+  // If password is correct
+  const validPass = await bcrypt.compare(req.body.password, user.password)
+  if(!validPass) {
+      return res.status(400).send("Password not found")
+  }
 
-    //Validation
-    const { error } = registerValidation(req.body)
-    if(error) {
-        return res.status(400).send(error.details[0].message)
-    }
-    // Check if user is in the database
-    const emailExist = await User.findOne({email: req.body.email})
-    if(emailExist) {
-        return res.status(400).send('Email already exists')
-    }
-    // Hash the Password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(req.body.password, salt);
+  res.send("Logged in!")
 
-    //Create the User 
-    const user = new User({
-        name: req.body.name,
-        email: req.body.email,
-        password: hashedPassword
-    });
-
-    //Create User in DB
-    try {
-        const savedUser = await user.save()
-        res.send({user: savedUser._id});
-    } catch(err) {
-        res.status(400).send(err)
-    }
-}
-
+};
 
 module.exports = {
-    newUser
-}
+  newUser,
+  loginUser,
+};
