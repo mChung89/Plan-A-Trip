@@ -9,7 +9,7 @@ function Home() {
   return (
     <Grid container>
       <Grid item xs={6} className="itinerary">
-          <Itinerary setItinerary={setItinerary} itinerary={itinerary}/>
+          <Itinerary setItinerary={setItinerary} currentLocation={currentLocation} itinerary={itinerary}/>
       </Grid>
       <Grid item xs={6}>
         <Map setCurrentLocation={setCurrentLocation}/>

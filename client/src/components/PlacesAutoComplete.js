@@ -14,7 +14,7 @@ import '@reach/combobox/styles.css'
 import { useGoogleMap } from '@react-google-maps/api'
 
 
-function PlacesAutoComplete ({ setSelected, setCurrentLocation }) {
+function PlacesAutoComplete ({ setMarkers, setCurrentLocation, setZoom }) {
     const map = useGoogleMap()
     const { 
         ready, 
@@ -35,7 +35,7 @@ function PlacesAutoComplete ({ setSelected, setCurrentLocation }) {
 
         const results = await getGeocode({ address })
         const { lat, lng } = await getLatLng(results[0])
-        setSelected({ lat, lng })
+        setZoom(15)
         map.panTo({ lat, lng })
         addToList(results[0].place_id, results[0], lat, lng)
     }
@@ -58,6 +58,8 @@ function PlacesAutoComplete ({ setSelected, setCurrentLocation }) {
             lat: lat,
             lng: lng
         }
+
+        setMarkers(current => [...current, {lat: lat, lng: lng, time: new Date()}])
         fetch('/places', {
             method: 'POST',
             headers: {
@@ -65,7 +67,8 @@ function PlacesAutoComplete ({ setSelected, setCurrentLocation }) {
             },
             body: JSON.stringify(placeObj)})
             .then(res => res.json())
-            .then(setCurrentLocation)
+            .then(data => setCurrentLocation(data));
+            setValue("")
     }
     
     return (

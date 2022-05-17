@@ -1,5 +1,12 @@
-
+import Stack from '@mui/material/Stack'
+import Button from '@mui/material/Button'
 function Itinerary ({ currentLocation , itinerary, setItinerary }){
+
+    function addToItinerary () {
+        console.log(currentLocation)
+        console.log(itinerary)
+        setItinerary([...itinerary, currentLocation])
+    }
 
     const renderItinerary = itinerary?.map(place => {
         return (
@@ -21,10 +28,11 @@ function Itinerary ({ currentLocation , itinerary, setItinerary }){
 
 
     return (
-        <>
-        <button onClick={handleClick}>Give me data</button>
-        {itinerary ? renderItinerary : null}
-        </>
+        <Stack>
+            <Button onClick={handleClick}>Give me data</Button>
+            <Button onClick={addToItinerary}>Click to add to Itinerary</Button>
+            {itinerary ? renderItinerary : null}
+        </Stack>
     )
 }
  

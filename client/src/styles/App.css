@@ -7,3 +7,11 @@
   height: 100vh;
   overflow-x: hidden
 }
+
+nav {
+  height: 4vh;
+  background-color: black;
+  color:white;
+  font-size: 1.5rem;
+  text-align: center
+}
