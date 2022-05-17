@@ -6,7 +6,7 @@ import PlacesAutoComplete from './PlacesAutoComplete';
 const libraries = ["places"]
 
 
-function Map () {
+function Map ({ setCurrentLocation }) {
   const [selected, setSelected] = useState(null)
   const [zoomIn, setZoomIn] = useState(9)
   const [center, setCenter] = useState({lat: 40.705543976313464, lng: -74.01357140807622})
@@ -26,7 +26,7 @@ function Map () {
     <GoogleMap zoom={zoomIn} center={center} mapContainerClassName='map-container'>
       {selected &&  <Marker position={selected} />}
       <div className='places-container'>
-      <PlacesAutoComplete setSelected={setSelected} />
+      <PlacesAutoComplete setCurrentLocation={setCurrentLocation} setSelected={setSelected} />
     </div>
     </GoogleMap>
     </>

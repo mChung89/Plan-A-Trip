@@ -5,8 +5,9 @@ const Place = require("../model/Place");
 // @desc        Get User Itinerary
 // @route       GET /api/itinerary
 // @access      Private
-const getItinerary = async (req, res) => {
-  res.status(200).json({ user: req.user });
+const getPlace = async (req, res) => {
+  const getData = await Place.find({place_id: { $in: ["ChIJaXQRs6lZwokRY6EFpJnhNNE", "ChIJfSpRxqVZwokRbhDqemhazdA"]}})
+  res.status(200).send(getData)
 };
 
 // @desc        Set User Itinerary
@@ -15,21 +16,26 @@ const getItinerary = async (req, res) => {
 const postPlace = async (req, res) => {
   let newPlace;
   //Check if Place exists in database
-  const placeExist = await Place.findOne({ name: req.body.name });
+  const placeExist = await Place.findOne({ place_id: req.body.place_id });
+  //Return Found Place if Found
   if (placeExist) {
     newPlace = placeExist
-    res.status(200).send(placeExist)
+    return res.status(200).send(placeExist)
   }
 
-  //Create the User
+  //Create the Place
   newPlace = new Place({
     name: req.body.name,
-    description: req.body.description,
-    cordLng: req.body.cordLng,
-    cordLat: req.body.cordLat
+    place_id: req.body.place_id,
+    lat: req.body.lat,
+    lng: req.body.lng,
+    formatted_address: req.body.formatted_address,
+    opening_hours: req.body.opening_hours,
+    photos: req.body.photos,
+    website: req.body.website
   });
 
-  //Create User in DB
+  //Create Place in DB
   try {
     const savedPlace = await newPlace.save();
     res.status(201).send(savedPlace);
@@ -54,8 +60,9 @@ const deleteItinerary = async (req, res) => {
   res.status(200).json({ message: `Deleting itinerary ID:${req.params.id}` });
 };
 
+
 module.exports = {
-  getItinerary,
+  getPlace,
   postPlace,
   updateItinerary,
   deleteItinerary,

@@ -1,19 +1,32 @@
 const mongoose = require('mongoose')
 
 const PlaceSchema = new mongoose.Schema({
+    place_id: {
+        type: String,
+        required: true
+    },
+    photos: {
+        type: Array
+    },
     name: {
         type: String,
         required: true
     },
-    description: {
+    opening_hours: {
+        type: Object,
+    },
+    website: {
+        type: String
+    },
+    formatted_address: {
         type: String,
         required: true
     },
-    cordLng: {
+    lat: {
         type: Number,
         required: true
     },
-    cordLat: {
+    lng: {
         type: Number,
         required: true
     }
