@@ -5,8 +5,12 @@ import Stack from "@mui/material/Stack";
 function App() {
   return (
     <Stack>
+      <Stack className='nav'>
         <nav>Nav Bar</nav>
+      </Stack>
+      <Stack className='main'>
         <Home />
+      </Stack>
     </Stack>
   );
 }
