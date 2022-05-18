@@ -28,13 +28,17 @@ function Itinerary ({ currentLocation, itinerary, setItinerary }) {
             setItinerary([...itinerary, data])
     })}
 
-    console.log(itinerary)
+    function deleteFromItinerary (placeId) {
+        setItinerary(itinerary.filter(place => place.place_id !== placeId))
+    }
+
 
     const renderItinerary = itinerary?.map(
         place => <ItineraryCard 
         key={place._id} 
         place={place} 
         itineraryId={itineraryId}
+        deleteFromItinerary={deleteFromItinerary}
         />)
   
     return (

@@ -1,11 +1,10 @@
 import Button from '@mui/material/Button'
 
-function ItineraryCard ({ place, itineraryId }) {
+function ItineraryCard ({ place, itineraryId, deleteFromItinerary }) {
 
     function handleDelete (itineraryId, placeId) {
         fetch(`/itinerary/${itineraryId}/${placeId}`,{method: 'DELETE'})
-        .then(res => res.json())
-        .then(console.log)
+        .then(res => deleteFromItinerary(placeId))
     }
 
     return (
