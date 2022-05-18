@@ -2,6 +2,7 @@ import Grid from "@mui/material/Grid";
 import Map from "./Map";
 import Itinerary from './Itinerary'
 import { useState, useEffect } from 'react'
+import Paper from '@mui/material/Paper'
 
 function Home() {
   const [currentLocation, setCurrentLocation] = useState(null)
@@ -33,11 +34,13 @@ function Home() {
 
   return (
     <Grid container className='main-window'>
-      <Grid item xs={5} className="itinerary main-window-split">
+      <Grid item xs={5} px={4} className="itinerary main-window-split">
         <Itinerary itineraryId={itineraryId} setItinerary={setItinerary} currentLocation={currentLocation} itinerary={itinerary} />
       </Grid>
-      <Grid item xs={7} className="main-window-split">
+      <Grid pl={4} item xs={7}>
+      <Paper className='main-window-split map'>
         <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} />
+      </Paper>
       </Grid>
     </Grid>
   );
