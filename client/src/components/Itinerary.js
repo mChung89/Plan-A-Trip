@@ -2,7 +2,7 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import { useEffect, useState } from 'react'
 import ItineraryCard from './ItineraryCard'
-function Itinerary ({ currentLocation, itinerary, setItinerary }) {
+function Itinerary ({ currentLocation, itinerary, setItinerary, setMarkers }) {
     const [itineraryId, setItineraryId] = useState(null)
 
     useEffect(() => {
@@ -11,6 +11,8 @@ function Itinerary ({ currentLocation, itinerary, setItinerary }) {
         .then(data => {
             setItinerary(data.placesData)
             setItineraryId(data.itineraryId)
+            setMarkers(data.placesData.map(each => {
+                return {lat: each.lat, lng: each.lng, id: each._id}}))
         })
       }, [])
     

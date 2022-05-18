@@ -7,9 +7,8 @@ import PlacesAutoComplete from './PlacesAutoComplete';
 const libraries = ["places"]
 
 
-function Map({ setCurrentLocation }) {
+function Map({ setCurrentLocation, markers, setMarkers }) {
   const [zoom, setZoom] = useState(9)
-  const [markers, setMarkers] = useState([])
   const [center, setCenter] = useState({ lat: 40.705543976313464, lng: -74.01357140807622 })
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
@@ -22,10 +21,10 @@ function Map({ setCurrentLocation }) {
   if (!isLoaded) return <div>Loading...</div>
 
   //Markers
-  const renderedMarkers = markers.map(marker => {
+  const renderedMarkers = markers?.map(marker => {
     return (
       <MyMarker
-        key={marker.time.toISOString()}
+        key={marker.id}
         marker={marker} />)
   })
 

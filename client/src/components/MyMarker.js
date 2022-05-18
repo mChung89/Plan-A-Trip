@@ -4,7 +4,6 @@ import { useState } from "react";
 function MyMarker(marker) {
   const [selected, setSelected] = useState(null);
 
-
   return (
     <Marker
       position={{ lat: marker.marker.lat, lng: marker.marker.lng }}
