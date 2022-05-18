@@ -1,19 +1,20 @@
 import { Marker, InfoWindow } from "@react-google-maps/api";
 import { useState } from "react";
 
-function MyMarker(marker) {
+function MyMarker(place) {
   const [selected, setSelected] = useState(null);
-
 
   return (
     <Marker
-      position={{ lat: marker.marker.lat, lng: marker.marker.lng }}
-      onClick={() => setSelected(marker)}
+      position={{ lat: place.place.lat, lng: place.place.lng }}
+      onClick={() => setSelected(place.place)}
     >
       {selected ? (
         <InfoWindow onCloseClick={() => setSelected(null)}>
           <div>
-            <h2>Bear Spotted?</h2>
+            <h2>{place.place.name}</h2>
+            <p>{place.place.formatted_address}</p>
+            <p>{place.place.website}</p>
           </div>
         </InfoWindow>
       ) : null}

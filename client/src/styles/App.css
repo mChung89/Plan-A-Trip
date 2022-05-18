@@ -4,14 +4,22 @@
 
 .itinerary {
   overflow-y: scroll;
-  height: 100vh;
+  height: 96vh;
   overflow-x: hidden
 }
 
-nav {
+.nav {
   height: 4vh;
   background-color: black;
   color:white;
   font-size: 1.5rem;
-  text-align: center
+  text-align: center;
+}
+
+.main-window {
+  height:96vh
+}
+
+.main-window-split {
+  height: 100%
 }

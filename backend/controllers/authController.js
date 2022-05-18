@@ -41,6 +41,7 @@ const newUser = async (req, res) => {
 
 //Login
 const loginUser = async (req, res) => {
+  console.log('Trying to log in!')
   //Validation
   const { error } = loginValidation(req.body);
   if (error) {
@@ -57,9 +58,10 @@ const loginUser = async (req, res) => {
       return res.status(400).send("Password not found")
   }
 
+
   //Create and assign a token
   const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send(token)
+  res.header('auth-token', token).send({accessToken: token})
 };
 
 module.exports = {

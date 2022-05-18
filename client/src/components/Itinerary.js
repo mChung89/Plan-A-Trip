@@ -1,44 +1,37 @@
 import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
-function Itinerary ({ currentLocation , itinerary, setItinerary }) {
-
-    function addToItinerary () {
-        const mappedIds = itinerary.map(place => place.place_id)
-        fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3',{
+import ItineraryCard from './ItineraryCard'
+function Itinerary ({ itinerary, setItinerary, itineraryId }) {
+    
+    function addToItinerary (place) {
+        // const token = localStorage.getItem('user')
+        fetch(`/itinerary/${itineraryId}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({newPlaces: [...mappedIds, currentLocation.place_id]})
+            body: JSON.stringify(place)
         })
         .then(res => res.json())
-        .then(data => setItinerary(data))
+        .then(data => {
+            setItinerary([...itinerary, data])})
     }
 
-    const renderItinerary = itinerary?.map(place => {
-        return (
-            <div key={place.place_id}>
-                <h1>{place.name}</h1>
-                <h2>{place.formatted_address}</h2>
-                <ul>{place.opening_hours.weekday_text.map(day => <li key={day}>{day}</li>)}</ul>
-                <p>{place.website}</p>
-                <img src={place.photos[0]} alt={place.name}/>
-            </div>
-        )
-    })
-
-    function handleClick () {
-        fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3')
-        .then(res => res.json())
-        .then(data => setItinerary(data))
+    function deleteFromItinerary (placeId) {
+        setItinerary(itinerary.filter(place => place.place_id !== placeId))
     }
 
 
+    const renderItinerary = itinerary?.map(
+        place => <ItineraryCard 
+        key={place._id} 
+        place={place} 
+        itineraryId={itineraryId}
+        deleteFromItinerary={deleteFromItinerary}
+        />)
+  
     return (
         <Stack>
-            <Button key="1" onClick={handleClick}>Give me data</Button>
-            <Button key="2" onClick={addToItinerary}>Click to add to Itinerary</Button>
-            {itinerary ? renderItinerary : null}
+            {renderItinerary}
         </Stack>
     )
 }

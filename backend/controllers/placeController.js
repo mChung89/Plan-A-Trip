@@ -10,6 +10,11 @@ const getPlace = async (req, res) => {
   res.status(200).send(getData)
 };
 
+const showPlace = async (req,res) => {
+    const getData = await Place.findOne({place_id: req.params.place_id})
+    getData ? res.status(200).send(getData) : res.status(400).send({error: "Can't be found"})
+}
+
 // @desc        Set User Itinerary
 // @route       POST /api/itinerary
 // @access      Private
@@ -64,6 +69,7 @@ const deleteItinerary = async (req, res) => {
 module.exports = {
   getPlace,
   postPlace,
+  showPlace,
   updateItinerary,
   deleteItinerary,
 };
