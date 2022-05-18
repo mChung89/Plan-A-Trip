@@ -7,6 +7,7 @@ function Itinerary ({ currentLocation , itineraryId, itinerary, setItinerary }) 
 
     function addToItinerary () {
         const mappedIds = itinerary?.map(place => place.place_id)
+        const token = localStorage.getItem('user')
         fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3',{
             method: 'PATCH',
             headers: {
@@ -18,17 +19,13 @@ function Itinerary ({ currentLocation , itineraryId, itinerary, setItinerary }) 
         .then(data => setItinerary(data))
     }
 
-    console.log(itinerary)
-
-    
-    const renderItinerary = itinerary?.map(place => {
-        // console.log(place)
-        return (
-            <ItineraryCard key={place.place_id} place={place} itineraryId={itineraryId}/>
-        )
-    })
-
-
+    const renderItinerary = itinerary?.map(
+        place => <ItineraryCard 
+        key={place.place_id} 
+        place={place} 
+        itineraryId={itineraryId}
+        />)
+  
     return (
         <Stack>
             {/* <Button onClick={handleClick}>Give me data</Button> */}

@@ -7,19 +7,23 @@ function Home() {
   const [currentLocation, setCurrentLocation] = useState(null)
   const [itinerary, setItinerary] = useState(null)
 
-  useEffect(()=> {
+  useEffect(() => {
+    console.log('Running')
     fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3')
     .then(res => res.json())
     .then(data => {
-        setItinerary(data)})
-},[])
+      setItinerary(data)
+      setCurrentLocation(null)
+    })
+  }, [])
+
   return (
-    <Grid container>
-      <Grid item xs={6} className="itinerary">
-          <Itinerary setItinerary={setItinerary} currentLocation={currentLocation} itineraryId={itinerary?.itineraryId} itinerary={itinerary?.placesData}/>
+    <Grid container className='main-window'>
+      <Grid item xs={5} className="itinerary main-window-split">
+        <Itinerary setItinerary={setItinerary} currentLocation={currentLocation} itineraryId={itinerary?.itineraryId} itinerary={itinerary?.placesData} />
       </Grid>
-      <Grid item xs={6}>
-        <Map setCurrentLocation={setCurrentLocation}/>
+      <Grid item xs={7} className="main-window-split">
+        <Map setCurrentLocation={setCurrentLocation} />
       </Grid>
     </Grid>
   );
