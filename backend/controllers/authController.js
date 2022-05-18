@@ -60,10 +60,30 @@ const loginUser = async (req, res) => {
 
 
   //Create and assign a token
-  const token = jwt.sign({_id: user._id}, process.env.TOKEN_SECRET)
-  res.header('auth-token', token).send({accessToken: token})
+  const token = await jwt.sign({time: Date(), _id: user._id}, process.env.TOKEN_SECRET)
+  // res.header('auth-token', token).send({accessToken: token})
+  res.header('auth-token', token).send("Authorized!")
+
+  // res.send({accessToken: token})
 };
 
+// Validating Token
+
+// const validateToken = (req, res) => {
+//     try {
+//         const token = req.header(process.env.TOKEN_HEADER_KEY);
+//         const verified = jwt.verify(token, TOKEN_SECRET)
+//         if (verified) {
+//             return res.send("Sucessfully verified")
+//         } else {
+//             // Access Denied
+//             return res.status(401).send(error)
+//         }
+//       } catch (error) {
+//           //Access Denied
+//           return res.status(401).send(err0r)
+//       }
+// }
 module.exports = {
   newUser,
   loginUser,

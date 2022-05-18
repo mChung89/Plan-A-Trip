@@ -11,19 +11,22 @@ function Login () {
     }
     const [formData, setFormData] = useState(defaultState)
 
-    function handleSubmit (e) {
-        console.log('click')
+    function handleSubmit () {
         fetch('/loginuser', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
+                Accept: 'application/json'
             },
             body: JSON.stringify(formData)})
             .then(res => {
-                const headers = res.headers.get('auth-token')
-                localStorage.setItem("user", headers)
+                if (res.ok){
+                    const headers = res.headers.get('auth-token')
+                    localStorage.setItem('user',headers)}
             })
-    }
+        }
+            
+
 
     function handleChange (e) {
         setFormData({...formData, [e.target.name]: e.target.value,})
