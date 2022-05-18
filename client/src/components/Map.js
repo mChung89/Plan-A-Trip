@@ -7,7 +7,7 @@ import PlacesAutoComplete from './PlacesAutoComplete';
 const libraries = ["places"]
 
 
-function Map({ setCurrentLocation, markers, setMarkers }) {
+function Map({ setCurrentLocation, itinerary, addToItinerary }) {
   const [zoom, setZoom] = useState(9)
   const [center, setCenter] = useState({ lat: 40.705543976313464, lng: -74.01357140807622 })
   const { isLoaded } = useLoadScript({
@@ -19,20 +19,20 @@ function Map({ setCurrentLocation, markers, setMarkers }) {
   // const center = useMemo(() => ({lat: 40.705543976313464, lng: -74.01357140807622}),[])
 
   if (!isLoaded) return <div>Loading...</div>
-
+  
   //Markers
-  const renderedMarkers = markers?.map(marker => {
+  const renderedMarkers = itinerary?.map(place => {
     return (
       <MyMarker
-        key={marker.id}
-        marker={marker} />)
-  })
+        key={place._id}
+        place={place} />)
+    })
 
   return (
       <GoogleMap zoom={zoom} center={center} mapContainerClassName='map-container'>
         {renderedMarkers}
         <div className='places-container'>
-          <PlacesAutoComplete setMarkers={setMarkers} setCurrentLocation={setCurrentLocation} setZoom={setZoom} />
+          {/* <PlacesAutoComplete addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} setZoom={setZoom} /> */}
         </div>
       </GoogleMap>
   )

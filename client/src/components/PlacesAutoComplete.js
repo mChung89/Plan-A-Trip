@@ -14,7 +14,7 @@ import '@reach/combobox/styles.css'
 import { useGoogleMap } from '@react-google-maps/api'
 
 
-function PlacesAutoComplete ({ setMarkers, markers, setCurrentLocation, setZoom }) {
+function PlacesAutoComplete ({ addToItinerary , setCurrentLocation, setZoom }) {
     const map = useGoogleMap()
     const { 
         ready, 
@@ -41,11 +41,20 @@ function PlacesAutoComplete ({ setMarkers, markers, setCurrentLocation, setZoom 
     }
     
     async function addToList (place_id, results, lat, lng) {
-        const parameters = {
-            placeId: place_id,
-            fields: ["name", "website", "opening_hours", "photo"]
-        }
+        fetch(`/places/${place_id}`)
+        .then(res => {
+            if (res.ok) {
+                res.json().then(data => addToItinerary(data[0]))
+            } else {
+                const parameters = {
+                    placeId: place_id,
+                    fields: ["name", "website", "opening_hours", "photo"]
+                };
+                addIfNotInDb(parameters, results, lat, lng)
+        }})
+    }
 
+    async function addIfNotInDb (parameters, results, lat, lng) {
         const details = await getDetails(parameters)
         const photos = details?.photos?.map(photo => photo.getUrl())
         const placeObj = {
@@ -58,8 +67,6 @@ function PlacesAutoComplete ({ setMarkers, markers, setCurrentLocation, setZoom 
             lat: lat,
             lng: lng
         }
-
-        setMarkers([...markers, {lat: lat, lng: lng, time: new Date()}])
         fetch('/places', {
             method: 'POST',
             headers: {
@@ -67,8 +74,10 @@ function PlacesAutoComplete ({ setMarkers, markers, setCurrentLocation, setZoom 
             },
             body: JSON.stringify(placeObj)})
             .then(res => res.json())
-            .then(data => setCurrentLocation(data));
-            setValue("")
+            .then(data => {
+                addToItinerary(data);
+                setValue("")
+            })
     }
     
     return (

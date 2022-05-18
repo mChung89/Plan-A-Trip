@@ -1,34 +1,20 @@
 import Stack from '@mui/material/Stack'
-import Button from '@mui/material/Button'
-import { useEffect, useState } from 'react'
 import ItineraryCard from './ItineraryCard'
-function Itinerary ({ currentLocation, itinerary, setItinerary, setMarkers }) {
-    const [itineraryId, setItineraryId] = useState(null)
-
-    useEffect(() => {
-        fetch('/itinerary/6284873f4d86467e715676c2')
-        .then(res => res.json())
-        .then(data => {
-            setItinerary(data.placesData)
-            setItineraryId(data.itineraryId)
-            setMarkers(data.placesData.map(each => {
-                return {lat: each.lat, lng: each.lng, id: each._id}}))
-        })
-      }, [])
+function Itinerary ({ itinerary, setItinerary, itineraryId, setMarkers }) {
     
-    function addToItinerary () {
+    function addToItinerary (place) {
         // const token = localStorage.getItem('user')
         fetch(`/itinerary/${itineraryId}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(currentLocation)
+            body: JSON.stringify(place)
         })
         .then(res => res.json())
         .then(data => {
-            setItinerary([...itinerary, data])
-    })}
+            setItinerary([...itinerary, data])})
+    }
 
     function deleteFromItinerary (placeId) {
         setItinerary(itinerary.filter(place => place.place_id !== placeId))
@@ -45,8 +31,6 @@ function Itinerary ({ currentLocation, itinerary, setItinerary, setMarkers }) {
   
     return (
         <Stack>
-            {/* <Button onClick={handleClick}>Give me data</Button> */}
-            <Button onClick={addToItinerary}>Click to add to Itinerary</Button>
             {renderItinerary}
         </Stack>
     )
