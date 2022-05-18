@@ -17,7 +17,7 @@ function Itinerary ({ currentLocation , itinerary, setItinerary }) {
 
     const renderItinerary = itinerary?.map(place => {
         return (
-            <div key={place.id}>
+            <div key={place.place_id}>
                 <h1>{place.name}</h1>
                 <h2>{place.formatted_address}</h2>
                 <ul>{place.opening_hours.weekday_text.map(day => <li key={day}>{day}</li>)}</ul>
@@ -36,8 +36,8 @@ function Itinerary ({ currentLocation , itinerary, setItinerary }) {
 
     return (
         <Stack>
-            <Button onClick={handleClick}>Give me data</Button>
-            <Button onClick={addToItinerary}>Click to add to Itinerary</Button>
+            <Button key="1" onClick={handleClick}>Give me data</Button>
+            <Button key="2" onClick={addToItinerary}>Click to add to Itinerary</Button>
             {itinerary ? renderItinerary : null}
         </Stack>
     )
