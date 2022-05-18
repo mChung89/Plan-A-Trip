@@ -1,12 +1,21 @@
 import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
-import { useRef } from 'react'
+import { useEffect, useState } from 'react'
 import ItineraryCard from './ItineraryCard'
 function Itinerary ({ currentLocation, itinerary, setItinerary }) {
-    const { itineraryId, placesData } = itinerary
+    const [itineraryId, setItineraryId] = useState(null)
+
+    useEffect(() => {
+        fetch('/itinerary/6284873f4d86467e715676c2')
+        .then(res => res.json())
+        .then(data => {
+            setItinerary(data.placesData)
+            setItineraryId(data.itineraryId)
+        })
+      }, [])
     
     function addToItinerary () {
-        const token = localStorage.getItem('user')
+        // const token = localStorage.getItem('user')
         fetch(`/itinerary/${itineraryId}`,{
             method: 'PATCH',
             headers: {
@@ -16,12 +25,12 @@ function Itinerary ({ currentLocation, itinerary, setItinerary }) {
         })
         .then(res => res.json())
         .then(data => {
-            setItinerary([...placesData, data])
+            setItinerary([...itinerary, data])
     })}
 
     console.log(itinerary)
 
-    const renderItinerary = placesData?.map(
+    const renderItinerary = itinerary?.map(
         place => <ItineraryCard 
         key={place._id} 
         place={place} 
