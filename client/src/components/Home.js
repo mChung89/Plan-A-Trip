@@ -34,7 +34,7 @@ function Home() {
 
   return (
     <Grid container className='main-window'>
-      <Grid item xs={5} px={4} className="itinerary main-window-split">
+      <Grid item xs={5} px={3} pt={2} className="itinerary main-window-split">
         <Itinerary itineraryId={itineraryId} setItinerary={setItinerary} currentLocation={currentLocation} itinerary={itinerary} />
       </Grid>
       <Grid pl={4} item xs={7}>
