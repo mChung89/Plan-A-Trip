@@ -5,22 +5,21 @@ import { useState, useEffect } from 'react'
 
 function Home() {
   const [currentLocation, setCurrentLocation] = useState(null)
-  const [itinerary, setItinerary] = useState(null)
+  const [itinerary, setItinerary] = useState([])
 
   useEffect(() => {
     console.log('Running')
-    fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3')
+    fetch('/itinerary/6284873f4d86467e715676c2')
     .then(res => res.json())
     .then(data => {
       setItinerary(data)
-      setCurrentLocation(null)
     })
   }, [])
 
   return (
     <Grid container className='main-window'>
       <Grid item xs={5} className="itinerary main-window-split">
-        <Itinerary setItinerary={setItinerary} currentLocation={currentLocation} itineraryId={itinerary?.itineraryId} itinerary={itinerary?.placesData} />
+        <Itinerary setItinerary={setItinerary} currentLocation={currentLocation} itinerary={itinerary} />
       </Grid>
       <Grid item xs={7} className="main-window-split">
         <Map setCurrentLocation={setCurrentLocation} />

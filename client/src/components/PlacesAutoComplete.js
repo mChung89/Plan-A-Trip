@@ -47,7 +47,7 @@ function PlacesAutoComplete ({ setMarkers, setCurrentLocation, setZoom }) {
         }
 
         const details = await getDetails(parameters)
-        const photos = details.photos.map(photo => photo.getUrl())
+        const photos = details?.photos?.map(photo => photo.getUrl())
         const placeObj = {
             name: details.name,
             photos: photos,

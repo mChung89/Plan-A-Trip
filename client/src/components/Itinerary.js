@@ -2,26 +2,28 @@ import Stack from '@mui/material/Stack'
 import Button from '@mui/material/Button'
 import { useRef } from 'react'
 import ItineraryCard from './ItineraryCard'
-function Itinerary ({ currentLocation , itineraryId, itinerary, setItinerary }) {
-
-
+function Itinerary ({ currentLocation, itinerary, setItinerary }) {
+    const { itineraryId, placesData } = itinerary
+    
     function addToItinerary () {
-        const mappedIds = itinerary?.map(place => place.place_id)
         const token = localStorage.getItem('user')
-        fetch('/itinerary/6283e8c5bfb9da57d3e8d9f3',{
+        fetch(`/itinerary/${itineraryId}`,{
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({newPlaces: [...mappedIds, currentLocation.place_id]})
+            body: JSON.stringify(currentLocation)
         })
         .then(res => res.json())
-        .then(data => setItinerary(data))
-    }
+        .then(data => {
+            setItinerary([...placesData, data])
+    })}
 
-    const renderItinerary = itinerary?.map(
+    console.log(itinerary)
+
+    const renderItinerary = placesData?.map(
         place => <ItineraryCard 
-        key={place.place_id} 
+        key={place._id} 
         place={place} 
         itineraryId={itineraryId}
         />)
@@ -30,7 +32,7 @@ function Itinerary ({ currentLocation , itineraryId, itinerary, setItinerary }) 
         <Stack>
             {/* <Button onClick={handleClick}>Give me data</Button> */}
             <Button onClick={addToItinerary}>Click to add to Itinerary</Button>
-            {itinerary ? renderItinerary : null}
+            {renderItinerary}
         </Stack>
     )
 }
