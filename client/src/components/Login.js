@@ -11,6 +11,7 @@ function Login() {
     password: "",
   };
   const [formData, setFormData] = useState(defaultState);
+  const [user, setUser] = useState(null)
 
   function handleSubmit() {
     fetch("/loginuser", {
@@ -22,14 +23,25 @@ function Login() {
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-        const headers = res.headers.get("auth-token");
-        localStorage.setItem("user", headers);
+        res.json().then(data => {
+          console.log(data)
+          setUser(data)})
       }
     });
   }
 
   function handleChange(e) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  function handleLogOut () {
+    fetch('/logout')
+  }
+
+  function handleRefresh() {
+    fetch('/refresh')
+    .then(res => {
+      if(res.ok)res.json().then(data => console.log(data))})
   }
 
   return (
@@ -47,7 +59,10 @@ function Login() {
             onChange={handleChange}
           />
           <Button onClick={handleSubmit}>Submit</Button>
+          {user ? <Typography variant="h1">{user.accessToken}</Typography> : null}
         </Box>
+        <Button onClick={handleLogOut}>Log Out</Button>
+        <Button onClick={handleRefresh}>Refresh my Token</Button>
       </Paper>
   );
 }

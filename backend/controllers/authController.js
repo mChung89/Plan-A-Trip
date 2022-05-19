@@ -6,6 +6,10 @@ const {
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 
+const getMe = async (req,res) => {
+  console.log("get get")
+}
+
 
 //Create a New User
 const newUser = async (req, res) => {
@@ -41,7 +45,6 @@ const newUser = async (req, res) => {
 
 //Login
 const loginUser = async (req, res) => {
-  console.log('Trying to log in!')
   //Validation
   const { error } = loginValidation(req.body);
   if (error) {
@@ -58,13 +61,22 @@ const loginUser = async (req, res) => {
       return res.status(400).send("Password not found")
   }
 
-
   //Create and assign a token
-  const token = await jwt.sign({time: Date(), _id: user._id}, process.env.TOKEN_SECRET)
-  // res.header('auth-token', token).send({accessToken: token})
-  res.header('auth-token', token).send("Authorized!")
-
-  // res.send({accessToken: token})
+  const accessToken = jwt.sign(
+    {time: Date(), 
+      _id: user._id,
+      username: user.name}, process.env.TOKEN_SECRET,
+      { expiresIn: '30m'}
+      )
+      
+      const refreshToken = jwt.sign(
+        {time: Date(), 
+          _id: user._id}, process.env.REFRESH_TOKEN_SECRET,
+          { expiresIn: '1d'}
+          )
+      const updateUserRefreshToken = await User.findOneAndUpdate({_id: user._id}, {$set: {refreshToken: refreshToken}})
+          res.cookie('auth-jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000})
+          res.json({ user, accessToken })
 };
 
 // Validating Token
@@ -87,4 +99,5 @@ const loginUser = async (req, res) => {
 module.exports = {
   newUser,
   loginUser,
+  getMe
 };

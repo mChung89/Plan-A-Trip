@@ -25,6 +25,9 @@ const userSchema = new mongoose.Schema ({
     },
     itineraries: {
         type: Array,
+    },
+    refreshToken: {
+        type: String
     }
 })
 

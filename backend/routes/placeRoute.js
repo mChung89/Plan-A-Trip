@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const { getPlace, showPlace, postPlace, updateItinerary, deleteItinerary } = require('../controllers/placeController')
-const verify = require('./verifyToken')
+const verify = require('../middleware/verifyToken')
 
 
 router.get('/', verify, getPlace)
