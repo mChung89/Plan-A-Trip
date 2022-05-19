@@ -1,5 +1,7 @@
 import ItineraryCard from "./ItineraryCard";
 import Grid from "@mui/material/Grid";
+import ItineraryHeadCard from "./ItineraryHeadCard";
+
 function Itinerary({ itinerary, setItinerary, itineraryId }) {
   function addToItinerary(place) {
     // const token = localStorage.getItem('user')
@@ -36,6 +38,7 @@ function Itinerary({ itinerary, setItinerary, itineraryId }) {
       justifyContent="space-between"
       alignItems="stretch"
     >
+      <ItineraryHeadCard/>
       {renderItinerary}
     </Grid>
   );

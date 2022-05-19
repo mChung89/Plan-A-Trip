@@ -15,7 +15,7 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary }) {
     <Grid
       container
       direction="row"
-      p={1}
+      p={2}
       key={place.id}
       className="place-cards"
     >
