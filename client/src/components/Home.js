@@ -10,7 +10,7 @@ function Home() {
   const [itineraryId, setItineraryId] = useState(null)
 
   useEffect(() => {
-      fetch('/itinerary/62852f23709c2589eb3de201')
+      fetch('/itinerary/6287d09a2705b3c60c394c9f')
       .then(res => res.json())
       .then(data => {
           console.log(data)
@@ -41,8 +41,8 @@ function Home() {
       </Grid>
       <Grid pl={4} item xs={7}>
       <Paper className='main-window-split map'>
-        <div className='map-container-hidden'></div>
-        {/* <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} /> */}
+        {/* <div className='map-container-hidden'></div> */}
+        <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} />
       </Paper>
       </Grid>
     </Grid>

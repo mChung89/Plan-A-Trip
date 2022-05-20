@@ -9,17 +9,8 @@ const getItinerary = async (req, res) => {
 const showItinerary = async (req, res) => {
     const getData = await Itinerary.findById(req.params._id)
     // const placesData = await Place.find({place_id: { $in: getData.places}})
-    const placesData = await Itinerary.aggregate([
-        {
-            $lookup : {
-                from: 'places',
-                localField: "place_id",
-                foreignField: "place_id",
-                as: "full_itinerary"
-            }
-        },
-        { $match: {place_id : 1}}
-    ])
+    const placesData = await Place.find({place_id: { $in: getData.places}})
+
 
     console.log(placesData)
     res.status(200).send({placesData:placesData, itineraryId: getData._id})
@@ -45,7 +36,7 @@ const updateItinerary = async (req,res) => {
     const newPlaceInstance = await place.save()
         // Inserting place into itinerary
         const updatedItinerary = await Itinerary.findById(req.params._id)
-        const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, {place_id: newPlaceInstance.place_id, date: ""}]})
+        const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, place.place_id]})
         res.status(201).send(newPlaceInstance)
     }
 
