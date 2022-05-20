@@ -44,7 +44,10 @@ function PlacesAutoComplete ({ addToItinerary , setCurrentLocation, setZoom }) {
         fetch(`/places/${place_id}`)
         .then(res => {
             if (res.ok) {
-                res.json().then(data => addToItinerary(data[0]))
+                res.json().then(data => {
+                    console.log("I'm in the database", data)
+                    addToItinerary(data)
+                })
             } else {
                 const parameters = {
                     placeId: place_id,
@@ -75,6 +78,7 @@ function PlacesAutoComplete ({ addToItinerary , setCurrentLocation, setZoom }) {
             body: JSON.stringify(placeObj)})
             .then(res => res.json())
             .then(data => {
+                console.log("Adding this to data", data)
                 addToItinerary(data);
                 setValue("")
             })

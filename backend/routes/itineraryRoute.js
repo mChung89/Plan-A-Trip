@@ -3,9 +3,9 @@ const router = express.Router()
 const { getItinerary, postItinerary, showItinerary, deleteItineraryPlace, updateItinerary } = require('../controllers/itineraryController')
 const verify = require('../middleware/verifyToken')
 
-router.get('/', verify, getItinerary)
+router.get('/', getItinerary)
 
-router.get('/:_id', verify, showItinerary)
+router.get('/:_id', showItinerary)
 
 router.post('/', postItinerary)
 

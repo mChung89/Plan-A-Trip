@@ -9,12 +9,14 @@ const getItinerary = async (req, res) => {
 
 const showItinerary = async (req, res) => {
     const getData = await Itinerary.findById(req.params._id)
-    const placesData = await Place.find({place_id: { $in: getData.places}})
+    const placesData = await Place.find({place_id: { $in: getData.places.place_id}})
+    console.log(placesData)
     res.status(200).send({placesData:placesData, itineraryId: getData._id})
-}
+}   
 
 const updateItinerary = async (req,res) => {
     //Check if Place exists in database
+    console.log(req.body)
     let place = await Place.findOne({ place_id: req.body.place_id });
 
     // If Place does not exist, create the Place
@@ -30,16 +32,17 @@ const updateItinerary = async (req,res) => {
         website: req.body.website
     });    
     
-    const newPlaceInstance = await place.save()
+        const newPlaceInstance = await place.save()
         // Inserting place into itinerary
         const updatedItinerary = await Itinerary.findById(req.params._id)
-        const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, newPlaceInstance.place_id]})
-        res.status(201).send(newPlaceInstance)
+        const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, {place_id: newPlaceInstance.place_id, orderNumber: ""}]})
+        console.log(newItinerary)
+        return res.status(201).send(newPlaceInstance)
     }
 
     // Inserting place into itinerary
     const updatedItinerary = await Itinerary.findById(req.params._id)
-    const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, place.place_id]})
+    const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, {place_id: place.place_id, orderNumber: ""}]})
     // This grabs all the itinerary places data
     // const placesData = await Place.find({place_id: { $in: newItinerary.places}})
     console.log('updating')

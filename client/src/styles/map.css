@@ -1,7 +1,6 @@
 .map-container {
     height: 100%;
-    background-image: url("../components/images/placeholder.png");
-    background-color: #cccccc;
+    width: 100vw
 }
 
 .places-container {

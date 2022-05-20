@@ -13,13 +13,15 @@ function Home() {
       fetch('/itinerary/62852f23709c2589eb3de201')
       .then(res => res.json())
       .then(data => {
+          console.log(data)
           setItinerary(data.placesData)
           setItineraryId(data.itineraryId)
       })
     }, [])
 
-    async function addToItinerary (place) {
+    function addToItinerary (place) {
       // const token = localStorage.getItem('user')
+      console.log(place)
       fetch(`/itinerary/${itineraryId}`,{
           method: 'PATCH',
           headers: {
@@ -39,6 +41,7 @@ function Home() {
       </Grid>
       <Grid pl={4} item xs={7}>
       <Paper className='main-window-split map'>
+        {/* <div className='map-container-hidden'></div> */}
         <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} />
       </Paper>
       </Grid>
