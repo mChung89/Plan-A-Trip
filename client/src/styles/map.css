@@ -3,6 +3,11 @@
     width: 100vw
 }
 
+.map-container-hidden {
+    background-image: url('../components/images/placeholder.png');
+    height: 100%
+}
+
 .places-container {
     position: absolute;
     top: 10px;

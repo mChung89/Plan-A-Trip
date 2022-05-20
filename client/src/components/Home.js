@@ -41,8 +41,8 @@ function Home() {
       </Grid>
       <Grid pl={4} item xs={7}>
       <Paper className='main-window-split map'>
-        {/* <div className='map-container-hidden'></div> */}
-        <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} />
+        <div className='map-container-hidden'></div>
+        {/* <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} /> */}
       </Paper>
       </Grid>
     </Grid>
