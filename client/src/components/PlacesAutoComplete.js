@@ -14,7 +14,7 @@ import '@reach/combobox/styles.css'
 import { useGoogleMap } from '@react-google-maps/api'
 
 
-function PlacesAutoComplete ({ addToItinerary , setCurrentLocation, setZoom }) {
+function PlacesAutoComplete ({ addToItinerary , setZoom }) {
     const map = useGoogleMap()
     const { 
         ready, 

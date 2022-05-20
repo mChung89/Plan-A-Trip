@@ -5,10 +5,6 @@ const itinerarySchema = new mongoose.Schema ({
         type: Object,
         required: true
     },
-    dates: {
-        type: Object,
-        required: true
-    },
     places: {
         type: Array
     },

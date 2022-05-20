@@ -19,6 +19,7 @@ app.use(express.json())
 //middleware for cookies
 app.use(cookieParser())
 
+app.use('/trip', require('./routes/tripRoute'))
 app.use('/itinerary', require('./routes/itineraryRoute'))
 app.use('/places', require('./routes/placeRoute'))
 app.use('/', require('./routes/authRoute'))

@@ -4,7 +4,7 @@ const { getPlace, showPlace, postPlace, updateItinerary, deleteItinerary } = req
 const verify = require('../middleware/verifyToken')
 
 
-router.get('/', verify, getPlace)
+router.get('/', getPlace)
 
 router.get('/:place_id', showPlace)
 

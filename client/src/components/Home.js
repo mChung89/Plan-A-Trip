@@ -1,49 +1,70 @@
 import Grid from "@mui/material/Grid";
 import Map from "./Map";
-import Itinerary from './Itinerary'
-import { useState, useEffect } from 'react'
-import Paper from '@mui/material/Paper'
+import Itinerary from "./Itinerary";
+import { useState, useEffect } from "react";
+import Paper from "@mui/material/Paper";
+import ItineraryHeadCard from "./ItineraryHeadCard";
+import ItineraryCard from "./ItineraryCard";
 
 function Home() {
-  const [currentLocation, setCurrentLocation] = useState(null)
-  const [itinerary, setItinerary] = useState([])
-  const [itineraryId, setItineraryId] = useState(null)
+  const [itinerary, setItinerary] = useState([]);
+  const [itineraryId, setItineraryId] = useState("6287e3bff4a1041d6fb45f55");
 
   useEffect(() => {
-      fetch('/itinerary/6287d09a2705b3c60c394c9f')
-      .then(res => res.json())
-      .then(data => {
-          console.log(data)
-          setItinerary(data.placesData)
-          setItineraryId(data.itineraryId)
-      })
-    }, [])
+    fetch("trip/6287eac92bfe37305ebfb47d")
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setItinerary(data);
+        // setItineraryId(data.itineraryId)
+      });
+  }, []);
 
-    function addToItinerary (place) {
-      // const token = localStorage.getItem('user')
-      console.log(place)
-      fetch(`/itinerary/${itineraryId}`,{
-          method: 'PATCH',
-          headers: {
-              'Content-Type': 'application/json'
-          },
-          body: JSON.stringify(place)
-      })
-      .then(res => res.json())
-      .then(data => {
-          setItinerary([...itinerary, data])
-  })}
+  function addToItinerary(place) {
+    console.log(place);
+    fetch(`/itinerary/${itineraryId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(place),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setItinerary([...itinerary, data]);
+      });
+  }
+
+  const mappedItineraryDates = itinerary?.map((date) => {
+    return (
+      <Grid
+        container
+        direction="column"
+        justifyContent="space-between"
+        alignItems="stretch"
+      >
+        <ItineraryHeadCard date={date} />
+        {date.places.map((place) => {
+          return <ItineraryCard place={place} />;
+        })}
+      </Grid>
+    );
+  });
 
   return (
-    <Grid container className='main-window'>
+    <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary itineraryId={itineraryId} setItinerary={setItinerary} currentLocation={currentLocation} itinerary={itinerary} />
+        {mappedItineraryDates}
       </Grid>
       <Grid pl={4} item xs={7}>
-      <Paper className='main-window-split map'>
-        {/* <div className='map-container-hidden'></div> */}
-        <Map itinerary={itinerary} itineraryId={itineraryId} addToItinerary={addToItinerary} setCurrentLocation={setCurrentLocation} />
-      </Paper>
+        <Paper className="main-window-split map">
+          {/* <div className='map-container-hidden'></div> */}
+          <Map
+            itinerary={itinerary}
+            itineraryId={itineraryId}
+            addToItinerary={addToItinerary}
+          />
+        </Paper>
       </Grid>
     </Grid>
   );

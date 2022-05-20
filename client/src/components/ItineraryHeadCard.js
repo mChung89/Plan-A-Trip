@@ -4,7 +4,7 @@ import Image from "material-ui-image";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography"
 
-function ItineraryHeadCard () {
+function ItineraryHeadCard ({ date }) {
 
     return (
     <Grid
@@ -18,7 +18,7 @@ function ItineraryHeadCard () {
     >
       <Paper elevation={4} sx={{ display: "flex", width: "100%" }}>
         <Grid item xs={12}>
-            <Typography variant="h1">Head Card. Will have Date</Typography>
+            <Typography variant="h2">{date.date}</Typography>
         </Grid>
       </Paper>
     </Grid>

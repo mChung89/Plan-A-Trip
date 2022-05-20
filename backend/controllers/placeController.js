@@ -6,7 +6,7 @@ const Place = require("../model/Place");
 // @route       GET /api/itinerary
 // @access      Private
 const getPlace = async (req, res) => {
-  const getData = await Place.find({place_id: { $in: ["ChIJaXQRs6lZwokRY6EFpJnhNNE", "ChIJfSpRxqVZwokRbhDqemhazdA"]}})
+  const getData = await Place.find()
   res.status(200).send(getData)
 };
 

@@ -10,7 +10,6 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary }) {
       (res) => deleteFromItinerary(placeId)
     );
   }
-
   return (
     <Grid
       container
