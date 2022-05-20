@@ -9,6 +9,19 @@ const getItinerary = async (req, res) => {
 const showItinerary = async (req, res) => {
     const getData = await Itinerary.findById(req.params._id)
     // const placesData = await Place.find({place_id: { $in: getData.places}})
+    const placesData = await Itinerary.aggregate([
+        {
+            $lookup : {
+                from: 'places',
+                localField: "place_id",
+                foreignField: "place_id",
+                as: "full_itinerary"
+            }
+        },
+        { $match: {place_id : 1}}
+    ])
+
+    console.log(placesData)
     res.status(200).send({placesData:placesData, itineraryId: getData._id})
 }
 
