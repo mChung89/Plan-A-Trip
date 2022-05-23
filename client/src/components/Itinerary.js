@@ -7,10 +7,8 @@ import "../styles/map.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import { useState } from "react";
-import TextField from "@mui/material/TextField";
+import DatePicker from './DatePicker'
 //CALENDAR
-import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 
 function Itinerary({
   addToItinerary,
@@ -20,7 +18,6 @@ function Itinerary({
   isLoaded,
 }) {
   const [selectedDate, setSelDate] = useState("");
-  const [value, setValue] = ([null, null])
   const menuItems = itinerary.map((date, index) => {
     const formattedDate = new Date(date.date);
     return (
@@ -59,10 +56,8 @@ function Itinerary({
               >
                 {menuItems}
               </Select>
+              <DatePicker />
             </Grid>
-            <LocalizationProvider dateAdapter={AdapterDateFns}>
-              
-            </LocalizationProvider>
           </Grid>
         </Box>
       </Paper>

@@ -5,7 +5,6 @@ import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import ItineraryHeadCard from "./ItineraryHeadCard";
 import ItineraryCard from "./ItineraryCard";
-import PlacesAutoComplete from './PlacesAutoComplete'
 import { useLoadScript } from '@react-google-maps/api'
 
 const libraries = ["places"]
