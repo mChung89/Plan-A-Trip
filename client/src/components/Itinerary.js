@@ -4,18 +4,15 @@ import ItineraryHeadCard from "./ItineraryHeadCard";
 
 function Itinerary({ itinerary, setItinerary, itineraryId }) {
 
-  function deleteFromItinerary(placeId) {
-    setItinerary(itinerary.filter((place) => place.place_id !== placeId));
-  }
 
-  const renderItinerary = itinerary?.map((place) => (
-    <ItineraryCard
-      key={place._id}
-      place={place}
-      itineraryId={itineraryId}
-      deleteFromItinerary={deleteFromItinerary}
-    />
-  ));
+  // const renderItinerary = itinerary?.map((place) => (
+  //   <ItineraryCard
+  //     key={place._id}
+  //     place={place}
+  //     itineraryId={itineraryId}
+  //     deleteFromItinerary={deleteFromItinerary}
+  //   />
+  // ));
 
   return (
     <Grid
@@ -24,8 +21,8 @@ function Itinerary({ itinerary, setItinerary, itineraryId }) {
       justifyContent="space-between"
       alignItems="stretch"
     >
-      <ItineraryHeadCard/>
-      {renderItinerary}
+      {/* <ItineraryHeadCard/>
+      {renderItinerary} */}
     </Grid>
   );
 }

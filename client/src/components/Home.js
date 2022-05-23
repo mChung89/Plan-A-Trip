@@ -14,7 +14,6 @@ function Home() {
     fetch("trip/6287eac92bfe37305ebfb47d")
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
         setItinerary(data);
         // setItineraryId(data.itineraryId)
       });
@@ -35,7 +34,16 @@ function Home() {
       });
   }
 
-  const mappedItineraryDates = itinerary?.map((date) => {
+  function deleteFromItinerary(placeId, index) {
+    const newItinerary = itinerary[index].places.filter(place => place._id !== placeId)
+    const updateItinerary = [...itinerary]
+    updateItinerary[index].places = newItinerary
+    setItinerary(updateItinerary);
+  }
+
+  console.log(itinerary)
+
+  const mappedItineraryDates = itinerary?.map((date, index) => {
     return (
       <Grid
         container
@@ -45,7 +53,7 @@ function Home() {
       >
         <ItineraryHeadCard date={date} />
         {date.places.map((place) => {
-          return <ItineraryCard place={place} />;
+          return <ItineraryCard index={index} itineraryId={date._id} deleteFromItinerary={deleteFromItinerary} place={place} />;
         })}
       </Grid>
     );
@@ -58,12 +66,12 @@ function Home() {
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
-          {/* <div className='map-container-hidden'></div> */}
-          <Map
+          <div className='map-container-hidden'></div>
+          {/* <Map
             itinerary={itinerary}
             itineraryId={itineraryId}
             addToItinerary={addToItinerary}
-          />
+          /> */}
         </Paper>
       </Grid>
     </Grid>

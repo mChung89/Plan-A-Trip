@@ -5,6 +5,7 @@ import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography"
 
 function ItineraryHeadCard ({ date }) {
+    const formattedDate = new Date(date?.date)
 
     return (
     <Grid
@@ -18,7 +19,7 @@ function ItineraryHeadCard ({ date }) {
     >
       <Paper elevation={4} sx={{ display: "flex", width: "100%" }}>
         <Grid item xs={12}>
-            <Typography variant="h2">{date.date}</Typography>
+            <Typography variant="h2">{formattedDate.toString().slice(4,15)}</Typography>
         </Grid>
       </Paper>
     </Grid>
