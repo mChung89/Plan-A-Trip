@@ -68,9 +68,12 @@ const postItinerary = async (req,res) => {
 
 const deleteItineraryPlace = async (req, res) => {
     try {
-        const itinerary = await Itinerary.findOne({_id: req.params.itineraryId})
-        const places = itinerary.places.filter(place => place !== req.params.placeId)
-        const newItinerary = await Itinerary.findByIdAndUpdate(req.params.itineraryId, {places: places})
+        const place = await Place.findOne({_id: req.params.placeId})
+        const newItinerary = await Itinerary.findByIdAndUpdate({_id: req.params.itineraryId}, { $pull: {
+            places: { _id: place._id}
+        }})
+
+        console.log("Itinerary:", newItinerary)
         res.status(201).send(newItinerary)
     } catch (err) {
         res.status(400).send(err)

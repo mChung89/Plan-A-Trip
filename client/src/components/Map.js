@@ -1,23 +1,16 @@
 import { useMemo, useCallback, useState, useRef } from 'react'
-import { GoogleMap, useLoadScript } from '@react-google-maps/api'
+import { GoogleMap } from '@react-google-maps/api'
 import '../styles/map.css'
 import MyMarker from './MyMarker';
-import PlacesAutoComplete from './PlacesAutoComplete';
-
-const libraries = ["places"]
 
 
-function Map({ itinerary, addToItinerary }) {
+function Map({ itinerary, isLoaded, loadError }) {
   const mapRef = useRef()
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   },[])
   const [zoom, setZoom] = useState(9)
   // const center = {lat: 40.705543976313464, lng: -74.01357140807622}
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
-    libraries
-  });
 
   // //Flatiron
   const center = useMemo(() => ({lat: 40.705543976313464, lng: -74.01357140807622}),[])
@@ -34,9 +27,6 @@ function Map({ itinerary, addToItinerary }) {
   return (
       <GoogleMap zoom={zoom} center={center} onLoad={onMapLoad} mapContainerClassName='map-container'>
         {renderedMarkers}
-        <div className='places-container'>
-          <PlacesAutoComplete addToItinerary={addToItinerary} setZoom={setZoom} />
-        </div>
       </GoogleMap>
   )
 }
