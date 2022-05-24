@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import Modal from "@mui/material/Modal";
 import Fade from "@mui/material/Fade";
 import Button from "@mui/material/Button";
+import Typography from "@mui/material/Typography";
+import Stack from "@mui/material/Stack";
 
 const style = {
   position: "absolute",
@@ -19,55 +21,50 @@ const style = {
   border: "2px solid #000",
   boxShadow: 24,
   p: 4,
-  justifyContent: "center",
 };
 
-function DatePicker({
-  tripId,
-  open,
-  setOpen,
-  itinerary
-}) {
-    const [startValue, setStartValue] = useState([null,null])
-    const [endValue, setEndValue] = useState([null,null])
+function DatePicker({ tripId, open, setOpen, itinerary }) {
+  const [startValue, setStartValue] = useState([null, null]);
+  const [endValue, setEndValue] = useState([null, null]);
 
-    useEffect(() => {
-        setStartValue(itinerary[0].date)
-        setEndValue(itinerary[itinerary.length -1].date)
-        return () => {"Unmounting"}
-    },[itinerary])
+  useEffect(() => {
+    setStartValue(itinerary[0].date);
+    setEndValue(itinerary[itinerary.length - 1].date);
+    return () => {
+      "Unmounting";
+    };
+  }, [itinerary]);
 
   const handleChange = (e) => {
     setStartValue(e);
   };
-  
+
   const handleEndChange = (e) => {
     setEndValue(e);
   };
 
   function handleClick() {
-    const currentDates = itinerary.map(each=> new Date(each.date).getTime())
+    const currentDates = itinerary.map((each) => new Date(each.date).getTime());
     const formatStart = new Date(startValue);
     const formatEnd = new Date(endValue);
     // See how many days in between to determine loop
     const difference =
       (formatEnd.getTime() - formatStart.getTime()) / (1000 * 60 * 60 * 24);
-    
+
     const newItinerary = [];
-    for (let i = 0; i < difference; i++) {
+    for (let i = 0; i <= difference; i++) {
       newItinerary.push(formatStart.getTime() + (i * (1000 * 60 * 60 * 24)));
     }
-    console.log(newItinerary)
-    console.log("Current dates", currentDates)
+    // console.log("New date range:", newItinerary.map(each => new Date(each)));
+    // console.log("Current dates", currentDates.map(each=> new Date(each)));
+    const res = newItinerary.filter(item => !currentDates.includes(item))
 
+    if(res.length > 0) {
 
-    let filteredItinerary = currentDates.map(cd=> newItinerary.filter(date => date !== cd))
-
-    console.log("Filtered Itinerary:", filteredItinerary)
-
-
-    const formatFilteredDates = filteredItinerary[0].map(each => new Date(each))
-    console.log(formatFilteredDates)
+    const formatFilteredDates = res.map(
+      (each) => new Date(each)
+    );
+    console.log(formatFilteredDates);
 
     fetch(`/trip/${tripId}`, {
       method: "PATCH",
@@ -82,10 +79,11 @@ function DatePicker({
       .then((res) => res.json())
       .then(console.log);
   }
+  }
 
   return (
     <div>
-      <Modal
+      <Modal 
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         open={open}
@@ -98,25 +96,38 @@ function DatePicker({
       >
         <Fade in={open}>
           <Box sx={style}>
-            <div className={`datewindow`}>
-              <LocalizationProvider dateAdapter={AdapterDateFns}>
-                <DesktopDatePicker
-                  label="Start Date"
-                  inputFormat="MM/dd/yyyy"
-                  value={startValue}
-                  onChange={handleChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-                <DesktopDatePicker
-                  label="End Date"
-                  inputFormat="MM/dd/yyyy"
-                  value={endValue}
-                  onChange={handleEndChange}
-                  renderInput={(params) => <TextField {...params} />}
-                />
-              </LocalizationProvider>
-            </div>
-            <Button onClick={handleClick}>Update itinerary dates</Button>
+            <Stack container justifyContent='center' spacing={3}>
+              <Stack>
+                <Typography variant="h5" textAlign="center">How long are you planning for?</Typography>
+              </Stack>
+              <Stack py={1}>
+                <Stack py={1}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    label="Start Date"
+                    inputFormat="MM/dd/yyyy"
+                    value={startValue}
+                    onChange={handleChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                </Stack>
+                <Stack pt={2}>
+                <LocalizationProvider dateAdapter={AdapterDateFns}>
+                  <DesktopDatePicker
+                    label="End Date"
+                    inputFormat="MM/dd/yyyy"
+                    value={endValue}
+                    onChange={handleEndChange}
+                    renderInput={(params) => <TextField {...params} />}
+                  />
+                </LocalizationProvider>
+                </Stack>
+              </Stack>
+              <Stack item xs={12}>
+                <Button onClick={handleClick}>Update itinerary dates</Button>
+              </Stack>
+            </Stack>
           </Box>
         </Fade>
       </Modal>

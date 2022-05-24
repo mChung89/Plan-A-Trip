@@ -11,8 +11,7 @@ const libraries = ["places"]
 
 function MainPage() {
   const [itinerary, setItinerary] = useState([]);
-  const [tripId, setTripId] = useState("6287eac92bfe37305ebfb47d");
-
+  const [tripId, setTripId] = useState('6287eac92bfe37305ebfb47d');
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
