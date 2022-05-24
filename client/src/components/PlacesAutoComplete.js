@@ -29,8 +29,6 @@ function PlacesAutoComplete({ addToItinerary, selectedDate, itinerary, setZoom }
     },
   });
 
-  console.log(selectedDate)
-
   async function handleSelect(address) {
     setValue(address, false);
     clearSuggestions();

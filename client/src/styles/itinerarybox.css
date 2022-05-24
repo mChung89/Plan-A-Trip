@@ -1,0 +1,10 @@
+.datewindow {
+    transition: 2s
+}
+
+.show {
+}
+
+.hidden {
+    display: none
+}

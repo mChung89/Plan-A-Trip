@@ -12,6 +12,8 @@ const libraries = ["places"]
 function Home() {
   const [itinerary, setItinerary] = useState([]);
   const [itineraryId, setItineraryId] = useState("6287e3bff4a1041d6fb45f55");
+  const [startValue,setStartValue] = useState([null,null])
+  const [endValue,setEndValue] = useState([null,null])
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
@@ -22,8 +24,11 @@ function Home() {
     fetch("trip/6287eac92bfe37305ebfb47d")
       .then((res) => res.json())
       .then((data) => {
-        setItinerary(data);
-        // setItineraryId(data.itineraryId)
+        setItinerary(data[0]);
+        setStartValue(data[0][0].date)
+        const endDate = data[0].length
+        setEndValue(data[0][endDate-1].date)
+        setItineraryId(data[1])
       });
   }, []);
 
@@ -74,7 +79,7 @@ function Home() {
   return (
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary itinerary={itinerary} addToItinerary={addToItinerary} isLoaded={isLoaded}/>
+        <Itinerary itineraryId={itineraryId} addToItinerary={addToItinerary} isLoaded={isLoaded} setStartValue={setStartValue} startValue={startValue} endValue={endValue} setEndValue={setEndValue}/>
         {mappedItineraryDates}
       </Grid>
       <Grid pl={4} item xs={7}>
