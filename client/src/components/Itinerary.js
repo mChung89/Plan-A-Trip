@@ -16,21 +16,24 @@ function Itinerary({
   setZoom,
   itinerary,
   isLoaded,
-  setStartValue, startValue, endValue, setEndValue, itineraryId
+  itineraryId
 }) {
   const [selectedDate, setSelDate] = useState("");
   const [datePickerStyle, setToggle] = useState("hidden")
 
   const menuItems = itinerary?.map((date, index) => {
+    console.log(index)
+    console.log(date._id)
     const formattedDate = new Date(date.date);
     return (
-      <MenuItem key={index} value={index}>
+      <MenuItem key={date._id} id={date._id} value={index}>
         {formattedDate.toString().slice(4, 15)}
       </MenuItem>
     );
   });
 
   function handleChange(e) {
+    console.log(e.target.value)
     setSelDate(e.target.value);
   }
 
@@ -67,7 +70,7 @@ function Itinerary({
               </Select>
               <Button onClick={handleClick}>Change dates</Button>
             </Grid>
-              {open ? <DatePicker itineraryId={itineraryId} open={open} setOpen={setOpen} datePickerStyle={datePickerStyle} itinerary={itinerary} setStartValue={setStartValue} startValue={startValue} endValue={endValue} setEndValue={setEndValue}/> : null}
+              {open ? <DatePicker itinerary={itinerary} itineraryId={itineraryId} open={open} setOpen={setOpen} datePickerStyle={datePickerStyle} /> : null}
           </Grid>
         </Box>
       </Paper>

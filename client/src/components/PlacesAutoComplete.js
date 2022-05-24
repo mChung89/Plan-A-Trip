@@ -14,7 +14,7 @@ import "@reach/combobox/styles.css";
 import "../styles/map.css";
 
 
-function PlacesAutoComplete({ addToItinerary, selectedDate, itinerary, setZoom }) {
+function PlacesAutoComplete({ addToItinerary, selectedDate }) {
   const {
     ready,
     value,

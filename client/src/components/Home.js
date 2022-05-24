@@ -11,9 +11,8 @@ const libraries = ["places"]
 
 function Home() {
   const [itinerary, setItinerary] = useState([]);
-  const [itineraryId, setItineraryId] = useState("6287e3bff4a1041d6fb45f55");
-  const [startValue,setStartValue] = useState([null,null])
-  const [endValue,setEndValue] = useState([null,null])
+  const [tripId, setTripId] = useState("6287eac92bfe37305ebfb47d");
+
 
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
@@ -21,18 +20,16 @@ function Home() {
   });
 
   useEffect(() => {
-    fetch("trip/6287eac92bfe37305ebfb47d")
+    fetch(`trip/${tripId}`)
       .then((res) => res.json())
       .then((data) => {
+        console.log(data)
         setItinerary(data[0]);
-        setStartValue(data[0][0].date)
-        const endDate = data[0].length
-        setEndValue(data[0][endDate-1].date)
-        setItineraryId(data[1])
+        setTripId(data[1])
       });
   }, []);
 
-  async function addToItinerary(place, index) {
+  async function addToItinerary(place, index, itineraryId) {
     console.log("ItineraryId:",itineraryId);
     fetch(`/itinerary/${itineraryId}`, {
       method: "PATCH",
@@ -49,7 +46,6 @@ function Home() {
         setItinerary(newItinerary);
       });
   }
-  console.log("Current Itinerary", itinerary)
 
   function deleteFromItinerary(placeId, index) {
         // Filter out from state
@@ -79,7 +75,7 @@ function Home() {
   return (
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary itineraryId={itineraryId} addToItinerary={addToItinerary} isLoaded={isLoaded} setStartValue={setStartValue} startValue={startValue} endValue={endValue} setEndValue={setEndValue}/>
+        <Itinerary itinerary={itinerary} tripId={tripId} addToItinerary={addToItinerary} isLoaded={isLoaded}/>
         {mappedItineraryDates}
       </Grid>
       <Grid pl={4} item xs={7}>
@@ -89,8 +85,6 @@ function Home() {
             isLoaded={isLoaded}
             loadError={loadError}
             itinerary={itinerary}
-            itineraryId={itineraryId}
-            addToItinerary={addToItinerary}
           /> */}
         </Paper>
       </Grid>

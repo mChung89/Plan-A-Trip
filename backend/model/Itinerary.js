@@ -11,6 +11,9 @@ const itinerarySchema = new mongoose.Schema ({
     created: {
         type: Date,
         default: Date.now
+    },
+    date: {
+        type: Date
     }
 })
 
