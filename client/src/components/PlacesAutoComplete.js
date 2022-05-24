@@ -51,12 +51,12 @@ function PlacesAutoComplete({ addToItinerary, selectedDate }) {
           placeId: place_id,
           fields: ["name", "website", "opening_hours", "photo"],
         };
-        addIfNotInDb(parameters, results, lat, lng);
+        addIfNotInDb(parameters, results, lat, lng, selectedDate);
       }
     });
   }
 
-  async function addIfNotInDb(parameters, results, lat, lng, selectedDate = 1) {
+  async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
     const details = await getDetails(parameters);
     const photos = details?.photos?.map((photo) => photo.getUrl());
     const placeObj = {

@@ -23,7 +23,7 @@ const style = {
 };
 
 function DatePicker({
-  itineraryId,
+  tripId,
   open,
   setOpen,
   itinerary
@@ -69,14 +69,14 @@ function DatePicker({
     const formatFilteredDates = filteredItinerary[0].map(each => new Date(each))
     console.log(formatFilteredDates)
 
-    fetch(`/trip/${itineraryId}`, {
+    fetch(`/trip/${tripId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
         dates: formatFilteredDates,
-        itineraryId: itineraryId,
+        itineraryId: tripId,
       }),
     })
       .then((res) => res.json())

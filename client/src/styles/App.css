@@ -11,8 +11,9 @@
 
 .nav {
   height: 4vh;
-  background-color: black;
+  background-color: white;
   color:white;
+  border-bottom: 1px solid black;
   font-size: 1.5rem;
   text-align: center;
 }

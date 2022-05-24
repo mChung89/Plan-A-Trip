@@ -1,5 +1,5 @@
 import "../styles/App.css";
-import Home from "./Home";
+import MainPage from "./MainPage";
 import Login from "./Login"
 import Stack from "@mui/material/Stack";
 import { Routes, Route } from 'react-router-dom'
@@ -11,7 +11,7 @@ function App() {
     <Stack>
       <NavBar />
       <Routes>
-          <Route path='/' element={<Home />}/>
+          <Route path='/makeitinerary' element={<MainPage />}/>
           <Route path='/login' element={<Login />} />
       </Routes>
     </Stack>

@@ -9,7 +9,7 @@ import { useLoadScript } from '@react-google-maps/api'
 
 const libraries = ["places"]
 
-function Home() {
+function MainPage() {
   const [itinerary, setItinerary] = useState([]);
   const [tripId, setTripId] = useState("6287eac92bfe37305ebfb47d");
 
@@ -29,20 +29,21 @@ function Home() {
       });
   }, []);
 
-  async function addToItinerary(place, index, itineraryId) {
+  async function addToItinerary(place, itineraryId) {
+
     console.log("ItineraryId:",itineraryId);
     fetch(`/itinerary/${itineraryId}`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(place, index),
+      body: JSON.stringify(place),
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(index)
-        const newItinerary = [...itinerary]
-        newItinerary[index].places = [...itinerary[index].places, data]
+        const findItinerary = itinerary.find(each => each._id = data._id)
+        findItinerary.places = [...findItinerary.places, data]
+        const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
         setItinerary(newItinerary);
       });
   }
@@ -80,16 +81,16 @@ function Home() {
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
-          <div className='map-container-hidden'></div>
-          {/* <Map
+          {/* <div className='map-container-hidden'></div> */}
+          <Map
             isLoaded={isLoaded}
             loadError={loadError}
             itinerary={itinerary}
-          /> */}
+          />
         </Paper>
       </Grid>
     </Grid>
   );
 }
 
-export default Home;
+export default MainPage;
