@@ -25,12 +25,22 @@ const postTrip = async (req,res) => {
 
 const updateTrip = async (req,res) => {
     const updatedTrip = await Trip.findOneAndUpdate({_id: req.params._id}, {startDate: req.body.startDate, endDate: req.body.endDate})
-    const trip = await Trip.findById(req.params._id)
-    const itineraryData = await Itinerary.find({_id: { $in: trip.itineraries}})
+    //Need to get a list of all existing itinerary dates
+    const mapped = []
+    const itineraryData = await (await Itinerary.find({_id: { $in: updatedTrip.itineraries}})).map(each => each)
+    const existingDates = mapped.map(each => each)
+    console.log(itineraryData)
+    // Get start dates & end dates.
     const { startDate, endDate } = updatedTrip
-    console.log(startDate, endDate)
-
-    // console.log(itineraryData.filter(itinerary => itinerary.date))
+    const formatStart = new Date(startDate)
+    const formatEnd = new Date(endDate)
+    // See how many days in between to determine loop
+    const difference = (formatEnd.getTime() -formatStart.getTime()) / (1000*60*60*24)
+    const newItinerary = []
+    for(i=0; i < difference; i++) {
+        newItinerary.push(formatStart.getTime() + (i * (1000*60*60*24)))
+    }
+    console.log(newItinerary)
 }
 
 module.exports = {
