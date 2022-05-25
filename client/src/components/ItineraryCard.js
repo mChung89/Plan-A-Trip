@@ -6,17 +6,10 @@ import Typography from "@mui/material/Typography";
 import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
-import { useDrag } from 'react-dnd'
-import { ItemTypes } from './Constants'
 
 
 function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
-  const [{isDragging}, drag] = useDrag(() => ({
-    type: ItemTypes.CARD,
-    collect: monitor => ({
-      isDragging: !!monitor.isDragging(),
-    }),
-  }))
+
  
 
   function handleDelete(itineraryId, placeId, index) {
@@ -27,17 +20,10 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
 
   return (
     <Grid
-    ref={drag}
-      style={{
-        opacity: isDragging ? 0.5 : 1,
-        fontSize: 25,
-        fontWeight: 'bold',
-        cursor: 'move',
-      }}
       container
       direction="row"
       p={2}
-      key={place.id}
+      key={itineraryId + place.id + index}
       className="place-cards"
     >
       <Paper elevation={4} sx={{ display: "flex", width: "100%" }}>
@@ -49,7 +35,7 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
               <li key={day}>{day}</li>
             ))}
           </ul>
-          {place.website ? <Button variant="outlined" startIcon={<PublicIcon />}>WEBSITE</Button> : <Button variant="outlined" disabled startIcon={<PublicIcon />}>WEBSITE</Button>}
+          {place.website ? <Button href={place.website} variant="outlined" startIcon={<PublicIcon />}>WEBSITE</Button> : <Button variant="outlined" disabled startIcon={<PublicIcon />}>WEBSITE</Button>}
           <Button variant="outlined" startIcon={<DeleteIcon />}onClick={() => handleDelete(itineraryId, place._id, index)}>
             Delete
           </Button>

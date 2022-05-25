@@ -3,6 +3,9 @@ const Itinerary = require('../model/Itinerary')
 const Place = require('../model/Place')
 
 const showTrip = async (req,res) => {
+    if(req.params._id === 'null') {
+      return res.status(400).send({errors: "No tripId sent"})
+    }
     const getData = await Trip.findById(req.params._id)
     const itineraryData = await Itinerary.find({_id: { $in: getData.itineraries}}).sort({date: 1})
     // const placesData = await Place.find({place_id : { $in: itineraryData.places}})
@@ -27,7 +30,6 @@ const updateTrip = async (req,res) => {
   const newItineraryDates = async () => {
     return Promise.all(
       req.body.dates.map((each) => {
-        console.log(each);
         const itinerary = new Itinerary({
           itineraryInfo: {},
           places: [],
@@ -44,7 +46,8 @@ const updateTrip = async (req,res) => {
     { _id: req.params._id },
     { $push: { itineraries: { $each: mapIds}}}
   );
-  console.log(updatedTrip)
+  const itineraryData = await Itinerary.find({_id: { $in: updatedTrip.itineraries}}).sort({date: 1})
+  res.status(200).send(itineraryData)
 }
 
 module.exports = {

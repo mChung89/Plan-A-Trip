@@ -6,46 +6,47 @@ import Paper from "@mui/material/Paper";
 import ItineraryHeadCard from "./ItineraryHeadCard";
 import ItineraryCard from "./ItineraryCard";
 import { useLoadScript } from '@react-google-maps/api'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
+
 
 const libraries = ["places"]
 
-function MainPage() {
+function MainPage({ user, currentTrip, setTrip }) {
   const [itinerary, setItinerary] = useState([]);
-  const [tripId, setTripId] = useState('6287eac92bfe37305ebfb47d');
-
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
     libraries
   });
 
   useEffect(() => {
-    fetch(`trip/${tripId}`)
+    fetch(`trip/${currentTrip}`)
       .then((res) => res.json())
       .then((data) => {
         setItinerary(data[0]);
-        setTripId(data[1])
+        setTrip(data[1])
       });
-  }, []);
+  }, [currentTrip]);
 
   async function addToItinerary(place, itineraryId) {
-
-    console.log("ItineraryId:",itineraryId);
-    fetch(`/itinerary/${itineraryId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(place),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        const findItinerary = itinerary.find(each => each._id = data._id)
-        findItinerary.places = [...findItinerary.places, data]
-        const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
-        setItinerary(newItinerary);
-      });
+    const findItinerary = itinerary.find((each) => each._id === itineraryId);
+    findItinerary.places = [...findItinerary.places, place];
+    const newItinerary = itinerary.map((each) =>
+      each._id === findItinerary._id ? findItinerary : each
+    );
+    setItinerary(newItinerary);
+    // fetch(`/itinerary/${itineraryId}`, {
+    //   method: "PATCH",
+    //   headers: {
+    //     "Content-Type": "application/json",
+    //   },
+    //   body: JSON.stringify(place),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     const findItinerary = itinerary.find(each => each._id = data._id)
+    //     findItinerary.places = [...findItinerary.places, data]
+    //     const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
+    //     setItinerary(newItinerary);
+    //   });
   }
 
   function deleteFromItinerary(placeId, index) {
@@ -76,19 +77,17 @@ function MainPage() {
   return (
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary itinerary={itinerary} tripId={tripId} addToItinerary={addToItinerary} isLoaded={isLoaded}/>
-        <DndProvider backend={HTML5Backend}>
+        <Itinerary user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded}/>
           {mappedItineraryDates}
-        </DndProvider>
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
-          {/* <div className='map-container-hidden'></div> */}
-          <Map
+          <div className='map-container-hidden'></div>
+          {/* <Map
             isLoaded={isLoaded}
             loadError={loadError}
             itinerary={itinerary}
-          />
+          /> */}
         </Paper>
       </Grid>
     </Grid>

@@ -23,7 +23,7 @@ const style = {
   p: 4,
 };
 
-function DatePicker({ tripId, open, setOpen, itinerary }) {
+function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
   const [startValue, setStartValue] = useState([null, null]);
   const [endValue, setEndValue] = useState([null, null]);
 
@@ -77,7 +77,7 @@ function DatePicker({ tripId, open, setOpen, itinerary }) {
       }),
     })
       .then((res) => res.json())
-      .then(console.log);
+      .then(data =>setItinerary(data));
   }
   }
 
@@ -96,7 +96,7 @@ function DatePicker({ tripId, open, setOpen, itinerary }) {
       >
         <Fade in={open}>
           <Box sx={style}>
-            <Stack container justifyContent='center' spacing={3}>
+            <Stack justifyContent='center' spacing={3}>
               <Stack>
                 <Typography variant="h5" textAlign="center">How long are you planning for?</Typography>
               </Stack>
@@ -124,7 +124,7 @@ function DatePicker({ tripId, open, setOpen, itinerary }) {
                 </LocalizationProvider>
                 </Stack>
               </Stack>
-              <Stack item xs={12}>
+              <Stack xs={12}>
                 <Button onClick={handleClick}>Update itinerary dates</Button>
               </Stack>
             </Stack>

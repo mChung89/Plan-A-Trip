@@ -6,9 +6,6 @@ const {
 const bcrypt = require("bcryptjs");
 const jwt = require('jsonwebtoken')
 
-const getMe = async (req,res) => {
-  console.log("get get")
-}
 
 
 //Create a New User
@@ -48,18 +45,20 @@ const loginUser = async (req, res) => {
   //Validation
   const { error } = loginValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).send({errors: error.details[0].message});
   }
   // Check if user is in the database
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return res.status(400).send("Email not found");
+    return res.status(400).send({errors:"Email not found"});
   }
   // If password is correct
   const validPass = await bcrypt.compare(req.body.password, user.password)
   if(!validPass) {
-      return res.status(400).send("Password not found")
+      return res.status(400).send({errors: "Password not found"})
   }
+
+  console.log(user)
 
   //Create and assign a token
   const accessToken = jwt.sign(
@@ -78,6 +77,10 @@ const loginUser = async (req, res) => {
           res.cookie('auth-jwt', refreshToken, { httpOnly: true, maxAge: 24 * 60 * 60 * 1000})
           res.json({ user, accessToken })
 };
+
+const getMe = async (req,res) => {
+  
+}
 
 // Validating Token
 

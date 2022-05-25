@@ -6,6 +6,7 @@ import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import '../styles/App.css'
+import { useNavigate } from "react-router-dom"
 
 const style = {
   position: "absolute",
@@ -13,22 +14,26 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "background.paper",
+  bgcolor: "rgba(255,255,255,.8)",
   border: "2px solid #000",
   boxShadow: 24,
+  borderRadius: "1em",
   p: 4,
 };
 
-function Login() {
+function Login({ setUser, user }) {
+  const navigate = useNavigate()
+  const [errors, setErrors] = useState(null)
+
   const defaultState = {
     email: "",
     password: "",
   };
   const [formData, setFormData] = useState(defaultState);
-  const [user, setUser] = useState(null)
+  console.log(user)
 
   function handleSubmit() {
-    fetch("/loginuser", {
+    fetch("/auth/loginuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -40,7 +45,10 @@ function Login() {
         res.json().then(data => {
           console.log(data)
           setUser(data)
+          navigate('/')
         })
+      } else {
+        res.json().then(data => setErrors(data.errors))
       }
     });
   }
@@ -51,6 +59,7 @@ function Login() {
 
   function handleLogOut() {
     fetch('/logout')
+    setUser(null)
   }
 
   function handleRefresh() {
@@ -65,17 +74,22 @@ function Login() {
       <Paper>
         <Stack>
           <Box direction="column" sx={style} component="form">
-            <Stack py={2}>
+            <Stack py={2} sx={{width: "100%"}}>
             <Typography variant='h2' textAlign='center'>Login Here</Typography>
             </Stack>
-            <Stack py={2}>
+            <Stack pt={2} alignItems='center'>
+              <Typography textAlign='center'>Email</Typography>
             <TextField
+              sx={{width: "75%"}}
               name="email"
               placeholder="Enter your email"
               value={formData.email}
               onChange={handleChange}
             />
+            <Stack pt={2} alignItems='center' sx={{width: '100%'}}>
+              <Typography textAlign='center'>Password</Typography>
             <TextField
+              sx={{width: '75%'}}
               placeholder="Enter your password"
               name="password"
               value={formData.password}
@@ -84,8 +98,11 @@ function Login() {
             />
             </Stack>
             <Stack py={2}>
+            <Typography textAlign='center' sx={{color: 'red'}}>{errors ? errors : null}</Typography>
+            </Stack>
+            </Stack>
+            <Stack pb={2}>
             <Button onClick={handleSubmit}>Submit</Button>
-            {user ? <Typography variant="h1">{user.accessToken}</Typography> : null}
             <Button onClick={handleLogOut}>Log Out</Button>
             <Button onClick={handleRefresh}>Refresh my Token</Button>
             </Stack>

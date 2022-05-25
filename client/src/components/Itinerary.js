@@ -6,26 +6,40 @@ import PlacesAutoComplete from "./PlacesAutoComplete";
 import "../styles/map.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import DatePicker from "./DatePicker";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+import { getDetails } from "use-places-autocomplete";
+
 
 //CALENDAR
 
-function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
+function Itinerary({ addToItinerary, setItinerary, itinerary, isLoaded, user, tripId }) {
   const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
-
-  const menuItems = itinerary?.map((date) => {
+  
+  const menuItems = itinerary.map(date => {
     const formattedDate = new Date(date.date);
     return (
-      <MenuItem key={date._id} value={date._id}>
+      <MenuItem key={date.date + date._id} value={date._id}>
         {formattedDate.toString().slice(4, 15)}
       </MenuItem>
     );
   });
+
+  function handleSave() {
+    fetch(`/trip/${tripId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itinerary),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+  }
 
   function handleChange(e) {
     setSelDate(e.target.value);
@@ -33,6 +47,50 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
 
   function handleClick() {
     setOpen((prev) => !prev);
+  }
+
+  async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
+    const details = await getDetails(parameters);
+    const photos = details?.photos?.map((photo) => photo.getUrl());
+    const placeObj = {
+      name: details.name,
+      photos: photos,
+      place_id: results.place_id,
+      opening_hours: details.opening_hours,
+      website: details.website,
+      formatted_address: results.formatted_address,
+      lat: lat,
+      lng: lng,
+    };
+    fetch("/places", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(placeObj),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        console.log("Adding this to data", data);
+        addToItinerary(data, selectedDate);
+      });
+  }
+
+  async function addToList(place_id, results, lat, lng) {
+    fetch(`/places/${place_id}`).then((res) => {
+      if (res.ok) {
+        res.json().then((data) => {
+          console.log("Add to list:", itinerary)
+          addToItinerary(data, selectedDate);
+        });
+      } else {
+        const parameters = {
+          placeId: place_id,
+          fields: ["name", "website", "opening_hours", "photo"],
+        };
+        addIfNotInDb(parameters, results, lat, lng, selectedDate);
+      }
+    });
   }
 
   return (
@@ -44,9 +102,8 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
             {isLoaded ? (
               <Grid item xs={6}>
                 <PlacesAutoComplete
-                  selectedDate={selectedDate}
+                  addToList={addToList}
                   addToItinerary={addToItinerary}
-                  setZoom={setZoom}
                 />
               </Grid>
             ) : null}
@@ -63,6 +120,7 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
                 </Select>
               </FormControl>
               <Button variant="outlined" size="large" onClick={handleClick}>Change dates</Button>
+              {user ? <Button variant="outlined" size="large" onClick={handleSave}>Save itinerary</Button> : null}
             </Grid>
             {open ? (
               <DatePicker
@@ -70,6 +128,7 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
                 tripId={tripId}
                 open={open}
                 setOpen={setOpen}
+                setItinerary={setItinerary}
               />
             ) : null}
           </Grid>
