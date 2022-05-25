@@ -25,3 +25,11 @@
 .main-window-split{
   height: 100%;
 }
+
+.login-page {
+  background-image: url("https://c.pxhere.com/images/49/4e/8e758fc62ce5d977343b3932044d-1443121.jpg!d");
+  height: 100vh;
+  width: 100vw;
+  background-repeat: no-repeat;
+  background-size:cover
+}

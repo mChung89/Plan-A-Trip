@@ -6,6 +6,8 @@ import Paper from "@mui/material/Paper";
 import ItineraryHeadCard from "./ItineraryHeadCard";
 import ItineraryCard from "./ItineraryCard";
 import { useLoadScript } from '@react-google-maps/api'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 
 const libraries = ["places"]
 
@@ -22,7 +24,6 @@ function MainPage() {
     fetch(`trip/${tripId}`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data)
         setItinerary(data[0]);
         setTripId(data[1])
       });
@@ -76,7 +77,9 @@ function MainPage() {
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
         <Itinerary itinerary={itinerary} tripId={tripId} addToItinerary={addToItinerary} isLoaded={isLoaded}/>
-        {mappedItineraryDates}
+        <DndProvider backend={HTML5Backend}>
+          {mappedItineraryDates}
+        </DndProvider>
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">

@@ -11,10 +11,11 @@ import DatePicker from "./DatePicker";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
+
 //CALENDAR
 
 function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
-  const [selectedDate, setSelDate] = useState("Select date to enter");
+  const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
 
   const menuItems = itinerary?.map((date) => {
@@ -53,7 +54,6 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
               <FormControl sx={{width: "50%"}}>
                 <InputLabel>Select a date to add place to</InputLabel>
                 <Select
-                  variant="standard"
                   onChange={handleChange}
                   value={selectedDate}
                   label="Select a date to add place to"
@@ -62,7 +62,7 @@ function Itinerary({ addToItinerary, setZoom, itinerary, isLoaded, tripId }) {
                   {menuItems}
                 </Select>
               </FormControl>
-              <Button onClick={handleClick}>Change dates</Button>
+              <Button variant="outlined" size="large" onClick={handleClick}>Change dates</Button>
             </Grid>
             {open ? (
               <DatePicker

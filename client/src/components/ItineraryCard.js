@@ -6,9 +6,19 @@ import Typography from "@mui/material/Typography";
 import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
+import { useDrag } from 'react-dnd'
+import { ItemTypes } from './Constants'
 
 
 function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
+  const [{isDragging}, drag] = useDrag(() => ({
+    type: ItemTypes.CARD,
+    collect: monitor => ({
+      isDragging: !!monitor.isDragging(),
+    }),
+  }))
+ 
+
   function handleDelete(itineraryId, placeId, index) {
     fetch(`/itinerary/${itineraryId}/${placeId}`, { method: "DELETE" }).then(
       (res) => deleteFromItinerary(placeId, index)
@@ -17,6 +27,13 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
 
   return (
     <Grid
+    ref={drag}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        fontSize: 25,
+        fontWeight: 'bold',
+        cursor: 'move',
+      }}
       container
       direction="row"
       p={2}

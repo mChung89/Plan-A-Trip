@@ -4,6 +4,7 @@ import Login from "./Login"
 import Stack from "@mui/material/Stack";
 import { Routes, Route } from 'react-router-dom'
 import NavBar from './NavBar'
+import Home from './Home'
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
     <Stack>
       <NavBar />
       <Routes>
+          <Route path='/' element={<Home/>}/>
           <Route path='/makeitinerary' element={<MainPage />}/>
           <Route path='/login' element={<Login />} />
       </Routes>
