@@ -26,7 +26,7 @@
   height: 100%;
 }
 
-div .login-page {
+div #login-page {
   background-image: url('../components/images/IMG_0040.jpg');
   height: 96vh;
   width: 100vw;

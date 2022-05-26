@@ -4,7 +4,7 @@ import '../styles/map.css'
 import MyMarker from './MyMarker';
 
 
-function Map({ itinerary, isLoaded, loadError }) {
+function Map({ itinerary, isLoaded, loadError, center }) {
   const mapRef = useRef()
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
@@ -13,7 +13,6 @@ function Map({ itinerary, isLoaded, loadError }) {
   // const center = {lat: 40.705543976313464, lng: -74.01357140807622}
 
   // //Flatiron
-  const center = useMemo(() => ({lat: 40.705543976313464, lng: -74.01357140807622}),[])
   if (loadError) return "Error loading maps"
   if (!isLoaded) return <div>Loading...</div>
   

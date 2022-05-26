@@ -10,8 +10,7 @@ import { useLoadScript } from '@react-google-maps/api'
 
 const libraries = ["places"]
 
-function MainPage({ user, currentTrip, setTrip }) {
-  const [itinerary, setItinerary] = useState([]);
+function MainPage({ user, currentTrip, setTrip, center, itinerary, setItinerary }) {
   const { isLoaded, loadError } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
     libraries
@@ -25,6 +24,7 @@ function MainPage({ user, currentTrip, setTrip }) {
         setTrip(data[1])
       });
   }, [currentTrip]);
+
 
   async function addToItinerary(place, itineraryId) {
     const findItinerary = itinerary.find((each) => each._id === itineraryId);
@@ -96,6 +96,7 @@ function MainPage({ user, currentTrip, setTrip }) {
         <Paper className="main-window-split map">
           <div className='map-container-hidden'></div>
           {/* <Map
+            center={center}
             isLoaded={isLoaded}
             loadError={loadError}
             itinerary={itinerary}

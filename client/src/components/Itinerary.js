@@ -1,5 +1,4 @@
 import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import PlacesAutoComplete from "./PlacesAutoComplete";
@@ -12,6 +11,7 @@ import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
 import { getDetails } from "use-places-autocomplete";
+import TextField from '@mui/material/TextField'
 
 
 //CALENDAR
@@ -19,6 +19,7 @@ import { getDetails } from "use-places-autocomplete";
 function Itinerary({ handleSave, addToItinerary, setItinerary, itinerary, isLoaded, user, tripId }) {
   const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
+  const [tripName, setTripName] = useState("My trip name")
   
   const menuItems = itinerary.map(date => {
     const formattedDate = new Date(date.date);
@@ -86,7 +87,7 @@ function Itinerary({ handleSave, addToItinerary, setItinerary, itinerary, isLoad
     <Grid item justifyContent="space-between" alignItems="stretch" pb={3}>
       <Paper>
         <Stack justifyContent="center" alignItems="center" p={2} spacing={2}>
-          <input id="trip-name" value="PUT TRIP NAME HERE"></input>
+          <TextField fullWidth variant="standard" size='large' sx={{outline: 'none'}}value={tripName} onChange={(e) => setTripName(e.target.value)}/>
           <Grid container direction="row" sx={{ transition: "height 0.8s" }}>
             {isLoaded ? (
               <Grid item xs={6}>

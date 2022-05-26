@@ -13,12 +13,12 @@ const newUser = async (req, res) => {
   //Validation
   const { error } = registerValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).send({errors: error.details[0].message});
   }
   // Check if user is in the database
   const emailExist = await User.findOne({ email: req.body.email });
   if (emailExist) {
-    return res.status(400).send("Email already exists");
+    return res.status(400).send({errors: "Email already exists"});
   }
   // Hash the Password
   const salt = await bcrypt.genSalt(10);
@@ -50,12 +50,12 @@ const loginUser = async (req, res) => {
   // Check if user is in the database
   const user = await User.findOne({ email: req.body.email });
   if (!user) {
-    return res.status(400).send({errors:"Email not found"});
+    return res.status(400).send({errors:"Invalid email"});
   }
   // If password is correct
   const validPass = await bcrypt.compare(req.body.password, user.password)
   if(!validPass) {
-      return res.status(400).send({errors: "Password not found"})
+      return res.status(400).send({errors: "Invalid password"})
   }
 
   console.log(user)

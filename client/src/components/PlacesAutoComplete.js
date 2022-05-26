@@ -28,6 +28,7 @@ function PlacesAutoComplete({ addToList }) {
   });
 
   async function handleSelect(address) {
+    console.log(typeof address)
     setValue(address, false);
     clearSuggestions();
     const results = await getGeocode({ address });

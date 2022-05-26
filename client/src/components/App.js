@@ -1,10 +1,10 @@
 import "../styles/App.css";
 import MainPage from "./MainPage";
-import Login from "./Login";
 import Stack from "@mui/material/Stack";
 import { Routes, Route } from "react-router-dom";
 import NavBar from "./NavBar";
 import Home from "./Home";
+import AuthPage from './AuthPage'
 import { createContext, useState } from "react";
 
 const userName = {
@@ -25,6 +25,8 @@ const userName = {
 function App() {
   const [currentTrip, setTrip] = useState("6287eac92bfe37305ebfb47d")
   const [user, setUser] = useState(userName);
+  const [center,setCenter] = useState({lat: 40.705543976313464, lng: -74.01357140807622})
+  const [itinerary, setItinerary] = useState([]);
 
 
   return (
@@ -32,11 +34,11 @@ function App() {
       {/* <UserContext.Provider value={user}> */}
         <NavBar setUser={setUser}/>
         <Routes>
-          <Route path="/" element={<Home user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
-          <Route path="/makeitinerary" element={<MainPage setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
+          <Route path="/" element={<Home setItinerary={setItinerary} setCenter={setCenter} user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
+          <Route path="/makeitinerary" element={<MainPage itinerary={itinerary} setItinerary={setItinerary} center={center} setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
           <Route
             path="/login"
-            element={<Login user={user} setUser={setUser} />}
+            element={<AuthPage user={user} setUser={setUser} />}
           />
         </Routes>
       {/* </UserContext.Provider> */}
