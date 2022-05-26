@@ -24,6 +24,7 @@ const style = {
 function Login({ setUser, user }) {
   const navigate = useNavigate()
   const [errors, setErrors] = useState(null)
+  const [toggleLogin, setToggle] = useState(true)
 
   const defaultState = {
     email: "",
@@ -57,16 +58,9 @@ function Login({ setUser, user }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-  function handleLogOut() {
-    fetch('/logout')
-    setUser(null)
-  }
 
-  function handleRefresh() {
-    fetch('/refresh')
-      .then(res => {
-        if (res.ok) res.json().then(data => console.log(data))
-      })
+  function handleToggle() {
+    setToggle(prev => !prev)
   }
 
   return (
@@ -103,8 +97,7 @@ function Login({ setUser, user }) {
             </Stack>
             <Stack pb={2}>
             <Button onClick={handleSubmit}>Submit</Button>
-            <Button onClick={handleLogOut}>Log Out</Button>
-            <Button onClick={handleRefresh}>Refresh my Token</Button>
+            {toggleLogin ? <Button onClick={handleToggle}>New? Create an Account!</Button> : <Button onClick={handleToggle}>Logging in?</Button>}
             </Stack>
           </Box>
         </Stack>
