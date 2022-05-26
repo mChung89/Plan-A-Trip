@@ -16,7 +16,7 @@ import { getDetails } from "use-places-autocomplete";
 
 //CALENDAR
 
-function Itinerary({ addToItinerary, setItinerary, itinerary, isLoaded, user, tripId }) {
+function Itinerary({ handleSave, addToItinerary, setItinerary, itinerary, isLoaded, user, tripId }) {
   const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
   
@@ -29,17 +29,6 @@ function Itinerary({ addToItinerary, setItinerary, itinerary, isLoaded, user, tr
     );
   });
 
-  function handleSave() {
-    fetch(`/trip/${tripId}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(itinerary),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-  }
 
   function handleChange(e) {
     setSelDate(e.target.value);

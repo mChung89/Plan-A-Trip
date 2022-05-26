@@ -11,8 +11,8 @@ import Button from '@mui/material/Button'
 
 
 
-function Home({ user, setTrip }) {
-    const [search, setSearch] = useState(null)
+function Home({ user, setTrip, currentTrip }) {
+    const [search, setSearch] = useState("")
     const navigate = useNavigate()
     const mappedTrips = user?.user?.itineraries.map(trip => <MenuItem key={trip.tripId} value={trip.tripId}>{trip.tripName}</MenuItem>)
 
@@ -31,12 +31,12 @@ function Home({ user, setTrip }) {
         <Grid container sx={{ bgcolor: 'black', height: '100vh' }} justifyContent='center'>
             <Grid item xs={12}>
             <Typography variant='h1' sx={{ color: 'white' }} textAlign="center">{user ? `Welcome back ${user?.user?.name}` : "Hello World"}</Typography>
-            <TextField onChange={(e) => setSearch(e.target.value)} value={search}sx={{bgcolor: 'white'}} placeholder='Make a new Trip!'></TextField>
+            <TextField onChange={(e) => setSearch(e.target.value)} value={search} sx={{bgcolor: 'white'}} placeholder='Make a new Trip!'></TextField>
             <Button onClick={searchByPlace} sx={{bgcolor:'white'}}>Search!</Button>
             </Grid>
             <Grid container sx={{bgcolor: 'white'}}>
                 <Grid alignItems="center" item xs={12}>
-                    {user ? <FormControl sx={{width: "500px"}}><InputLabel>Choose a saved trip</InputLabel><Select onChange={handleTripChange}>{mappedTrips}</Select></FormControl> : null}
+                    {user ? <FormControl sx={{width: "500px"}}><InputLabel>Choose a saved trip</InputLabel><Select value={currentTrip} onChange={handleTripChange}>{mappedTrips}</Select></FormControl> : null}
                 </Grid>
 
             </Grid>

@@ -49,6 +49,18 @@ function MainPage({ user, currentTrip, setTrip }) {
     //   });
   }
 
+  function handleSave() {
+    fetch(`/trip/${currentTrip}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(itinerary),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
+  }
+
   function deleteFromItinerary(placeId, index) {
         // Filter out from state
         const newItinerary = itinerary[index].places.filter(place => place._id !== placeId)
@@ -77,7 +89,7 @@ function MainPage({ user, currentTrip, setTrip }) {
   return (
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded}/>
+        <Itinerary handleSave={handleSave} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded}/>
           {mappedItineraryDates}
       </Grid>
       <Grid pl={4} item xs={7}>

@@ -33,7 +33,7 @@ function App() {
       {/* <UserContext.Provider value={user}> */}
         <NavBar />
         <Routes>
-          <Route path="/" element={<Home user={user} setTrip={setTrip}/>} />
+          <Route path="/" element={<Home user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
           <Route path="/makeitinerary" element={<MainPage setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
           <Route
             path="/login"
