@@ -86,7 +86,7 @@ function Itinerary({ handleSave, addToItinerary, setItinerary, itinerary, isLoad
     <Grid item justifyContent="space-between" alignItems="stretch" pb={3}>
       <Paper>
         <Stack justifyContent="center" alignItems="center" p={2} spacing={2}>
-          <Typography variant="h1">Find new place here</Typography>
+          <input id="trip-name" value="PUT TRIP NAME HERE"></input>
           <Grid container direction="row" sx={{ transition: "height 0.8s" }}>
             {isLoaded ? (
               <Grid item xs={6}>
