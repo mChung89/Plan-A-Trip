@@ -1,6 +1,6 @@
 const express = require('express')
 const router = express.Router()
-const { showTrip, postTrip, updateTrip } = require('../controllers/tripController')
+const { showTrip, postTrip, addDates, trimDates } = require('../controllers/tripController')
 const verify = require('../middleware/verifyToken')
 
 
@@ -10,7 +10,8 @@ router.post('/', postTrip)
 // router.get('/', getItinerary)
 // router.post('/', postItinerary)
 
-router.patch('/:_id', updateTrip)
+router.patch('/:_id', addDates)
+router.patch('/:_id/trim', trimDates)
 
 // router.delete('/:itineraryId/:placeId', deleteItineraryPlace)
 

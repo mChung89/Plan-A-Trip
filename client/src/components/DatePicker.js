@@ -44,41 +44,52 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
   };
 
   function handleClick() {
-    const currentDates = itinerary.map((each) => new Date(each.date).getTime());
     const formatStart = new Date(startValue);
     const formatEnd = new Date(endValue);
     // See how many days in between to determine loop
     const difference =
-      (formatEnd.getTime() - formatStart.getTime()) / (1000 * 60 * 60 * 24);
-
+    (formatEnd.getTime() - formatStart.getTime()) / (1000 * 60 * 60 * 24);
+    // Get array of user selected dates
     const newItinerary = [];
     for (let i = 0; i <= difference; i++) {
       newItinerary.push(formatStart.getTime() + (i * (1000 * 60 * 60 * 24)));
     }
-    // console.log("New date range:", newItinerary.map(each => new Date(each)));
-    // console.log("Current dates", currentDates.map(each=> new Date(each)));
+    //Get array of current dates
+    const currentDates = itinerary.map((each) => new Date(each.date).getTime());
+
+    // Checks to see if any of the selected dates fall outside of current dates 
     const res = newItinerary.filter(item => !currentDates.includes(item))
-
-    if(res.length > 0) {
-
+    // Format dates to be sent
     const formatFilteredDates = res.map(
       (each) => new Date(each)
     );
-    console.log(formatFilteredDates);
 
-    fetch(`/trip/${tripId}`, {
-      method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        dates: formatFilteredDates,
-        itineraryId: tripId,
-      }),
-    })
+    //Trim current dates
+    if (res.length === 0 && currentDates.length > newItinerary.length) {
+      const mappedSelectedDates = newItinerary.map(each => new Date(each).toISOString())
+      const idsToKeep = itinerary.filter(each=> mappedSelectedDates.includes(new Date(each.date).toISOString()))
+      fetch(`trip/${tripId}/trim`,{
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({dates: idsToKeep})
+      })
       .then((res) => res.json())
-      .then(data =>setItinerary(data));
-  }
+      .then(data => setItinerary(data));
+    }
+
+    if (res.length > 0) {
+      fetch(`/trip/${tripId}`, {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({dates: formatFilteredDates})
+      })
+        .then((res) => res.json())
+        .then(data => setItinerary(data));
+    }
   }
 
   return (

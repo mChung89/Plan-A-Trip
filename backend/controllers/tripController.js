@@ -24,9 +24,9 @@ const postTrip = async (req,res) => {
     res.status(201).send(newTrip)
 }
 
-const updateTrip = async (req,res) => {
+//Add dates
+const addDates = async (req,res) => {
   //Need to get a list of all existing itinerary dates
-  console.log(req.body.dates);
   const newItineraryDates = async () => {
     return Promise.all(
       req.body.dates.map((each) => {
@@ -44,14 +44,52 @@ const updateTrip = async (req,res) => {
   const mapIds = newDates.map(each => each._id)
   const updatedTrip = await Trip.findOneAndUpdate(
     { _id: req.params._id },
-    { $push: { itineraries: { $each: mapIds}}}
+    { $push: { itineraries: { $each: mapIds}}},
+    {returnOriginal: false}
   );
   const itineraryData = await Itinerary.find({_id: { $in: updatedTrip.itineraries}}).sort({date: 1})
   res.status(200).send(itineraryData)
 }
 
+const trimDates = async (req,res) => {
+  //Get the trip
+  const mappedIds = req.body.dates.map(each => each._id)
+  console.log(mappedIds)
+  const updatedTrip = await Trip.findOneAndUpdate(
+    { _id: req.params._id },
+    { itineraries: mappedIds},
+    {returnOriginal: false}
+  );
+  const itineraryData = await Itinerary.find({_id: { $in: updatedTrip.itineraries}}).sort({date: 1})
+  res.status(200).send(itineraryData)
+
+
+  // const newItineraryDates = async () => {
+  //   return Promise.all(
+  //     req.body.dates.map((each) => {
+  //       const itinerary = new Itinerary({
+  //         itineraryInfo: {},
+  //         places: [],
+  //         date: each,
+  //       });
+  //       const saved = itinerary.save();
+  //       return saved;
+  //     })
+  //   );
+  // };
+  // const newDates = await newItineraryDates();
+  // const mapIds = newDates.map(each => each._id)
+  // const updatedTrip = await Trip.findOneAndUpdate(
+  //   { _id: req.params._id },
+  //   { $push: { itineraries: { $each: mapIds}}}
+  // );
+  // const itineraryData = await Itinerary.find({_id: { $in: updatedTrip.itineraries}}).sort({date: 1})
+  // res.status(200).send(itineraryData)
+}
+
 module.exports = {
     showTrip,
     postTrip,
-    updateTrip
+    addDates,
+    trimDates
 }
