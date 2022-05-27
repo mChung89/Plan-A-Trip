@@ -44,7 +44,7 @@ function PlacesAutoComplete({ addToList }) {
           placeholder="Search a Place"
         />
         <ComboboxPopover className="popover">
-          <ComboboxList>
+          <ComboboxList className="slide-down">
             {status === "OK" &&
               data.map(({ place_id, description }) => (
                 <ComboboxOption key={place_id} value={description} />

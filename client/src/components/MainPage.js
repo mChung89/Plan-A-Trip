@@ -86,7 +86,7 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
-          <div className='map-container-hidden'></div>
+          {/* <div className='map-container-hidden'></div> */}
           <Map
             isLoaded={isLoaded}
             itinerary={itinerary}

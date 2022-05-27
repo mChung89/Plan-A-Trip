@@ -75,9 +75,11 @@ const addDates = async (req,res) => {
 }
 
 const trimDates = async (req,res) => {
+  // Delete the itinerarie dates
+  const itineraryDatesDelete = req.body.idsToDelete.map(each => each._id)
+  await Itinerary.deleteMany({_id: {$in: itineraryDatesDelete}})
   //Get the trip
   const mappedIds = req.body.dates.map(each => each._id)
-  console.log(mappedIds)
   const updatedTrip = await Trip.findOneAndUpdate(
     { _id: req.params._id },
     { itineraries: mappedIds},

@@ -21,7 +21,7 @@ function Map({ itinerary, isLoaded}) {
     })
 
   return (
-      <GoogleMap center={center} onLoad={onMapLoad} mapContainerClassName='map-container'>
+      <GoogleMap zoom={9} center={center} onLoad={onMapLoad} mapContainerClassName='map-container'>
         {renderedMarkers}
       </GoogleMap>
   )

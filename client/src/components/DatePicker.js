@@ -68,12 +68,13 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
     if (res.length === 0 && currentDates.length > newItinerary.length) {
       const mappedSelectedDates = newItinerary.map(each => new Date(each).toISOString())
       const idsToKeep = itinerary.filter(each=> mappedSelectedDates.includes(new Date(each.date).toISOString()))
+      const idsToDelete = itinerary.filter(each=> !mappedSelectedDates.includes(new Date(each.date).toISOString()))
       fetch(`trip/${tripId}/trim`,{
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({dates: idsToKeep})
+        body: JSON.stringify({dates: idsToKeep, idsToDelete: idsToDelete})
       })
       .then((res) => res.json())
       .then(data => setItinerary(data));

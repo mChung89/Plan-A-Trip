@@ -109,15 +109,18 @@ function Itinerary({
         <Stack justifyContent="center" alignItems="center" p={2} spacing={2}>
           <TextField
             fullWidth
+            InputProps={{ style: { fontSize: 40 } }}
+            InputLabelProps={{ style: { fontSize: 40 } }}
+            placeholder="Edit trip name"
             variant="standard"
             size="large"
-            sx={{ outline: "none" }}
+            sx={{ outline: "none"}}
             value={tripName}
             onChange={(e) => setTripName(e.target.value)}
           />
-          <Grid container direction="row" sx={{ transition: "height 0.8s" }}>
+          <Grid container spacing={3} direction="row" sx={{ transition: "height 0.8s" }}>
             {isLoaded ? (
-              <Grid item xs={6}>
+              <Grid item xs={6} sx={{bgcolor: 'red'}}>
                 <PlacesAutoComplete
                   addToList={addToList}
                   addToItinerary={addToItinerary}
@@ -125,7 +128,7 @@ function Itinerary({
               </Grid>
             ) : null}
             <Grid item xs={6}>
-              <FormControl sx={{ width: "50%" }}>
+              <FormControl sx={{ width: "40%" }}>
                 <InputLabel>Select a date to add place to</InputLabel>
                 <Select
                   onChange={handleChange}
@@ -136,7 +139,7 @@ function Itinerary({
                   {menuItems}
                 </Select>
               </FormControl>
-              <FormControl sx={{width: '50%'}}>
+              <FormControl sx={{width: '40%'}}>
                 <InputLabel>Choose another trip to edit</InputLabel>
                 <Select onChange={handleChangeTrip} value={tripId}>{mappedTrips}</Select>
               </FormControl>
