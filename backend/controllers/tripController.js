@@ -87,8 +87,6 @@ const trimDates = async (req,res) => {
   );
   const itineraryData = await Itinerary.find({_id: { $in: updatedTrip.itineraries}}).sort({date: 1})
   res.status(200).send(itineraryData)
-
-
   // const newItineraryDates = async () => {
   //   return Promise.all(
   //     req.body.dates.map((each) => {
