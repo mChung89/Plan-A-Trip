@@ -5,16 +5,8 @@ import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import ItineraryHeadCard from "./ItineraryHeadCard";
 import ItineraryCard from "./ItineraryCard";
-import { useLoadScript } from '@react-google-maps/api'
 
-
-const libraries = ["places"]
-
-function MainPage({ user, currentTrip, setTrip, center, itinerary, setItinerary }) {
-  const { isLoaded, loadError } = useLoadScript({
-    googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
-    libraries
-  });
+function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerary }) {
 
   useEffect(() => {
     fetch(`trip/${currentTrip}`)
@@ -89,18 +81,16 @@ function MainPage({ user, currentTrip, setTrip, center, itinerary, setItinerary 
   return (
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary handleSave={handleSave} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded}/>
+        <Itinerary setTrip={setTrip} handleSave={handleSave} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded}/>
           {mappedItineraryDates}
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
           <div className='map-container-hidden'></div>
-          {/* <Map
-            center={center}
+          <Map
             isLoaded={isLoaded}
-            loadError={loadError}
             itinerary={itinerary}
-          /> */}
+          />
         </Paper>
       </Grid>
     </Grid>

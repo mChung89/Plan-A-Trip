@@ -4,12 +4,6 @@ const tripSchema = new mongoose.Schema ({
     name: {
         type: String,
     },
-    startDate: {
-        type: Date,
-    },
-    endDate: {
-        type: Date
-    },
     itineraries: {
         type: Array,
     }

@@ -4,7 +4,7 @@
 
 .itinerary {
   overflow-y: scroll;
-  height: 96vh;
+  height: 100%;
   overflow-x: hidden;
   float: left
 }
@@ -19,7 +19,8 @@
 }
 
 .main-window {
-  height:96vh
+  padding-top: 4vh;
+  height:100vh
 }
 
 .main-window-split{
@@ -28,7 +29,7 @@
 
 div #login-page {
   background-image: url('../components/images/IMG_0040.jpg');
-  height: 96vh;
+  height: 100vh;
   width: 100vw;
   background-size:cover;
 }

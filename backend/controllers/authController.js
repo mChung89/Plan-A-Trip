@@ -35,6 +35,8 @@ const newUser = async (req, res) => {
   try {
     const savedUser = await user.save();
     res.send({ user: savedUser._id });
+    
+    // res.json({ user, accessToken })
   } catch (err) {
     res.status(400).send(err);
   }
@@ -57,8 +59,6 @@ const loginUser = async (req, res) => {
   if(!validPass) {
       return res.status(400).send({errors: "Invalid password"})
   }
-
-  console.log(user)
 
   //Create and assign a token
   const accessToken = jwt.sign(

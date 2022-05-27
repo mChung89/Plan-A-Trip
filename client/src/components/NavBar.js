@@ -1,19 +1,24 @@
 import { NavLink } from 'react-router-dom'
 import Button from '@mui/material/Button'
-function NavBar({setUser}) {
+import AppBar from '@mui/material/AppBar'
+import Toolbar from '@mui/material/Toolbar'
+function NavBar({setUser, setItinerary}) {
 
     function handleLogOut() {
         fetch('/logout')
         setUser(null)
+        setItinerary([])
     }
 
     return (
-        <div className='nav'>
+        <AppBar>
+            <Toolbar>
             <NavLink to='/'>Home</NavLink>
             <NavLink to='/makeitinerary'>Itinerary</NavLink>
             <NavLink to='/login'>Login</NavLink>
             <Button onClick={handleLogOut}>Log Out</Button>
-        </div>
+            </Toolbar>
+        </AppBar>
     )
 }
 

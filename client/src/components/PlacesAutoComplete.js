@@ -20,11 +20,7 @@ function PlacesAutoComplete({ addToList }) {
     suggestions: { status, data },
     clearSuggestions,
   } = usePlacesAutocomplete({
-    debounce: 500,
-    requestOptions: {
-      location: { lat: () => 41.902, lng: () => 12.496 },
-      radius: 500 * 1000,
-    },
+    debounce: 500
   });
 
   async function handleSelect(address) {

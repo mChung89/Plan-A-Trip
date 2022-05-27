@@ -27,7 +27,7 @@ function Login({ setUser, user, navigate, setErrors, errors, setToggle }) {
     password: "",
   };
   const [formData, setFormData] = useState(defaultState);
-  console.log(user)
+  
 
   function handleSubmit() {
     fetch("/auth/loginuser", {

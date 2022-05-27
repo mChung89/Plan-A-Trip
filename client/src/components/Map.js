@@ -1,19 +1,16 @@
-import { useMemo, useCallback, useState, useRef } from 'react'
+import { useMemo, useCallback, useRef } from 'react'
 import { GoogleMap } from '@react-google-maps/api'
 import '../styles/map.css'
 import MyMarker from './MyMarker';
 
-
-function Map({ itinerary, isLoaded, loadError, center }) {
+function Map({ itinerary, isLoaded}) {
   const mapRef = useRef()
   const onMapLoad = useCallback((map) => {
     mapRef.current = map;
   },[])
-  const [zoom, setZoom] = useState(9)
-  // const center = {lat: 40.705543976313464, lng: -74.01357140807622}
+  const center = useMemo(()=> ({lat: 40.705543976313464, lng: -74.01357140807622}),[])
 
   // //Flatiron
-  if (loadError) return "Error loading maps"
   if (!isLoaded) return <div>Loading...</div>
   
   //Markers
@@ -24,7 +21,7 @@ function Map({ itinerary, isLoaded, loadError, center }) {
     })
 
   return (
-      <GoogleMap zoom={zoom} center={center} onLoad={onMapLoad} mapContainerClassName='map-container'>
+      <GoogleMap center={center} onLoad={onMapLoad} mapContainerClassName='map-container'>
         {renderedMarkers}
       </GoogleMap>
   )

@@ -1,6 +1,7 @@
 const Trip = require('../model/Trip')
 const Itinerary = require('../model/Itinerary')
 const Place = require('../model/Place')
+const User = require('../model/User')
 
 const showTrip = async (req,res) => {
     if(req.params._id === 'null') {
@@ -13,15 +14,37 @@ const showTrip = async (req,res) => {
 }
 
 const postTrip = async (req,res) => {
-    const tripData = new Trip({
-        name: req.body.name,
-        startDate : req.body.startDate,
-        endDate: req.body.endDate,
-        itineraries: req.body.itineraries
-    });
+    const newItineraryDates = async () => {
+      return Promise.all(
+        req.body.dates.map((each) => {
+          const itinerary = new Itinerary({
+            itineraryInfo: {},
+            places: [],
+            date: each,
+          });
+          const saved = itinerary.save();
+          return saved;
+        })
+      );
+    };
+    //Make new itineraries and get ids to place in new Trip
+    const newDates = await newItineraryDates();
+    const mapIds = newDates.map(each => each._id)
 
+    //Make a trip document and add itinerary date document references
+    const tripData = new Trip({
+        name: req.body.tripName,
+        itineraries: mapIds
+    });
     const newTrip = await tripData.save()
-    res.status(201).send(newTrip)
+
+    // Associate the new trip to user
+    const user = await User.findByIdAndUpdate(
+      req.body.userId,
+      {$push: {itineraries: {tripName: req.body.tripName, tripId: newTrip._id}}},
+      {returnOriginal: false}
+    )
+    res.status(201).send({updatedUser: user, newTrip: newTrip})
 }
 
 //Add dates

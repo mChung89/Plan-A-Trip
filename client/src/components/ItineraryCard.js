@@ -7,11 +7,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 
-
 function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
-
- 
-
   function handleDelete(itineraryId, placeId, index) {
     fetch(`/itinerary/${itineraryId}/${placeId}`, { method: "DELETE" }).then(
       (res) => deleteFromItinerary(placeId, index)
@@ -44,7 +40,7 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
         <Grid p={2} item xs={4}>
           <Image
             imageStyle={{ borderRadius: "4px" }}
-            src="asd"
+            // src={place.photos[0]}
             alt={place.name}
           />
         </Grid>
