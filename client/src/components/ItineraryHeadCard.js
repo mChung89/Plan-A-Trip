@@ -9,7 +9,6 @@ function ItineraryHeadCard ({ date }) {
 
     return (
     <Grid
-      sx={{position: 'sticky', top: "0vh", zIndex: 9}}
       container
       direction="row"
       px={1}

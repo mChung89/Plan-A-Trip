@@ -26,9 +26,7 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
     const copiedItems = [...column]
     const [removed] = copiedItems.splice(source.index, 1)
     copiedItems.splice(destination.index, 0, removed)
-    const dontMutateDate = {...dateToUpdate}
-    console.log(dateToUpdate)
-    console.log(dontMutateDate)
+    const dontMutateDate = { ...dateToUpdate }
     dontMutateDate.places = copiedItems
     setItinerary(itinerary.map(each => each._id === dontMutateDate._id ? dontMutateDate : each))
   }
@@ -83,50 +81,37 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
     return (
       <Grid
         container
-        direction="column"
-        justifyContent="space-between"
-        alignItems="stretch"
         key={date._id}
       >
-        {date?.places[0] ? <ItineraryHeadCard key={date._id} date={date} /> : null}
-        <DragDropContext onDragEnd={res => onDragEnd(res, date)}>
-          <Droppable droppableId={date._id} key={date._id}>
-            {(provided, snapshot) => {
-              return <div
-                {...provided.droppableProps}
-                ref={provided.innerRef}
-                style={{
-                  background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
-                }}
-              >
-                {date?.places.map((place, index) => {
-                  return (
-                    <Draggable key={place._id} draggableId={place._id} index={index}>
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                            style={{
-                              userSelect: 'none',
-                              ...provided.draggableProps.style
-                            }}
-                            >
-                              <ItineraryCard key={place._id} index={index} itineraryId={date._id} deleteFromItinerary={deleteFromItinerary} place={place} />
-                            </div>
-                        )
-                      }}
-                    </Draggable>
-                  )
-                })}
-                {provided.placeholder}
-              </div>
-            }}
-
-          </Droppable>
-        </DragDropContext>
-      </Grid>
+        <Grid sx={{position: 'sticky', top: "0vh", zIndex: 9}} item xs={12}>
+          <ItineraryHeadCard key={date._id} date={date} />
+        </Grid>
+        <Grid item xs={12}>
+          <DragDropContext onDragEnd={res => onDragEnd(res, date)}>
+            <Droppable droppableId={date._id} key={date._id}>
+              {(provided, snapshot) => {
+                return <Grid
+                direction="column"
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  style={{
+                    background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
+                  }}
+                >
+                  {date?.places.map((place, index) => {
+                    return (
+                      <Grid item xs={12}>
+                        <ItineraryCard key={place._id} index={index} itineraryId={date._id} deleteFromItinerary={deleteFromItinerary} place={place} />
+                      </Grid>
+                    )
+                  })}
+                  {provided.placeholder}
+                </Grid>
+              }}
+            </Droppable>
+          </DragDropContext>
+          </Grid>
+        </Grid>
     );
   });
 
