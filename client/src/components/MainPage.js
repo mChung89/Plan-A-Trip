@@ -22,6 +22,7 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
   const onDragEnd = (res, dateToUpdate) => {
     if (!res.destination) return
     const { source, destination } = res
+    console.log(destination)
     const column = dateToUpdate.places
     const copiedItems = [...column]
     const [removed] = copiedItems.splice(source.index, 1)
@@ -95,7 +96,7 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
-                    background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
+                    // background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
                   }}
                 >
                   {date?.places.map((place, index) => {

@@ -33,7 +33,7 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
                 ...provided.draggableProps.style
               }}
             >
-              <Paper elevation={4} sx={{bgcolor:'aquamarine', display: "flex", width: "100%" }}>
+              <Paper elevation={4} sx={{display: "flex", width: "100%" }}>
                 <Grid p={2} item xs={8}>
                   <Typography variant="h4">{place.name}</Typography>
                   <Typography variant="h6">{place.formatted_address}</Typography>

@@ -17,11 +17,9 @@ function Home({ user, setUser, setTrip, currentTrip, setItinerary }) {
     const [open, setOpen] = useState(false);
     const [searchTripInfo, setSearchTripInfo] = useState(null)
 
-  
     const handleClose = () => {
       setOpen(false);
     };
-
 
     //Search for a general place to point GoogleMaps Location + Radius
     async function searchByPlace () {

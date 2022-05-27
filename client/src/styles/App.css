@@ -28,7 +28,8 @@
 }
 
 div #login-page {
-  background-image: url('../components/images/IMG_0040.jpg');
+  filter: grayscale(100%);
+  background-image: url(https://wallpaperaccess.com/full/313045.jpg);
   height: 100vh;
   width: 100vw;
   background-size:cover;

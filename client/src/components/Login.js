@@ -13,7 +13,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "rgba(255,255,255,.8)",
+  bgcolor: "rgba(255,255,255,.9)",
   border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "1em",
