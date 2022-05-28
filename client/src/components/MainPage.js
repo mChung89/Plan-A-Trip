@@ -19,20 +19,18 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
       });
   }, [currentTrip]);
 
-  const onDragEnd = (res, dateToUpdate) => {
+  const onDragEnd = (res, itinerary) => {
+    console.log("Before", itinerary)
     if (!res.destination) return
     const { source, destination } = res
-    console.log(destination)
-    const column = dateToUpdate.places
-    const copiedItems = [...column]
-    const [removed] = copiedItems.splice(source.index, 1)
-    copiedItems.splice(destination.index, 0, removed)
-    const dontMutateDate = { ...dateToUpdate }
-    dontMutateDate.places = copiedItems
+    const findItinerary = itinerary.filter(each => each._id === source.droppableId)
+    const [removed] = findItinerary[0].places.splice(source.index, 1)
+    const findDestination = itinerary.filter(each => each._id === destination.droppableId)
+    findDestination[0].places.splice(destination.index, 0, removed)
+    const dontMutateDate = { ...itinerary }
+    dontMutateDate.places = findItinerary
     setItinerary(itinerary.map(each => each._id === dontMutateDate._id ? dontMutateDate : each))
   }
-
-  console.log(itinerary)
 
 
   async function addToItinerary(place, itineraryId) {
@@ -78,21 +76,20 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
     setItinerary(updateItinerary);
   }
 
-  const mappedItineraryDates = itinerary?.map((date, index) => {
+  const mappedItineraryDates = itinerary?.map(date => {
     return (
       <Grid
         container
         key={date._id}
       >
-        <Grid sx={{position: 'sticky', top: "0vh", zIndex: 9}} item xs={12}>
-          <ItineraryHeadCard key={date._id} date={date} />
-        </Grid>
-        <Grid item xs={12}>
-          <DragDropContext onDragEnd={res => onDragEnd(res, date)}>
+          <Grid item xs={12}>
+            <Grid sx={{ position: 'sticky', top: "0vh", zIndex: 9 }} item xs={12}>
+              <ItineraryHeadCard key={date._id} date={date} />
+            </Grid>
             <Droppable droppableId={date._id} key={date._id}>
               {(provided, snapshot) => {
                 return <Grid
-                direction="column"
+                  direction="column"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
@@ -104,15 +101,13 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
                       <Grid item xs={12}>
                         <ItineraryCard key={place._id} index={index} itineraryId={date._id} deleteFromItinerary={deleteFromItinerary} place={place} />
                       </Grid>
-                    )
-                  })}
+                    )})}
                   {provided.placeholder}
                 </Grid>
               }}
             </Droppable>
-          </DragDropContext>
           </Grid>
-        </Grid>
+      </Grid>
     );
   });
 
@@ -120,7 +115,9 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
     <Grid container className="main-window">
       <Grid item xs={5} px={3} className="itinerary main-window-split">
         <Itinerary setTrip={setTrip} handleSave={handleSave} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded} />
-        {mappedItineraryDates}
+        <DragDropContext onDragEnd={(res, date) => onDragEnd(res, itinerary)}>
+          {mappedItineraryDates}
+        </DragDropContext>
       </Grid>
       <Grid pl={4} item xs={7}>
         <Paper className="main-window-split map">
