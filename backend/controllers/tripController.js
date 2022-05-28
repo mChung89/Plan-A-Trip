@@ -1,6 +1,5 @@
 const Trip = require('../model/Trip')
 const Itinerary = require('../model/Itinerary')
-const Place = require('../model/Place')
 const User = require('../model/User')
 
 const showTrip = async (req,res) => {

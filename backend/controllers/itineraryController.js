@@ -31,7 +31,7 @@ const updateItinerary = async (req,res) => {
         opening_hours: req.body.opening_hours,
         photos: req.body.photos,
         website: req.body.website
-    });    
+    });
     
     const newPlaceInstance = await place.save()
     // Inserting place into itinerary

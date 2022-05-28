@@ -20,40 +20,71 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
   }, [currentTrip]);
 
   const onDragEnd = (res, itinerary) => {
-    console.log("Before", itinerary)
     if (!res.destination) return
     const { source, destination } = res
-    const findItinerary = itinerary.filter(each => each._id === source.droppableId)
-    const [removed] = findItinerary[0].places.splice(source.index, 1)
+    const findSource = itinerary.filter(each => each._id === source.droppableId)
+    const copySource = {...findSource}
     const findDestination = itinerary.filter(each => each._id === destination.droppableId)
+    const [removed] = copySource[0].places.splice(source.index, 1)
     findDestination[0].places.splice(destination.index, 0, removed)
-    const dontMutateDate = { ...itinerary }
-    dontMutateDate.places = findItinerary
-    setItinerary(itinerary.map(each => each._id === dontMutateDate._id ? dontMutateDate : each))
-  }
 
+    if (source.droppableId === destination.droppableId) {
+      fetch(`/dnd/oneDate`,{
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({id: source.droppableId, reordered: findSource[0].places})
+      })
+      .then(res => res.json())
+      .then(data => setItinerary(itinerary.map(each => each._id === data._id ? data : each)))
+    } else {
+      fetch(`dnd/twoDate`,{
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          firstDate: {
+            id: source.droppableId,
+            reordered: findSource[0].places
+          },
+          secondDate: {
+            id: destination.droppableId,
+            reordered: findDestination[0].places
+          }
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        const newItinerary = itinerary.map(each => each._id === data[0]._id ? data[0] : each);
+        const secondMap = newItinerary.map(each => each._id === data[1]._id ? data[1] : each)
+        setItinerary(secondMap)
+    })
+  }
+}
 
   async function addToItinerary(place, itineraryId) {
-    const findItinerary = itinerary.find((each) => each._id === itineraryId);
-    findItinerary.places = [...findItinerary.places, place];
-    const newItinerary = itinerary.map((each) =>
-      each._id === findItinerary._id ? findItinerary : each
-    );
-    setItinerary(newItinerary);
-    // fetch(`/itinerary/${itineraryId}`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(place),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     const findItinerary = itinerary.find(each => each._id = data._id)
-    //     findItinerary.places = [...findItinerary.places, data]
-    //     const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
-    //     setItinerary(newItinerary);
-    //   });
+    // const findItinerary = itinerary.find((each) => each._id === itineraryId);
+    // findItinerary.places = [...findItinerary.places, place];
+    // const newItinerary = itinerary.map((each) =>
+    //   each._id === findItinerary._id ? findItinerary : each
+    // );
+    // setItinerary(newItinerary);
+    fetch(`/itinerary/${itineraryId}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(place),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        const findItinerary = itinerary.find(each => each._id = data._id)
+        findItinerary.places = [...findItinerary.places, data]
+        const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
+        setItinerary(newItinerary);
+      });
   }
 
   function handleSave() {
@@ -89,7 +120,6 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
             <Droppable droppableId={date._id} key={date._id}>
               {(provided, snapshot) => {
                 return <Grid
-                  direction="column"
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
@@ -98,7 +128,7 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
                 >
                   {date?.places.map((place, index) => {
                     return (
-                      <Grid item xs={12}>
+                      <Grid item xs={12} key={place._id}>
                         <ItineraryCard key={place._id} index={index} itineraryId={date._id} deleteFromItinerary={deleteFromItinerary} place={place} />
                       </Grid>
                     )})}
