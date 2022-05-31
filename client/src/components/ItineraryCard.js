@@ -11,7 +11,7 @@ import { Draggable } from 'react-beautiful-dnd'
 function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
   function handleDelete(itineraryId, placeId, index) {
     fetch(`/itinerary/${itineraryId}/${placeId}`, { method: "DELETE" }).then(
-      (res) => deleteFromItinerary(placeId, index)
+      (res) => deleteFromItinerary(placeId, itineraryId)
     );
   }
 

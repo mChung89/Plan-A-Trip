@@ -123,11 +123,12 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
   //     .then((data) => console.log(data));
   // }
 
-  function deleteFromItinerary(placeId, index) {
+  function deleteFromItinerary(placeId, itineraryId) {
     // Filter out from state
-    const newItinerary = itinerary[index].places.filter(place => place._id !== placeId)
-    const updateItinerary = [...itinerary]
-    updateItinerary[index].places = newItinerary
+    const newItinerary = itinerary.filter(each => each._id === itineraryId)[0]
+    newItinerary.places = newItinerary.places.filter(each => each._id !== placeId)
+    console.log(newItinerary)
+    const updateItinerary = itinerary.map(each => each._id === newItinerary._id ? newItinerary : each)
     setItinerary(updateItinerary);
   }
 

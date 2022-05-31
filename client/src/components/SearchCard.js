@@ -40,7 +40,7 @@ function SearchCard({ isLoaded, addToItinerary, addIfNotInDb, date }) {
                         Add a place to this date
                     </Typography>
                 </Grid>
-                <Grid item xs={6} sx={{ bgcolor: 'red' }}>
+                <Grid item xs={6} justifyContent='center' alignItems='center' sx={{ bgcolor: 'red' }}>
                     <PlacesAutoComplete
                         setFocus={setFocus}
                         addToList={addToList}
