@@ -8,7 +8,7 @@ import "../styles/App.css";
 import IconButton from "@mui/material/IconButton";
 import { gsap } from "gsap";
 
-function Home({ user, setUser, setTrip, setItinerary }) {
+function Home({ user, setUser, setTrip, setItinerary, setTripName }) {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [searchTripInfo, setSearchTripInfo] = useState(null);
@@ -20,6 +20,8 @@ function Home({ user, setUser, setTrip, setItinerary }) {
     fetch(`refresh`)
     .then(res => res.ok ? res.json()
     .then(data => {
+      console.log(data)
+      setTripName(data.user.itineraries[0].tripName)
       setUser(data)
       setTrip(data.user.itineraries[0].tripId)
     }) : null)
@@ -66,7 +68,7 @@ function Home({ user, setUser, setTrip, setItinerary }) {
             <TextField
               onChange={(e) => setSearch(e.target.value)}
               value={search}
-              sx={{ bgcolor: "white", borderRadius: 1, width: 600 }}
+              sx={{ bgcolor: "white", borderRadius: 1, width: 400 }}
               placeholder="Create a new Trip!"
               InputProps={{
                 endAdornment: (

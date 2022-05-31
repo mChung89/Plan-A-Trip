@@ -30,6 +30,7 @@ function App() {
   const [currentTrip, setTrip] = useState(null)
   const [user, setUser] = useState(null);
   const [itinerary, setItinerary] = useState([]);
+  const [tripName, setTripName] = useState("");
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
     libraries
@@ -40,8 +41,8 @@ function App() {
       {/* <UserContext.Provider value={user}> */}
         <NavBar setUser={setUser} setItinerary={setItinerary} setTrip={setTrip}/>
         <Routes>
-          <Route path="/" element={<Home setUser={setUser} setItinerary={setItinerary} user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
-          <Route path="/makeitinerary" element={<MainPage setUser={setUser} isLoaded={isLoaded} itinerary={itinerary} setItinerary={setItinerary} setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
+          <Route path="/" element={<Home setTripName={setTripName} setUser={setUser} setItinerary={setItinerary} user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
+          <Route path="/makeitinerary" element={<MainPage tripName={tripName} setTripName={setTripName} setUser={setUser} isLoaded={isLoaded} itinerary={itinerary} setItinerary={setItinerary} setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
           <Route
             path="/login"
             element={<div id="login-page"><AuthPage user={user} setTrip={setTrip} setUser={setUser} /></div>}

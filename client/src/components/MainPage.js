@@ -18,7 +18,9 @@ function MainPage({
   setTrip,
   itinerary,
   setItinerary,
-  setUser
+  setUser,
+  tripName,
+  setTripName
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,6 +29,7 @@ function MainPage({
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log(data)
           setItinerary(data[0]);
           setTrip(data[1]);
         });
@@ -230,6 +233,7 @@ function MainPage({
           className="itinerary main-window-split"
         >
           <Itinerary
+            currentTrip={currentTrip}
             handleSave={handleSave}
             setTrip={setTrip}
             user={user}
@@ -238,6 +242,8 @@ function MainPage({
             addToItinerary={addToItinerary}
             setItinerary={setItinerary}
             isLoaded={isLoaded}
+            tripName={tripName}
+            setTripName={setTripName}
           />
           <DragDropContext onDragEnd={(res, date) => onDragEnd(res, itinerary)}>
             {mappedItineraryDates}

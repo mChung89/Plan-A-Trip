@@ -15,15 +15,17 @@ import Typography from '@mui/material/Typography'
 //CALENDAR
 
 function Itinerary({
+  currentTrip,
   handleSave,
   setItinerary,
   itinerary,
   user,
   tripId,
-  setTrip
+  setTrip,
+  tripName,
+  setTripName
 }) {
   const [open, setOpen] = useState(false);
-  const [tripName, setTripName] = useState("Get started at the Home Page");
   const mappedTrips = user?.user?.itineraries.map((trip, index) => {
     return (
       <MenuItem key={trip.tripId} value={trip.tripId}>
@@ -40,8 +42,24 @@ function Itinerary({
   console.log(itinerary)
   let tripDates = null
 
-  if(itinerary.length > 0) {
-    tripDates = <Typography>Your current trip: {dateRange(itinerary)}</Typography>
+  if (itinerary.length > 0) {
+    tripDates = (
+      <>
+        <Typography>Your current trip:</Typography>
+        <Typography>{dateRange(itinerary)}</Typography>
+      </>
+    );
+  }
+
+  function changeTripName() {
+    fetch(`trip/editname/${currentTrip}/${user.user._id}`,{
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({name: tripName})
+    })
+    .then(console.log)
   }
   
   function handleClick() {
@@ -49,7 +67,6 @@ function Itinerary({
   }
 
   const handleChangeTrip = (e) => {
-    console.log(e.target.value)
     setTrip(e.target.value)
   }
 
@@ -67,6 +84,7 @@ function Itinerary({
             size="large"
             sx={{ outline: "none" }}
             value={tripName}
+            onBlur={changeTripName}
             onChange={(e) => setTripName(e.target.value)}
           /> : <Typography variant="h3">Get started at the Home Page</Typography>}
           <Grid

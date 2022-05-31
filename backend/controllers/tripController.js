@@ -2,14 +2,26 @@ const Trip = require('../model/Trip')
 const Itinerary = require('../model/Itinerary')
 const User = require('../model/User')
 
+const editTripName = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.user_id)
+    const fixedList = user.itineraries.map(each => each.tripId === req.params._id ? {...each, tripName: req.body.name}: each)
+    const updated = await User.findByIdAndUpdate(req.params.user_id, {itineraries: fixedList})
+    res.status(200).send(updated)
+  } catch (err) {
+    res.status(400).send({errors: err});
+  }
+};
+
 const showTrip = async (req, res) => {
   if (req.params._id === 'null') {
     return res.status(400).send({ errors: "No tripId sent" })
   }
   try {
     const getData = await Trip.findById(req.params._id)
+    console.log(getData)
     const itineraryData = await Itinerary.find({ _id: { $in: getData.itineraries } }).sort({ date: 1 })
-    res.status(201).send([itineraryData, getData._id])
+    res.status(201).send([itineraryData, getData._id, getData.name],)
   } catch (err) {
     res.status(400).send(err)
   }
@@ -124,5 +136,6 @@ module.exports = {
   postTrip,
   addDates,
   trimDates,
-  addUserToTrip
+  addUserToTrip,
+  editTripName
 }
