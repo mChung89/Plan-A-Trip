@@ -41,10 +41,10 @@ function App() {
         <NavBar setUser={setUser} setItinerary={setItinerary} setTrip={setTrip}/>
         <Routes>
           <Route path="/" element={<Home setUser={setUser} setItinerary={setItinerary} user={user} currentTrip={currentTrip} setTrip={setTrip}/>} />
-          <Route path="/makeitinerary" element={<MainPage isLoaded={isLoaded} itinerary={itinerary} setItinerary={setItinerary} setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
+          <Route path="/makeitinerary" element={<MainPage setUser={setUser} isLoaded={isLoaded} itinerary={itinerary} setItinerary={setItinerary} setTrip={setTrip} currentTrip={currentTrip} user={user}/>} />
           <Route
             path="/login"
-            element={<AuthPage user={user} setTrip={setTrip} setUser={setUser} />}
+            element={<div id="login-page"><AuthPage user={user} setTrip={setTrip} setUser={setUser} /></div>}
           />
         </Routes>
       {/* </UserContext.Provider> */}

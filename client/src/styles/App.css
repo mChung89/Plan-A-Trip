@@ -1,6 +1,9 @@
 .App {
   text-align: center;
-  background: radial-gradient(rgb(6, 13, 46),rgba(27, 118, 157, 0.722)100%)
+  background: radial-gradient(rgba(47, 183, 241, 0.955),rgba(6, 13, 46));
+  height: 100vh;
+  width: 100vw;
+  z-index: -2
 }
 
 .itinerary {
@@ -10,14 +13,6 @@
   float: left
 }
 
-.nav {
-  height: 4vh;
-  background-color: white;
-  color:white;
-  border-bottom: 1px solid black;
-  font-size: 1.5rem;
-  text-align: center;
-}
 
 .main-window {
   padding-top: 4vh;
@@ -29,24 +24,68 @@
 }
 
 div #login-page {
-  filter: grayscale(100%);
-  background-image: url(https://wallpaperaccess.com/full/313045.jpg);
   height: 100vh;
   width: 100vw;
   background-size:cover;
+  background-image: url(https://wallpaperaccess.com/full/313045.jpg);
 }
 
-.section img {
-  width: 60%;
+#login-page::after{
+  content: "";
+  background: black;
+  opacity: 0;
+  width: 100%;
+  height:100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1
+}
+
+section {
+  display: flex;
+  justify-content: center;
+  height: 60vh;
+  align-items: center;
+}
+
+#hero-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 1
+}
+
+.hero {
   height: 80%;
-  object-fit: cover
+  width: 100%;
+  position: relative
 }
 
-.hero-type {
+.hero::after {
+  content:"";
+  background: black;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  opacity: 0.3;
+  left: 0;
+  top: 0
+}
+
+.slider {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  z-index: 1;
+}
+
+#search-new-itinerary {
+  z-index: 2;
   position: relative;
-  transform: translate(-25%, -105%);
-  top: 70%;
-  left: 10%;
-  color:white;
-  text-shadow: 2px 2px #000000;
+  top: -50%;
+  left: 70%;
+  transform: translate(-50%, -50%);
 }

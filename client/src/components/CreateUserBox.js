@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }) {
+function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate }) {
   const defaultState = {
     email: "",
     password: "",
@@ -55,6 +55,7 @@ function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }
   }
 
   function handleToggle() {
+    setErrors(null)
     setToggle((prev) => !prev);
   }
 

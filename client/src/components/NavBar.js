@@ -12,11 +12,12 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 import { useState } from 'react'
-function NavBar({ setUser, setItinerary }) {
+function NavBar({ setUser, setItinerary, setTrip }) {
     function handleLogOut() {
         fetch('/logout')
         setUser(null)
         setItinerary([])
+        setTrip(null)
     }
 
 const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
@@ -32,7 +33,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   };
 
   return (
-    <AppBar position="static" sx={{background: 'transparent'}}>
+    <AppBar position="static" sx={{background: 'transparent', zIndex: 10}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

@@ -42,12 +42,16 @@ const postTrip = async (req, res) => {
 
   // Associate the new trip to user
   try {
+    if(req.body.userId) {
     const user = await User.findByIdAndUpdate(
       req.body.userId,
       { $push: { itineraries: { tripName: req.body.tripName, tripId: newTrip._id } } },
       { returnOriginal: false }
     )
     res.status(201).send({ updatedUser: user, newTrip: newTrip })
+    } else {
+      res.status(201).send({newTrip: newTrip})
+    }
   } catch (err) {
     res.status(400).send(err)
   }
@@ -103,9 +107,22 @@ const trimDates = async (req, res) => {
   }
 }
 
+const addUserToTrip = async (req,res) => {
+  try {
+    console.log(req.body)
+    const user = await User.findByIdAndUpdate(req.params._id,
+      { $push: { itineraries: { tripId: req.body.currentTrip } } },
+      { returnOriginal: false })
+      res.status(201).send(user)
+  } catch(err) {
+    res.status(400).send(err)
+  }
+}
+
 module.exports = {
   showTrip,
   postTrip,
   addDates,
-  trimDates
+  trimDates,
+  addUserToTrip
 }

@@ -1,11 +1,10 @@
 import { useState } from "react";
 import Box from "@mui/material/Box";
-import Stack from '@mui/material/Stack'
+import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import '../styles/App.css'
 
 const style = {
   position: "absolute",
@@ -20,17 +19,16 @@ const style = {
   p: 4,
 };
 
-function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
-
+function CreateSave({ setUser, errors, setErrors, setToggle, addNewTrip }) {
   const defaultState = {
     email: "",
     password: "",
+    name: "",
   };
   const [formData, setFormData] = useState(defaultState);
-  
 
   function handleSubmit() {
-    fetch("/auth/loginuser", {
+    fetch("/auth/createuser", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -39,14 +37,12 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
       body: JSON.stringify(formData),
     }).then((res) => {
       if (res.ok) {
-        res.json().then(data => {
-          setTrip(data.user.itineraries[0].tripId)
-          setUser(data)
-          console.log(data)
-          navigate('/')
-        })
+        res.json().then((data) => {
+          addNewTrip(data.user._id)
+          setUser(data);
+        });
       } else {
-        res.json().then(data => setErrors(data.errors))
+        res.json().then((data) => setErrors(data.errors));
       }
     });
   }
@@ -55,20 +51,29 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   }
 
-
   function handleToggle() {
     setErrors(null)
-    setToggle(prev => !prev)
+    setToggle((prev) => !prev);
   }
 
   return (
-      <Paper>
+    <Paper>
         <Stack>
           <Box direction="column" sx={style} component="form">
             <Stack py={2} sx={{width: "100%"}}>
-            <Typography variant='h4' textAlign='center'>Login Here</Typography>
+            <Typography variant='h4' textAlign='center'>Make a new Account!</Typography>
             </Stack>
             <Stack pt={2} alignItems='center'>
+            <Stack pb={2} alignItems='center' sx={{width: '100%'}}>
+            <Typography textAlign='center'>Name</Typography>
+            <TextField
+              sx={{width: '75%'}}
+              placeholder="Enter your your name"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+            </Stack>
               <Typography textAlign='center'>Email</Typography>
             <TextField
               sx={{width: "75%"}}
@@ -89,7 +94,7 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
             />
             </Stack>
             <Stack py={2}>
-            <Typography textAlign='center' sx={{color: 'red', zIndex: 6}}>{errors ? errors : null}</Typography>
+            <Typography textAlign='center' sx={{color: 'red'}}>{errors ? errors : null}</Typography>
             </Stack>
             </Stack>
             <Stack pb={2}>
@@ -102,4 +107,4 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
   );
 }
 
-export default Login;
+export default CreateSave;
