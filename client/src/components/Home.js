@@ -15,7 +15,6 @@ import '../styles/App.css'
 
 function Home({ user, setUser, setTrip, currentTrip, setItinerary }) {
     const [search, setSearch] = useState("")
-    const navigate = useNavigate()
     const [open, setOpen] = useState(false);
     const [searchTripInfo, setSearchTripInfo] = useState(null)
 

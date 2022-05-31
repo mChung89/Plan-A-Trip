@@ -20,7 +20,7 @@ const style = {
   p: 4,
 };
 
-function Login({ setUser, user, navigate, setErrors, errors, setToggle }) {
+function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip }) {
 
   const defaultState = {
     email: "",
@@ -40,7 +40,7 @@ function Login({ setUser, user, navigate, setErrors, errors, setToggle }) {
     }).then((res) => {
       if (res.ok) {
         res.json().then(data => {
-          console.log(data)
+          setTrip(data.user.itineraries[0].tripId)
           setUser(data)
           navigate('/')
         })

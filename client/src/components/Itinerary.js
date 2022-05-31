@@ -32,14 +32,6 @@ function Itinerary({
     );
   });
 
-  const menuItems = itinerary.map((date) => {
-    const formattedDate = new Date(date.date);
-    return (
-      <MenuItem key={date.date + date._id} value={date._id}>
-        {formattedDate.toString().slice(4, 15)}
-      </MenuItem>
-    );
-  });
   console.log('rerender')
 
   function handleClick() {
@@ -66,22 +58,14 @@ function Itinerary({
             onChange={(e) => setTripName(e.target.value)}
           />
           <Grid container spacing={3} direction="row" sx={{ transition: "height 0.8s" }}>
-            {/* {isLoaded ? (
-              <Grid item xs={6} sx={{bgcolor: 'red'}}>
-                <PlacesAutoComplete
-                  addToList={addToList}
-                  addToItinerary={addToItinerary}
-                />
-              </Grid>
-            ) : null} */}
             <Grid item xs={6}>
+              <Button variant="outlined" size="large" onClick={handleClick}>
+                Change dates
+              </Button>
               <FormControl sx={{width: '40%'}}>
                 <InputLabel>Choose another trip to edit</InputLabel>
                 <Select onChange={handleChangeTrip} value={tripId}>{mappedTrips}</Select>
               </FormControl>
-              <Button variant="outlined" size="large" onClick={handleClick}>
-                Change dates
-              </Button>
             </Grid>
             {open ? (
               <DatePicker
