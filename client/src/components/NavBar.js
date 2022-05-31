@@ -33,7 +33,7 @@ const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
   };
 
   return (
-    <AppBar position="static">
+    <AppBar position="static" sx={{background: 'transparent'}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />

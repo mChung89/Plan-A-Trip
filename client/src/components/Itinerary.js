@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
-import PlacesAutoComplete from "./PlacesAutoComplete";
 import "../styles/map.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -10,13 +9,11 @@ import DatePicker from "./DatePicker";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { getDetails } from "use-places-autocomplete";
 import TextField from "@mui/material/TextField";
 
 //CALENDAR
 
 function Itinerary({
-  handleSave,
   addToItinerary,
   setItinerary,
   itinerary,
@@ -25,7 +22,6 @@ function Itinerary({
   tripId,
   setTrip
 }) {
-  const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
   const [tripName, setTripName] = useState("My trip name");
   const mappedTrips = user?.user?.itineraries.map((trip) => {
@@ -46,61 +42,12 @@ function Itinerary({
   });
   console.log('rerender')
 
-
-  function handleChange(e) {
-    setSelDate(e.target.value);
-  }
-
   function handleClick() {
     setOpen((prev) => !prev);
   }
 
-  async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
-    const details = await getDetails(parameters);
-    const photos = details?.photos?.map((photo) => photo.getUrl());
-    const placeObj = {
-      name: details.name,
-      photos: photos,
-      place_id: results.place_id,
-      opening_hours: details.opening_hours,
-      website: details.website,
-      formatted_address: results.formatted_address,
-      lat: lat,
-      lng: lng,
-    };
-    fetch("/places", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(placeObj),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Adding this to data", data);
-        addToItinerary(data, selectedDate);
-      });
-  }
-
   const handleChangeTrip = (e) => {
     setTrip(e.target.value)
-  }
-
-  async function addToList(place_id, results, lat, lng) {
-    fetch(`/places/${place_id}`).then((res) => {
-      if (res.ok) {
-        res.json().then((data) => {
-          console.log("Add to list:", itinerary);
-          addToItinerary(data, selectedDate);
-        });
-      } else {
-        const parameters = {
-          placeId: place_id,
-          fields: ["name", "website", "opening_hours", "photo"],
-        };
-        addIfNotInDb(parameters, results, lat, lng, selectedDate);
-      }
-    });
   }
 
   return (
@@ -119,26 +66,15 @@ function Itinerary({
             onChange={(e) => setTripName(e.target.value)}
           />
           <Grid container spacing={3} direction="row" sx={{ transition: "height 0.8s" }}>
-            {isLoaded ? (
+            {/* {isLoaded ? (
               <Grid item xs={6} sx={{bgcolor: 'red'}}>
                 <PlacesAutoComplete
                   addToList={addToList}
                   addToItinerary={addToItinerary}
                 />
               </Grid>
-            ) : null}
+            ) : null} */}
             <Grid item xs={6}>
-              <FormControl sx={{ width: "40%" }}>
-                <InputLabel>Select a date to add place to</InputLabel>
-                <Select
-                  onChange={handleChange}
-                  value={selectedDate}
-                  label="Select a date to add place to"
-                  placeholder="Select a date"
-                >
-                  {menuItems}
-                </Select>
-              </FormControl>
               <FormControl sx={{width: '40%'}}>
                 <InputLabel>Choose another trip to edit</InputLabel>
                 <Select onChange={handleChangeTrip} value={tripId}>{mappedTrips}</Select>
@@ -146,9 +82,6 @@ function Itinerary({
               <Button variant="outlined" size="large" onClick={handleClick}>
                 Change dates
               </Button>
-                <Button variant="outlined" size="large" onClick={handleSave}>
-                  Save itinerary
-                </Button>
             </Grid>
             {open ? (
               <DatePicker

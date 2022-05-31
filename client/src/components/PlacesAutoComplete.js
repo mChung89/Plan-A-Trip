@@ -12,7 +12,7 @@ import {
 import "@reach/combobox/styles.css";
 import "../styles/map.css";
 
-function PlacesAutoComplete({ addToList }) {
+function PlacesAutoComplete({ addToList, setFocus }) {
   const {
     ready,
     value,
@@ -42,6 +42,8 @@ function PlacesAutoComplete({ addToList }) {
           disabled={!ready}
           className="combobox-input"
           placeholder="Search a Place"
+          onFocus={()=> setFocus(true)}
+          onBlur={() => setFocus(false)}
         />
         <ComboboxPopover className="popover">
           <ComboboxList className="slide-down">

@@ -36,7 +36,7 @@ function App() {
   });
   
   return (
-    <Stack>
+    <Stack className='App'>
       {/* <UserContext.Provider value={user}> */}
         <NavBar setUser={setUser} setItinerary={setItinerary} setTrip={setTrip}/>
         <Routes>

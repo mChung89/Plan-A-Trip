@@ -5,7 +5,9 @@ import { useState, useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import ItineraryHeadCard from "./ItineraryHeadCard";
 import ItineraryCard from "./ItineraryCard";
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { DragDropContext, Droppable } from 'react-beautiful-dnd'
+import SearchCard from './SearchCard'
+import { getDetails } from "use-places-autocomplete";
 
 
 
@@ -65,12 +67,6 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
 }
 
   async function addToItinerary(place, itineraryId) {
-    // const findItinerary = itinerary.find((each) => each._id === itineraryId);
-    // findItinerary.places = [...findItinerary.places, place];
-    // const newItinerary = itinerary.map((each) =>
-    //   each._id === findItinerary._id ? findItinerary : each
-    // );
-    // setItinerary(newItinerary);
     fetch(`/itinerary/${itineraryId}`, {
       method: "PATCH",
       headers: {
@@ -80,24 +76,52 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
     })
       .then((res) => res.json())
       .then((data) => {
-        const findItinerary = itinerary.find(each => each._id = data._id)
+        const findItinerary = itinerary.find(each => each._id === itineraryId)
         findItinerary.places = [...findItinerary.places, data]
         const newItinerary = itinerary.map(each=> each._id === findItinerary._id ? findItinerary : each)
         setItinerary(newItinerary);
       });
   }
 
-  function handleSave() {
-    fetch(`/trip/${currentTrip}`, {
-      method: "PATCH",
+  async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
+    const details = await getDetails(parameters);
+    const photos = details?.photos?.map((photo) => photo.getUrl());
+    const placeObj = {
+      name: details.name,
+      photos: photos,
+      place_id: results.place_id,
+      opening_hours: details.opening_hours,
+      website: details.website,
+      formatted_address: results.formatted_address,
+      lat: lat,
+      lng: lng,
+    };
+    fetch("/places", {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(itinerary),
+      body: JSON.stringify(placeObj),
     })
       .then((res) => res.json())
-      .then((data) => console.log(data));
+      .then((data) => {
+        console.log("Adding this to data", data);
+        addToItinerary(data, selectedDate);
+      });
   }
+
+
+  // function handleSave() {
+  //   fetch(`/trip/${currentTrip}`, {
+  //     method: "PATCH",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //     body: JSON.stringify(itinerary),
+  //   })
+  //     .then((res) => res.json())
+  //     .then((data) => console.log(data));
+  // }
 
   function deleteFromItinerary(placeId, index) {
     // Filter out from state
@@ -117,13 +141,17 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
             <Grid sx={{ position: 'sticky', top: "0vh", zIndex: 9 }} item xs={12}>
               <ItineraryHeadCard key={date._id} date={date} />
             </Grid>
+            <Grid item xs={12}>
+              <SearchCard date={date} isLoaded={isLoaded} addIfNotInDb={addIfNotInDb} addToItinerary={addToItinerary}/>
+            </Grid>
             <Droppable droppableId={date._id} key={date._id}>
               {(provided, snapshot) => {
                 return <Grid
                   {...provided.droppableProps}
                   ref={provided.innerRef}
                   style={{
-                    // background: snapshot.isDraggingOver ? 'lightblue' : 'lightgrey'
+                    transition: "background-color 0.3s ease",
+                    background: snapshot.isDraggingOver ? 'lightblue' : null
                   }}
                 >
                   {date?.places.map((place, index) => {
@@ -143,13 +171,13 @@ function MainPage({ isLoaded, user, currentTrip, setTrip, itinerary, setItinerar
 
   return (
     <Grid container className="main-window">
-      <Grid item xs={5} px={3} className="itinerary main-window-split">
-        <Itinerary setTrip={setTrip} handleSave={handleSave} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded} />
+      <Grid item md={5} px={3} sm={12} className="itinerary main-window-split">
+        <Itinerary setTrip={setTrip} user={user} itinerary={itinerary} tripId={currentTrip} addToItinerary={addToItinerary} setItinerary={setItinerary} isLoaded={isLoaded} />
         <DragDropContext onDragEnd={(res, date) => onDragEnd(res, itinerary)}>
           {mappedItineraryDates}
         </DragDropContext>
       </Grid>
-      <Grid pl={4} item xs={7}>
+      <Grid pl={4} item md={7} sm={12}>
         <Paper className="main-window-split map">
           <div className='map-container-hidden'></div>
           {/* <Map

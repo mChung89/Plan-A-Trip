@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background: radial-gradient(rgb(6, 13, 46),rgba(27, 118, 157, 0.722)100%)
 }
 
 .itinerary {
@@ -33,4 +34,19 @@ div #login-page {
   height: 100vh;
   width: 100vw;
   background-size:cover;
+}
+
+.section img {
+  width: 60%;
+  height: 80%;
+  object-fit: cover
+}
+
+.hero-type {
+  position: relative;
+  transform: translate(-25%, -105%);
+  top: 70%;
+  left: 10%;
+  color:white;
+  text-shadow: 2px 2px #000000;
 }

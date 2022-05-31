@@ -11,7 +11,6 @@ function ItineraryHeadCard ({ date }) {
     <Grid
       container
       direction="row"
-      px={1}
       pb={1}
       key={1}
       className="place-cards"
