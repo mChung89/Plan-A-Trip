@@ -11,6 +11,7 @@ import { getDetails } from "use-places-autocomplete";
 import Modal from "@mui/material/Modal";
 import SaveWithoutUser from './SaveWithoutUser/SaveWithoutUser'
 import Snack from './Snack'
+import Divider from '@mui/material/Divider'
 
 function MainPage({
   tripSelector,
@@ -257,6 +258,7 @@ function MainPage({
             {mappedItineraryDates}
           </DragDropContext>
         </Grid>
+        <Divider />
         <Grid className="main-window-split map" pl={4} item md={7} sm={12}>
           <Paper sx={{height: "93vh"}}>
             {/* <div className="map-container-hidden"></div> */}
