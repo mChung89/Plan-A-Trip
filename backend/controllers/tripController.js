@@ -7,7 +7,7 @@ const editTripName = async (req, res) => {
     const user = await User.findById(req.params.user_id)
     const fixedList = user.itineraries.map(each => each.tripId === req.params._id ? {...each, tripName: req.body.name}: each)
     const updated = await User.findByIdAndUpdate(req.params.user_id, {itineraries: fixedList})
-    res.status(200).send(updated)
+    res.status(200).send({user: updated})
   } catch (err) {
     res.status(400).send({errors: err});
   }

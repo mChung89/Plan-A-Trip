@@ -23,7 +23,8 @@ function Itinerary({
   tripId,
   setTrip,
   tripName,
-  setTripName
+  setTripName,
+  setUser
 }) {
   const [open, setOpen] = useState(false);
   const mappedTrips = user?.user?.itineraries.map((trip, index) => {
@@ -51,16 +52,6 @@ function Itinerary({
     );
   }
 
-  function changeTripName() {
-    fetch(`trip/editname/${currentTrip}/${user.user._id}`,{
-      method: 'PATCH',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({name: tripName})
-    })
-    .then(console.log)
-  }
   
   function handleClick() {
     if(itinerary) setOpen((prev) => !prev);
@@ -75,18 +66,7 @@ function Itinerary({
       <Paper>
         <Stack justifyContent="center" alignItems="center" p={2} spacing={2}>
           {itinerary.length > 0 ?
-          <TextField
-            fullWidth
-            InputProps={{ style: { fontSize: 40 } }}
-            InputLabelProps={{ style: { fontSize: 40 } }}
-            placeholder="Edit trip name"
-            variant="standard"
-            size="large"
-            sx={{ outline: "none" }}
-            value={tripName}
-            onBlur={changeTripName}
-            onChange={(e) => setTripName(e.target.value)}
-          /> : <Typography variant="h3">Get started at the Home Page</Typography>}
+          <Typography variant='h3'></Typography> : <Typography variant="h3">Get started at the Home Page</Typography>}
           <Grid
             container
             spacing={1}

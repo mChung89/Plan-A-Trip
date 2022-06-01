@@ -29,7 +29,6 @@ function MainPage({
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data)
           setItinerary(data[0]);
           setTrip(data[1]);
         });
@@ -236,6 +235,7 @@ function MainPage({
             currentTrip={currentTrip}
             handleSave={handleSave}
             setTrip={setTrip}
+            setUser={setUser}
             user={user}
             itinerary={itinerary}
             tripId={currentTrip}
