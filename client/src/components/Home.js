@@ -9,6 +9,7 @@ import IconButton from "@mui/material/IconButton";
 import { gsap } from "gsap";
 import Stack from '@mui/material/Stack'
 import Grid from '@mui/material/Grid'
+import Paper from '@mui/material/Paper'
 
 function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
@@ -98,6 +99,9 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
             <h1>Hello World</h1>
           </Grid>
       </Grid>
+    </Stack>
+    <Stack sx={{height: 80, bgcolor:'lightgray'}} mt={37.5}direction='column-reverse'>
+      <h1>Footer</h1>
     </Stack>
     </>
   );
