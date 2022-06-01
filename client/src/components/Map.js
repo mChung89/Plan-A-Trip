@@ -17,7 +17,7 @@ function Map({ itinerary, isLoaded}) {
 
   const renderedMarkers = itinerary?.map(itinerary => {
     return (
-      itinerary.places.map(place => <MyMarker key={place._id} place={place}/>))
+      itinerary?.places?.map(place => <MyMarker key={place._id} place={place}/>))
     })
 
   return (

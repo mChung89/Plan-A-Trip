@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoginSave from "./LoginSave";
 import CreateSave from "./CreateSave";
-function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser }){
+function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser, currentTripName }){
   const [errors, setErrors] = useState(null);
   const [toggleLogin, setToggle] = useState(true);
 
@@ -12,7 +12,7 @@ function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser }){
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({itinerary: itinerary, currentTrip}),
+      body: JSON.stringify({itinerary: itinerary, currentTrip, currentTripName}),
     })
       .then((res) => res.json())
       .then((data) => {

@@ -2,6 +2,22 @@ const Trip = require('../model/Trip')
 const Itinerary = require('../model/Itinerary')
 const User = require('../model/User')
 
+const editTripName = async (req, res) => {
+  try {
+    console.log(req.body)
+    console.log(req.params)
+    const user = await User.findById(req.params.user_id)
+    const fixedList = user.itineraries.map(each => each.tripId === req.params._id ? {...each, tripName: req.body.currentTripName}: each)
+    const updated = await User.findByIdAndUpdate(req.params.user_id, {itineraries: fixedList})
+
+    const getData = await Trip.findByIdAndUpdate(req.params._id,{name: req.body.currentTripName})
+    const updateAll = await Itinerary.updateMany({_id: {$in: getData.itineraries}},{name: req.body.currentTripName},{returnOriginal: false})
+    res.status(200).send({user: updated, updatedName: req.body.currentTripName})
+  } catch (err) {
+    res.status(400).send({errors: err});
+  }
+};
+
 const showTrip = async (req, res) => {
   if (req.params._id === 'null') {
     return res.status(400).send({ errors: "No tripId sent" })
@@ -9,13 +25,14 @@ const showTrip = async (req, res) => {
   try {
     const getData = await Trip.findById(req.params._id)
     const itineraryData = await Itinerary.find({ _id: { $in: getData.itineraries } }).sort({ date: 1 })
-    res.status(201).send([itineraryData, getData._id])
+    res.status(201).send([itineraryData, getData._id, getData.name])
   } catch (err) {
     res.status(400).send(err)
   }
 }
 
 const postTrip = async (req, res) => {
+  console.log(req.body)
   const newItineraryDates = async () => {
     return Promise.all(
       req.body.dates.map((each) => {
@@ -23,6 +40,7 @@ const postTrip = async (req, res) => {
           itineraryInfo: {},
           places: [],
           date: each,
+          name: req.body.tripName
         });
         const saved = itinerary.save();
         return saved;
@@ -48,7 +66,7 @@ const postTrip = async (req, res) => {
       { $push: { itineraries: { tripName: req.body.tripName, tripId: newTrip._id } } },
       { returnOriginal: false }
     )
-    res.status(201).send({ updatedUser: user, newTrip: newTrip })
+    res.status(201).send({ updatedUser: user, newTrip: newTrip, name: req.body.tripName })
     } else {
       res.status(201).send({newTrip: newTrip})
     }
@@ -67,6 +85,7 @@ const addDates = async (req, res) => {
           itineraryInfo: {},
           places: [],
           date: each,
+          name: currentTripName
         });
         const saved = itinerary.save();
         return saved;
@@ -111,7 +130,7 @@ const addUserToTrip = async (req,res) => {
   try {
     console.log(req.body)
     const user = await User.findByIdAndUpdate(req.params._id,
-      { $push: { itineraries: { tripId: req.body.currentTrip } } },
+      { $push: { itineraries: { tripId: req.body.currentTrip, tripName: req.body.currentTripName } } },
       { returnOriginal: false })
       res.status(201).send(user)
   } catch(err) {
@@ -124,5 +143,6 @@ module.exports = {
   postTrip,
   addDates,
   trimDates,
-  addUserToTrip
+  addUserToTrip,
+  editTripName
 }

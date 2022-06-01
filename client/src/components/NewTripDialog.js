@@ -21,6 +21,7 @@ export default function NewTripDialog({
   setItinerary,
   setTrip,
   setUser,
+  setCurrentTripName
 }) {
   const navigate = useNavigate()
   const [startValue, setStartValue] = useState(new Date());
@@ -74,6 +75,7 @@ export default function NewTripDialog({
           res.json().then((data) => {
             setItinerary(data.newTrip.itineraries);
             setTrip(data.newTrip._id);
+            setCurrentTripName(data.newTrip.name)
             if(user) setUser(data.updatedUser);
             navigate('./makeitinerary')
           });

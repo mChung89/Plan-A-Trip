@@ -50,8 +50,8 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
                 </Grid>
                 <Grid p={2} item xs={4}>
                   <Image
-                    imageStyle={{ borderRadius: "4px" }}
-                    // src={place.photos[0]}
+                    imageStyle={{ borderRadius: "4px", objectFit: "cover" }}
+                    src={place.photos[0]}
                     alt={place.name}
                   />
                 </Grid>

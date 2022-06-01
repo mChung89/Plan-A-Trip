@@ -18,7 +18,9 @@ function MainPage({
   setTrip,
   itinerary,
   setItinerary,
-  setUser
+  setUser,
+  currentTripName,
+  setCurrentTripName
 }) {
   const [open, setOpen] = useState(false);
 
@@ -27,12 +29,16 @@ function MainPage({
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
         .then((data) => {
+          console.log(data[2])
           setItinerary(data[0]);
           setTrip(data[1]);
+          setCurrentTripName(data[2])
         });
     }
   }, [currentTrip]);
+  console.log(currentTrip)
 
+  //handles the drag and drop features
   const onDragEnd = (res, itinerary) => {
     if (!res.destination) return;
     const { source, destination } = res;
@@ -93,6 +99,7 @@ function MainPage({
     }
   };
 
+  //handles updates to the current trip
   async function addToItinerary(place, itineraryId) {
     fetch(`/itinerary/${itineraryId}`, {
       method: "PATCH",
@@ -113,7 +120,6 @@ function MainPage({
         setItinerary(newItinerary);
       });
   }
-
   async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
     const details = await getDetails(parameters);
     const photos = details?.photos?.map((photo) => photo.getUrl());
@@ -141,17 +147,9 @@ function MainPage({
       });
   }
 
+  // Opens the login modal to have user sign in to save
   function handleSave() {
     setOpen(true);
-    // fetch(`/trip/${currentTrip}`, {
-    //   method: "PATCH",
-    //   headers: {
-    //     "Content-Type": "application/json",
-    //   },
-    //   body: JSON.stringify(itinerary),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
   }
 
   function deleteFromItinerary(placeId, itineraryId) {
@@ -230,7 +228,9 @@ function MainPage({
           className="itinerary main-window-split"
         >
           <Itinerary
+            setCurrentTripName={setCurrentTripName}
             handleSave={handleSave}
+            setUser={setUser}
             setTrip={setTrip}
             user={user}
             itinerary={itinerary}
@@ -238,6 +238,7 @@ function MainPage({
             addToItinerary={addToItinerary}
             setItinerary={setItinerary}
             isLoaded={isLoaded}
+            currentTripName={currentTripName}
           />
           <DragDropContext onDragEnd={(res, date) => onDragEnd(res, itinerary)}>
             {mappedItineraryDates}
@@ -245,11 +246,11 @@ function MainPage({
         </Grid>
         <Grid pl={4} item md={7} sm={12}>
           <Paper className="main-window-split map">
-            <div className="map-container-hidden"></div>
-            {/* <Map
+            {/* <div className="map-container-hidden"></div> */}
+            <Map
             isLoaded={isLoaded}
             itinerary={itinerary}
-          /> */}
+          />
           </Paper>
         </Grid>
       </Grid>
@@ -261,7 +262,7 @@ function MainPage({
           aria-describedby="modal-modal-description"
         >
             <Paper>
-              <SaveWithoutUser setItinerary={setItinerary} setUser={setUser} currentTrip={currentTrip} itinerary={itinerary}/>
+              <SaveWithoutUser setItinerary={setItinerary} currentTripName={currentTripName} setUser={setUser} currentTrip={currentTrip} itinerary={itinerary}/>
             </Paper>
         </Modal>
       </div>

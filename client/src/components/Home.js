@@ -1,14 +1,14 @@
 import Typography from "@mui/material/Typography";
 import { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
-import { getGeocode, getLatLng } from "use-places-autocomplete";
+import { getGeocode } from "use-places-autocomplete";
 import NewTripDialog from "./NewTripDialog";
 import Hero from "./images/NatJBrU.jpg";
 import "../styles/App.css";
 import IconButton from "@mui/material/IconButton";
 import { gsap } from "gsap";
 
-function Home({ user, setUser, setTrip, setItinerary }) {
+function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
   const [open, setOpen] = useState(false);
   const [searchTripInfo, setSearchTripInfo] = useState(null);
@@ -16,15 +16,6 @@ function Home({ user, setUser, setTrip, setItinerary }) {
     setOpen(false);
   };
 
-  useEffect(()=>{
-    fetch(`refresh`)
-    .then(res => res.ok ? res.json()
-    .then(data => {
-      setUser(data)
-      setTrip(data.user.itineraries[0].tripId)
-    }) : null)
-  },[])
-  
   //Search for a general place to point GoogleMaps Location + Radius
   async function searchByPlace() {
     const results = await getGeocode({ address: search });
@@ -84,6 +75,7 @@ function Home({ user, setUser, setTrip, setItinerary }) {
         setUser={setUser}
         user={user}
         searchTripInfo={searchTripInfo}
+        setCurrentTripName={setCurrentTripName}
         open={open}
         handleClose={handleClose}
       />
