@@ -7,6 +7,8 @@ import Hero from "./images/NatJBrU.jpg";
 import "../styles/App.css";
 import IconButton from "@mui/material/IconButton";
 import { gsap } from "gsap";
+import Stack from '@mui/material/Stack'
+import Grid from '@mui/material/Grid'
 
 function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
@@ -42,6 +44,7 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
 
   return (
     <>
+    <Stack>
       <div className="slider"></div>
       <section>
         <div className="hero">
@@ -79,6 +82,23 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
         open={open}
         handleClose={handleClose}
       />
+    </Stack>
+    <Stack sx={{bgcolor: 'lightblue'}}>
+      <Grid container>
+          <Grid item xs={3}>
+            <h1>Hello World</h1>
+          </Grid>
+          <Grid item xs={3}>
+            <h1>Hello World</h1>
+          </Grid>
+          <Grid item xs={3}>
+            <h1>Hello World</h1>
+          </Grid>
+          <Grid item xs={3}>
+            <h1>Hello World</h1>
+          </Grid>
+      </Grid>
+    </Stack>
     </>
   );
 }
