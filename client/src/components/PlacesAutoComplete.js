@@ -37,6 +37,7 @@ function PlacesAutoComplete({ addToList, setFocus }) {
     <div className="places-container">
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
+          style={{width: 400, height: 30, marginLeft: '120px', marginTop: "5px", marginBottom: "5px"}}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}

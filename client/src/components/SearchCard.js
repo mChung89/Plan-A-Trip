@@ -22,25 +22,25 @@ function SearchCard({ isLoaded, addToItinerary, addIfNotInDb, date }) {
         });
       }
     const containerStyle = {
-        height: 150,
+        height: 120,
         opacity: focus ? "1" : "0.8"
     }
 
     const searchBox = isLoaded ? (
         <Grid
             container
-            direction="row"
+            direction="column"
             sx={containerStyle}
-            p={2}
+            p={1}
             className="place-cards"
         >
-            <Paper elevation={4} sx={{ display: "flex", width: "100%" }}>
-                <Grid item xs={6}>
+            <Paper elevation={4} sx={{ width: "100%" }}>
+                <Grid item xs={12}>
                     <Typography variant='h5'>
                         Add a place to this date
                     </Typography>
                 </Grid>
-                <Grid item xs={6} justifyContent='center' alignItems='center' sx={{ borderRadius: 1, bgcolor: 'red' }}>
+                <Grid item xs={12} justifyContent='center' alignItems='center' sx={{ borderRadius: 1}}>
                     <PlacesAutoComplete
                         setFocus={setFocus}
                         addToList={addToList}

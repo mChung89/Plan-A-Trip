@@ -21,7 +21,7 @@ const style = {
   p: 4,
 };
 
-function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate }) {
+function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate, setTripSelector }) {
   const defaultState = {
     email: "",
     password: "",
@@ -40,7 +40,7 @@ function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate }) {
     }).then((res) => {
       if (res.ok) {
         res.json().then((data) => {
-          console.log(data);
+          setTripSelector(data.user.itineraries);
           setUser(data);
           navigate("/");
         });

@@ -3,7 +3,7 @@ import CreateUserBox from "./CreateUserBox";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function AuthPage({ setUser, user, setTrip }) {
+function AuthPage({ setUser, user, setTrip, setTripSelector, tripSelector}) {
   const navigate = useNavigate();
   const [errors, setErrors] = useState(null);
   const [toggleLogin, setToggle] = useState(true);
@@ -12,6 +12,8 @@ function AuthPage({ setUser, user, setTrip }) {
     <>
       {toggleLogin ? (
         <Login
+          setTripSelector={setTripSelector} 
+          tripSelector={tripSelector}
           setUser={setUser}
           setTrip={setTrip}
           user={user}
@@ -22,6 +24,8 @@ function AuthPage({ setUser, user, setTrip }) {
         />
       ) : (
         <CreateUserBox
+          setTripSelector={setTripSelector} 
+          tripSelector={tripSelector}
           setUser={setUser}
           user={user}
           setToggle={setToggle}

@@ -5,21 +5,23 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
-import BeachAccessIcon from '@mui/icons-material/BeachAccess';
+import ConnectingAirportsIcon from '@mui/icons-material/ConnectingAirports';
+import '../styles/nav.css'
 
-function NavBar({ setUser, setItinerary, setTrip, user }) {
+function NavBar({ setUser, setItinerary, setTrip, user, setTripSelector }) {
     function handleLogOut() {
         fetch('/logout')
         setUser(null)
         setItinerary([])
         setTrip(null)
+        setTripSelector([])
     }
 
   return (
-    <AppBar position="static" sx={{background: 'transparent', zIndex: 10}}>
+    <AppBar position="static" sx={{background: 'transparent', height: "5vh", zIndex: 10}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <BeachAccessIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <ConnectingAirportsIcon sx={{ fontSize: 45, display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -28,16 +30,15 @@ function NavBar({ setUser, setItinerary, setTrip, user }) {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontFamily: "Parisienne, cursive",
+              fontSize: 40,
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            TripMaker
+            Itinerary App
           </Typography>
-          <BeachAccessIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <ConnectingAirportsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
             variant="h5"
             noWrap
@@ -47,17 +48,16 @@ function NavBar({ setUser, setItinerary, setTrip, user }) {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: 'monospace',
-              fontWeight: 700,
-              letterSpacing: '.3rem',
+              fontFamily: "Parisienne, cursive",
+              fontSize: 40,
               color: 'inherit',
               textDecoration: 'none',
             }}
           >
-            Tripmaker
+            Itinerary App
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            <Button sx={{ my: 2, color: 'white', display: 'block' }} component={NavLink} to='/makeitinerary'>Itinerary</Button>
+            <Button sx={{ my: 2, color: 'white', display: 'block' }} component={NavLink} to='/makeitinerary'>My Itinerary</Button>
             {user ? null: <Button sx={{ my: 2, color: 'white', display: 'block' }} component={NavLink} to='/login'>Login</Button>}
           </Box>
           <Box>

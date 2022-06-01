@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-function CreateSave({ setUser, errors, setErrors, setToggle, addNewTrip }) {
+function CreateSave({ setUser, errors, setErrors, setToggle, addNewTrip, setTripSelector }) {
   const defaultState = {
     email: "",
     password: "",
@@ -40,6 +40,7 @@ function CreateSave({ setUser, errors, setErrors, setToggle, addNewTrip }) {
         res.json().then((data) => {
           addNewTrip(data.user._id)
           setUser(data);
+          setTripSelector(data.user.itineraries)
         });
       } else {
         res.json().then((data) => setErrors(data.errors));

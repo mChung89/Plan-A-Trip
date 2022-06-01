@@ -19,7 +19,7 @@ const style = {
   p: 4,
 };
 
-function LoginSave({ setUser, setErrors, errors, setToggle, setTrip, addNewTrip }) {
+function LoginSave({ setUser, setErrors, errors, setToggle, setTrip, addNewTrip, setTripSelector }) {
 
   const defaultState = {
     email: "",
@@ -41,6 +41,7 @@ function LoginSave({ setUser, setErrors, errors, setToggle, setTrip, addNewTrip 
         res.json().then(data => {
             addNewTrip(data.user._id)
             setUser(data)
+            setTripSelector(data.user.itineraries)
         })
       } else {
         res.json().then(data => setErrors(data.errors))

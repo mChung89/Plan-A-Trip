@@ -27,7 +27,7 @@ const showTrip = async (req, res) => {
   try {
     const getData = await Trip.findById(req.params._id)
     const itineraryData = await Itinerary.find({ _id: { $in: getData.itineraries } }).sort({ date: 1 })
-    res.status(201).send([itineraryData, getData, getData])
+    res.status(201).send([itineraryData, getData])
   } catch (err) {
     res.status(400).send(err)
   }
@@ -87,7 +87,7 @@ const addDates = async (req, res) => {
           itineraryInfo: {},
           places: [],
           date: each,
-          name: currentTripName
+          name: req.body.currentTripName
         });
         const saved = itinerary.save();
         return saved;

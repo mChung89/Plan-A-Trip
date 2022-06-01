@@ -23,7 +23,7 @@ const style = {
   p: 4,
 };
 
-function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
+function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName }) {
   const [startValue, setStartValue] = useState([null, null]);
   const [endValue, setEndValue] = useState([null, null]);
 
@@ -74,7 +74,7 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({dates: idsToKeep, idsToDelete: idsToDelete})
+        body: JSON.stringify({dates: idsToKeep, idsToDelete: idsToDelete, currentTripName})
       })
       .then((res) => res.json())
       .then(data => setItinerary(data));

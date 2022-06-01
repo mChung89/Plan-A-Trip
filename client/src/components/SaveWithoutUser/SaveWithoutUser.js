@@ -1,7 +1,7 @@
 import { useState } from "react";
 import LoginSave from "./LoginSave";
 import CreateSave from "./CreateSave";
-function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser, currentTripName }){
+function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser, currentTripName, setTripSelector }){
   const [errors, setErrors] = useState(null);
   const [toggleLogin, setToggle] = useState(true);
 
@@ -22,7 +22,7 @@ function SaveWithoutUser ({ itinerary, setItinerary, currentTrip, setUser, curre
 
   return (
     <>
-      {toggleLogin ? <LoginSave setUser={setUser} addNewTrip={addNewTrip} setToggle={setToggle} setErrors={setErrors} errors={errors}/> : <CreateSave setUser={setUser} addNewTrip={addNewTrip} setToggle={setToggle} setErrors={setErrors} errors={errors}/>}
+      {toggleLogin ? <LoginSave setUser={setUser} setTripSelector={setTripSelector} addNewTrip={addNewTrip} setToggle={setToggle} setErrors={setErrors} errors={errors}/> : <CreateSave setUser={setUser} setTripSelector={setTripSelector} addNewTrip={addNewTrip} setToggle={setToggle} setErrors={setErrors} errors={errors}/>}
     </>
   )
 }

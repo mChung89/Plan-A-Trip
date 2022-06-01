@@ -10,8 +10,11 @@ import SearchCard from "./SearchCard";
 import { getDetails } from "use-places-autocomplete";
 import Modal from "@mui/material/Modal";
 import SaveWithoutUser from './SaveWithoutUser/SaveWithoutUser'
+import Snack from './Snack'
 
 function MainPage({
+  tripSelector,
+  setTripSelector,
   isLoaded,
   user,
   currentTrip,
@@ -22,8 +25,9 @@ function MainPage({
   currentTripName,
   setCurrentTripName
 }) {
+  const [openSnack, setOpenSnack] = useState(false);
   const [open, setOpen] = useState(false);
-  const [tripSelector, setTripSelector] = useState([])
+  const [addedPlace, setAddedPlace] = useState("")
 
   useEffect(() => {
     if (currentTrip) {
@@ -33,12 +37,10 @@ function MainPage({
           setItinerary(data[0]);
           setTrip(data[1]._id);
           setCurrentTripName(data[1].name)
-          setTripSelector(user.user.itineraries)
         });
     }
-  }, [tripSelector, currentTrip]);
-  console.log(currentTrip)
-  console.log(tripSelector)
+  }, [currentTrip]);
+  console.log(currentTripName)
 
   //handles the drag and drop features
   const onDragEnd = (res, itinerary) => {
@@ -120,8 +122,14 @@ function MainPage({
           each._id === findItinerary._id ? findItinerary : each
         );
         setItinerary(newItinerary);
+        notifyAdd(data)
       });
   }
+  function notifyAdd (data) {
+    setAddedPlace(data.name)
+    setOpenSnack(true)
+  }
+
   async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
     const details = await getDetails(parameters);
     const photos = details?.photos?.map((photo) => photo.getUrl());
@@ -173,7 +181,7 @@ function MainPage({
     return (
       <Grid container key={date._id}>
         <Grid item xs={12}>
-          <Grid sx={{ position: "sticky", top: "0vh", zIndex: 9 }} item xs={12}>
+          <Grid sx={{ position: "sticky", zIndex: 9 }} item xs={12}>
             <ItineraryHeadCard key={date._id} date={date} />
           </Grid>
           <Grid item xs={12}>
@@ -221,6 +229,7 @@ function MainPage({
 
   return (
     <>
+      <Snack addedPlace={addedPlace} openSnack={openSnack} setOpenSnack={setOpenSnack}/>
       <Grid container className="main-window">
         <Grid
           item
@@ -248,8 +257,8 @@ function MainPage({
             {mappedItineraryDates}
           </DragDropContext>
         </Grid>
-        <Grid pl={4} item md={7} sm={12}>
-          <Paper className="main-window-split map">
+        <Grid className="main-window-split map" pl={4} item md={7} sm={12}>
+          <Paper sx={{height: "93vh"}}>
             {/* <div className="map-container-hidden"></div> */}
             <Map
             isLoaded={isLoaded}
@@ -266,7 +275,7 @@ function MainPage({
           aria-describedby="modal-modal-description"
         >
             <Paper>
-              <SaveWithoutUser setItinerary={setItinerary} currentTripName={currentTripName} setUser={setUser} currentTrip={currentTrip} itinerary={itinerary}/>
+              <SaveWithoutUser setTripSelector={setTripSelector} setItinerary={setItinerary} currentTripName={currentTripName} setUser={setUser} currentTrip={currentTrip} itinerary={itinerary}/>
             </Paper>
         </Modal>
       </div>

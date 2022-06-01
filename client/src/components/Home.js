@@ -7,9 +7,9 @@ import Hero from "./images/NatJBrU.jpg";
 import "../styles/App.css";
 import IconButton from "@mui/material/IconButton";
 import { gsap } from "gsap";
-import Stack from '@mui/material/Stack'
-import Grid from '@mui/material/Grid'
-import Paper from '@mui/material/Paper'
+import Stack from "@mui/material/Stack";
+import Grid from "@mui/material/Grid";
+import Paper from "@mui/material/Paper";
 
 function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
@@ -25,8 +25,8 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
     setSearchTripInfo(results[0]);
     setOpen(true);
   }
-  
-  useEffect(()=> {
+
+  useEffect(() => {
     const hero = document.querySelector(".hero");
     const t1 = gsap.timeline();
     t1.fromTo(
@@ -34,75 +34,91 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
       1.5,
       { height: "0%" },
       { height: "80%", ease: "Power2.easeInOut" }
-    )
-      .fromTo(
-        hero,
-        1.2,
-        { width: "100%" },
-        { width: "90%", ease: "Power2.easeInOut" }
-      )
-  },[])
+    ).fromTo(
+      hero,
+      1.2,
+      { width: "100%" },
+      { width: "90%", ease: "Power2.easeInOut" }
+    );
+  }, []);
 
   return (
     <>
-    <Stack>
-      <div className="slider"></div>
-      <section>
-        <div className="hero">
-          <img id="hero-img" src={Hero} alt="Hero"></img>
-          <div id="search-new-itinerary">
-            <Typography
-              variant="h1"
-              textAlign="center"
-              sx={{ color: "white", textShadow: "2px 2px #000000" }}
-            >
-              {user ? `Welcome back ${user?.user?.name}` : "Hello World"}
-            </Typography>
-            <TextField
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
-              sx={{ bgcolor: "white", borderRadius: 1, width: 600 }}
-              placeholder="Create a new Trip!"
-              InputProps={{
-                endAdornment: (
-                  <IconButton onClick={searchByPlace}>Search</IconButton>
-                ),
-              }}
-            />
+      <Stack sx={{overflowX: "hidden"}}>
+        <div className="slider"></div>
+        <section>
+          <div className="hero">
+            <img id="hero-img" src={Hero} alt="Hero"></img>
+            <div id="search-new-itinerary">
+              <Typography
+                variant="h1"
+                textAlign="center"
+                sx={{
+                  color: "white",
+                  textShadow: "2px 2px #000000",
+                  fontFamily: "Parisienne, cursive",
+                  fontSize: 80,
+                }}
+              >
+                {user ? `Welcome back ${user?.user?.name}` : "Hello World"}
+              </Typography>
+              <TextField
+                onChange={(e) => setSearch(e.target.value)}
+                value={search}
+                sx={{ bgcolor: "white", borderRadius: 1, width: 600 }}
+                placeholder="Create a new Trip!"
+                InputProps={{
+                  endAdornment: (
+                    <IconButton onClick={searchByPlace}>Search</IconButton>
+                  ),
+                }}
+              />
+            </div>
           </div>
-        </div>
-      </section>
-      <div className="slider"></div>
-      <NewTripDialog
-        setTrip={setTrip}
-        setItinerary={setItinerary}
-        setUser={setUser}
-        user={user}
-        searchTripInfo={searchTripInfo}
-        setCurrentTripName={setCurrentTripName}
-        open={open}
-        handleClose={handleClose}
-      />
-    </Stack>
-    <Stack sx={{bgcolor: 'lightblue'}}>
-      <Grid container>
+        </section>
+        <div className="slider"></div>
+        <NewTripDialog
+          setTrip={setTrip}
+          setItinerary={setItinerary}
+          setUser={setUser}
+          user={user}
+          searchTripInfo={searchTripInfo}
+          setCurrentTripName={setCurrentTripName}
+          open={open}
+          handleClose={handleClose}
+        />
+      </Stack>
+      <Stack sx={{ bgcolor: "lightblue" }}>
+        <Grid container spacing={4} px={4}>
           <Grid item xs={3}>
-            <h1>Hello World</h1>
+            <Paper>
+              <h1>Hello World</h1>
+            </Paper>
           </Grid>
           <Grid item xs={3}>
-            <h1>Hello World</h1>
+            <Paper>
+              <h1>Hello World</h1>
+            </Paper>
           </Grid>
           <Grid item xs={3}>
-            <h1>Hello World</h1>
+            <Paper>
+              <h1>Hello World</h1>
+            </Paper>
           </Grid>
           <Grid item xs={3}>
-            <h1>Hello World</h1>
+            <Paper>
+              <h1>Hello World</h1>
+            </Paper>
           </Grid>
-      </Grid>
-    </Stack>
-    <Stack sx={{height: 80, bgcolor:'lightgray'}} mt={37.5}direction='column-reverse'>
-      <h1>Footer</h1>
-    </Stack>
+        </Grid>
+      </Stack>
+      <Stack
+        sx={{ height: 80, bgcolor: "lightgray" }}
+        mt={37.5}
+        direction="column-reverse"
+      >
+        <h1>Footer</h1>
+      </Stack>
     </>
   );
 }

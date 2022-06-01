@@ -12,6 +12,7 @@ import FormControl from "@mui/material/FormControl";
 import TextField from "@mui/material/TextField";
 import Typography from '@mui/material/Typography'
 
+
 //CALENDAR
 
 function Itinerary({
@@ -68,6 +69,7 @@ function Itinerary({
       body: JSON.stringify({currentTripName})
     })
     .then(res => res.ok ? res.json().then(data => {
+      console.log(data.user.itineraries)
       setTripSelector(prev => data.user.itineraries)
     }) :null)
   }
@@ -116,6 +118,7 @@ function Itinerary({
                   open={open}
                   setOpen={setOpen}
                   setItinerary={setItinerary}
+                  currentTripName={currentTripName}
                 />
               ) : null}
             </Grid>
