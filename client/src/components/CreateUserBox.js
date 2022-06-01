@@ -102,7 +102,7 @@ function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate }) {
             </Stack>
             <Stack pb={2}>
             <Button onClick={handleSubmit}>Submit</Button>
-            <Button onClick={handleToggle}>New? Create an Account!</Button>
+            <Button onClick={handleToggle}>Already have an account?</Button>
             </Stack>
           </Box>
         </Stack>

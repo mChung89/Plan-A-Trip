@@ -23,20 +23,22 @@ function MainPage({
   setCurrentTripName
 }) {
   const [open, setOpen] = useState(false);
+  const [tripSelector, setTripSelector] = useState([])
 
   useEffect(() => {
     if (currentTrip) {
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
         .then((data) => {
-          console.log(data[2])
           setItinerary(data[0]);
-          setTrip(data[1]);
-          setCurrentTripName(data[2])
+          setTrip(data[1]._id);
+          setCurrentTripName(data[1].name)
+          setTripSelector(user.user.itineraries)
         });
     }
-  }, [currentTrip]);
+  }, [tripSelector, currentTrip]);
   console.log(currentTrip)
+  console.log(tripSelector)
 
   //handles the drag and drop features
   const onDragEnd = (res, itinerary) => {
@@ -228,9 +230,11 @@ function MainPage({
           className="itinerary main-window-split"
         >
           <Itinerary
+            setTripSelector={setTripSelector}
             setCurrentTripName={setCurrentTripName}
             handleSave={handleSave}
             setUser={setUser}
+            tripSelector={tripSelector}
             setTrip={setTrip}
             user={user}
             itinerary={itinerary}

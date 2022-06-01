@@ -7,6 +7,7 @@ import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from '@mui/icons-material/Delete';
 import QueryBuilderIcon from '@mui/icons-material/QueryBuilder';
 import { Draggable } from 'react-beautiful-dnd'
+import { useState } from 'react'
 
 function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
   function handleDelete(itineraryId, placeId, index) {
@@ -14,6 +15,7 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
       (res) => deleteFromItinerary(placeId, itineraryId)
     );
   }
+  const [imageNumber, setImageNumber] = useState(0 % 10)
 
   return (
       <Draggable key={place._id} draggableId={place._id} index={index}>
@@ -50,8 +52,9 @@ function ItineraryCard({ place, itineraryId, deleteFromItinerary, index }) {
                 </Grid>
                 <Grid p={2} item xs={4}>
                   <Image
+                    onClick={()=> setImageNumber(prev => (prev + 1) % 10)}
                     imageStyle={{ borderRadius: "4px", objectFit: "cover" }}
-                    src={place.photos[0]}
+                    src={place.photos[imageNumber]}
                     alt={place.name}
                   />
                 </Grid>

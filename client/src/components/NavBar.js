@@ -54,7 +54,7 @@ function NavBar({ setUser, setItinerary, setTrip, user }) {
               textDecoration: 'none',
             }}
           >
-            LOGO
+            Tripmaker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             <Button sx={{ my: 2, color: 'white', display: 'block' }} component={NavLink} to='/makeitinerary'>Itinerary</Button>

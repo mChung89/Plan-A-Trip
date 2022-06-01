@@ -15,7 +15,7 @@ import Typography from '@mui/material/Typography'
 //CALENDAR
 
 function Itinerary({
-  setUser,
+  setTripSelector,
   setCurrentTripName,
   handleSave,
   setItinerary,
@@ -23,10 +23,11 @@ function Itinerary({
   user,
   tripId,
   setTrip,
-  currentTripName
+  currentTripName,
+  tripSelector
 }) {
   const [open, setOpen] = useState(false);
-  const mappedTrips = user?.user?.itineraries.map((trip, index) => {
+  const mappedTrips = tripSelector.map((trip, index) => {
     return (
       <MenuItem key={trip.tripId} value={trip.tripId}>
         {trip.tripName ? trip.tripName : `Unnamed Trip ${index + 1}`}
@@ -67,7 +68,7 @@ function Itinerary({
       body: JSON.stringify({currentTripName})
     })
     .then(res => res.ok ? res.json().then(data => {
-      setCurrentTripName(data.updatedName)
+      setTripSelector(prev => data.user.itineraries)
     }) :null)
   }
 

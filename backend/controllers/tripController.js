@@ -1,16 +1,18 @@
 const Trip = require('../model/Trip')
 const Itinerary = require('../model/Itinerary')
 const User = require('../model/User')
+const mongoose = require('mongoose')
+
 
 const editTripName = async (req, res) => {
   try {
-    console.log(req.body)
-    console.log(req.params)
-    const user = await User.findById(req.params.user_id)
-    const fixedList = user.itineraries.map(each => each.tripId === req.params._id ? {...each, tripName: req.body.currentTripName}: each)
-    const updated = await User.findByIdAndUpdate(req.params.user_id, {itineraries: fixedList})
-
+    const mongoId = mongoose.Types.ObjectId(req.params._id)
     const getData = await Trip.findByIdAndUpdate(req.params._id,{name: req.body.currentTripName})
+    const updated = await User.findByIdAndUpdate(
+      { _id: req.params.user_id},
+      {$set: {
+        "itineraries.$[el].tripName": req.body.currentTripName}},
+        {arrayFilters: [{"el.tripId": {$in: [req.params._id, mongoId]}}],new: true})
     const updateAll = await Itinerary.updateMany({_id: {$in: getData.itineraries}},{name: req.body.currentTripName},{returnOriginal: false})
     res.status(200).send({user: updated, updatedName: req.body.currentTripName})
   } catch (err) {
@@ -25,7 +27,7 @@ const showTrip = async (req, res) => {
   try {
     const getData = await Trip.findById(req.params._id)
     const itineraryData = await Itinerary.find({ _id: { $in: getData.itineraries } }).sort({ date: 1 })
-    res.status(201).send([itineraryData, getData._id, getData.name])
+    res.status(201).send([itineraryData, getData, getData])
   } catch (err) {
     res.status(400).send(err)
   }
