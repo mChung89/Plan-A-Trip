@@ -14,8 +14,13 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
 import SearchIcon from "@mui/icons-material/Search";
 import Box from "@mui/material/Box";
-import ListIcon from "@mui/icons-material/List";
-import AddTaskIcon from '@mui/icons-material/AddTask';
+import List from "@mui/material/List";
+import ListItem from "@mui/material/ListItem";
+import ListItemText from "@mui/material/ListItemText";
+import Divider from "@mui/material/Divider";
+import ListItemAvatar from "@mui/material/ListItemAvatar";
+import Avatar from "@mui/material/Avatar";
+import AddTaskIcon from "@mui/icons-material/AddTask";
 
 function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
@@ -113,46 +118,44 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                 sx={{ flexDirection: "column", height: "80%" }}
                 justifyContent="center"
               >
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
+                <Typography textAlign="center" variant="h5">
+                  Coming soon:
+                </Typography>
+                <List
+                  sx={{
+                    width: "100%",
+                    maxWidth: 360,
+                    bgcolor: "background.paper",
+                  }}
                 >
-                  <ListIcon />
-                  <Typography textAlign="center" variant="h5">
-                    Coming soon:
-                  </Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <AddTaskIcon />
-                  <Typography textAlign="center" variant="p">
-                    Share itineraries
-                  </Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <AddTaskIcon />
-                  <Typography textAlign="center" variant="p">
-                    Make mobile friendly
-                  </Typography>
-                </Stack>
-                <Stack
-                  direction="row"
-                  justifyContent="center"
-                  alignItems="center"
-                >
-                  <AddTaskIcon />
-                  <Typography textAlign="center" variant="p">
-                    Footer section
-                  </Typography>
-                </Stack>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                      <AddTaskIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Share itineraries" />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                      <AddTaskIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Make mobile friendly" />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <Avatar>
+                      <AddTaskIcon />
+                      </Avatar>
+                    </ListItemAvatar>
+                    <ListItemText primary="Footer section" />
+                  </ListItem>
+                  <Divider variant="inset" component="li" />
+                </List>
               </Box>
             </Paper>
           </Grid>
@@ -184,8 +187,11 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
               >
                 <Stack>
                   <Typography variant="h5">
-                    Find me at:
+                    Built using the MERN stack!
                   </Typography>
+                </Stack>
+                <Stack>
+                  <Typography variant="h5">Find me at:</Typography>
                 </Stack>
                 <Stack
                   direction="row"
@@ -194,7 +200,6 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                 >
                   <GitHubIcon />
                   <Link variant="h6" href="https://github.com/mchung89">
-                    {" "}
                     mChung89
                   </Link>
                 </Stack>
@@ -212,8 +217,8 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                   </Link>
                 </Stack>
               </Box>
-              <Box sx={{height: '20%'}}>
-              <Stack>
+              <Box sx={{ height: "20%" }}>
+                <Stack>
                   <Typography variant="p">
                     Copyright &copy; 2022 Flatiron School NYC - Michael
                   </Typography>

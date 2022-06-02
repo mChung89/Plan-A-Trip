@@ -143,13 +143,13 @@ function MainPage({
           each._id === findItinerary._id ? findItinerary : each
         );
         setItinerary(newItinerary);
-        notify(data)
+        notify(data.name)
         setCenter({lat: place.lat,lng: place.lng})
       });
   }
   //Opens snack notification
   function notify (data) {
-    setAddedPlace(data.name)
+    setAddedPlace(data)
     setOpenSnack(true)
   }
 
