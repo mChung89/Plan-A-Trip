@@ -91,18 +91,19 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
           handleClose={handleClose}
         />
       </Stack>
-      <Stack sx={{ height: '50vh' }}>
+      <Stack sx={{height: '40vh'}}/>
+      <Stack sx={{ background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(218,42,42,1) 50%, rgba(252,176,69,1) 100%)',height: '45vh', bgcolor: 'gray'}}>
         <Grid container direction='row' pt={4} justifyContent='center' spacing={4}>
           <Grid item xs={2}>
-            <Paper px={3} sx={{height: "40vh"}}>
+            <Paper elevation={4} px={3} sx={{height: "40vh", overflowY: 'scroll'}}>
               <Typography p={5} textAlign='center' variant='h6'>This Itinerary App allows you to plan out your trips. First, pick a general location for where you will be traveling and specify how many days you're planning for. A skeleton itinerary will be generated where you can populate it with places you want to stop by. You can easily rearrange the order of places by dragging and dropping them! You can also drag and drop them across dates! If you need to adjust your itinerary dates, simply use the button to change the dates you will need. I hope you enjoy using this app to plan your future getaways!</Typography>
             </Paper>
           </Grid>
           <Grid item xs={2} justifyContent='center' alignItems='center'>
-            <Paper sx={{height: "40vh"}}>
+            <Paper elevation={4} sx={{height: "40vh"}}>
               <Box display='flex' sx={{flexDirection: 'column', height: '80%'}} justifyContent='center'>
                 <Stack>
-                  <Typography variant='h5'>
+                  <Typography sx={{color: "#4c8bf5"}} variant='h5'>
                     Find me at:
                   </Typography>
                 </Stack>
@@ -118,6 +119,30 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
             </Paper>
           </Grid>
         </Grid>
+      </Stack>
+      <Stack className='footer' sx={{height: 100}}>
+      <Grid container>
+        <Grid item xs={3}>
+          <Typography sx={{color: 'white'}}>
+            Footer Section coming soon
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography sx={{color: 'white'}}>
+            Footer Section coming soon
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography sx={{color: 'white'}}>
+            Footer Section coming soon
+          </Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Typography sx={{color: 'white'}}>
+            Footer Section coming soon
+          </Typography>
+        </Grid>
+      </Grid>
       </Stack>
     </>
   );

@@ -19,11 +19,13 @@ function App() {
   const [tripSelector, setTripSelector] = useState([])
   // Allows use of center/zoom features
 
+  //Loads Google Maps API
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
     libraries
   });
 
+  // Refresh token. Sends refresh token
   useEffect(()=>{
     fetch(`refresh`)
     .then(res => res.ok ? res.json()

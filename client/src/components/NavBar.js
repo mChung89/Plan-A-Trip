@@ -36,7 +36,7 @@ function NavBar({ setUser, setItinerary, setTrip, user, setTripSelector }) {
               textDecoration: 'none',
             }}
           >
-            Itinerary App
+            Plan-A-Trip
           </Typography>
           <ConnectingAirportsIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
           <Typography
