@@ -10,11 +10,12 @@ import { gsap } from "gsap";
 import Stack from "@mui/material/Stack";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
-import GitHubIcon from '@mui/icons-material/GitHub';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import SearchIcon from '@mui/icons-material/Search';
-import Box from '@mui/material/Box'
-
+import GitHubIcon from "@mui/icons-material/GitHub";
+import LinkedInIcon from "@mui/icons-material/LinkedIn";
+import SearchIcon from "@mui/icons-material/Search";
+import Box from "@mui/material/Box";
+import ListIcon from "@mui/icons-material/List";
+import AddTaskIcon from '@mui/icons-material/AddTask';
 
 function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
   const [search, setSearch] = useState("");
@@ -49,7 +50,7 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
 
   return (
     <>
-      <Stack sx={{overflowX: "hidden"}}>
+      <Stack sx={{ overflowX: "hidden" }}>
         <section>
           <div className="hero">
             <img id="hero-img" src={Hero} alt="Hero"></img>
@@ -60,11 +61,11 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                 sx={{
                   color: "white",
                   textShadow: "2px 2px #000000",
-                  fontFamily: 'Montserrat, sans-serif',
+                  fontFamily: "Montserrat, sans-serif",
                   fontSize: 80,
                 }}
               >
-                {user ? `Welcome back ${user?.user?.name}` : "Hello World"}
+                {user ? `Welcome ${user?.user?.name}` : "Welcome"}
               </Typography>
               <TextField
                 onChange={(e) => setSearch(e.target.value)}
@@ -72,9 +73,7 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                 sx={{ bgcolor: "white", borderRadius: 1, width: 600 }}
                 placeholder="Create a new Trip!"
                 InputProps={{
-                  endAdornment: (
-                    <SearchIcon onClick={searchByPlace}/>
-                  ),
+                  endAdornment: <SearchIcon onClick={searchByPlace} />,
                 }}
               />
             </div>
@@ -91,58 +90,156 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
           handleClose={handleClose}
         />
       </Stack>
-      <Stack sx={{height: '40vh'}}/>
-      <Stack sx={{ background: 'linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(218,42,42,1) 50%, rgba(252,176,69,1) 100%)',height: '45vh', bgcolor: 'gray'}}>
-        <Grid container direction='row' pt={4} justifyContent='center' spacing={4}>
+      <Stack sx={{ height: "40vh" }} />
+      <Stack
+        sx={{
+          background:
+            "linear-gradient(90deg, rgba(131,58,180,1) 0%, rgba(218,42,42,1) 50%, rgba(252,176,69,1) 100%)",
+          height: "45vh",
+          bgcolor: "gray",
+        }}
+      >
+        <Grid
+          container
+          direction="row"
+          pt={4}
+          justifyContent="center"
+          spacing={4}
+        >
           <Grid item xs={2}>
-            <Paper elevation={4} px={3} sx={{height: "40vh", overflowY: 'scroll'}}>
-              <Typography p={5} textAlign='center' variant='h6'>This Itinerary App allows you to plan out your trips. First, pick a general location for where you will be traveling and specify how many days you're planning for. A skeleton itinerary will be generated where you can populate it with places you want to stop by. You can easily rearrange the order of places by dragging and dropping them! You can also drag and drop them across dates! If you need to adjust your itinerary dates, simply use the button to change the dates you will need. I hope you enjoy using this app to plan your future getaways!</Typography>
+            <Paper elevation={4} px={3} sx={{ height: "40vh" }}>
+              <Box
+                display="flex"
+                sx={{ flexDirection: "column", height: "80%" }}
+                justifyContent="center"
+              >
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <ListIcon />
+                  <Typography textAlign="center" variant="h5">
+                    Coming soon:
+                  </Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <AddTaskIcon />
+                  <Typography textAlign="center" variant="p">
+                    Share itineraries
+                  </Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <AddTaskIcon />
+                  <Typography textAlign="center" variant="p">
+                    Make mobile friendly
+                  </Typography>
+                </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <AddTaskIcon />
+                  <Typography textAlign="center" variant="p">
+                    Footer section
+                  </Typography>
+                </Stack>
+              </Box>
             </Paper>
           </Grid>
-          <Grid item xs={2} justifyContent='center' alignItems='center'>
-            <Paper elevation={4} sx={{height: "40vh"}}>
-              <Box display='flex' sx={{flexDirection: 'column', height: '80%'}} justifyContent='center'>
+          <Grid item xs={2}>
+            <Paper
+              elevation={4}
+              px={3}
+              sx={{ height: "40vh", overflowY: "scroll" }}
+            >
+              <Typography p={5} textAlign="center" variant="h6">
+                This Itinerary App allows you to plan out your trips. First,
+                pick a general location for where you will be traveling and
+                specify how many days you're planning for. A skeleton itinerary
+                will be generated where you can populate it with places you want
+                to stop by. You can easily rearrange the order of places by
+                dragging and dropping them! You can also drag and drop them
+                across dates! If you need to adjust your itinerary dates, simply
+                use the button to change the dates you will need. I hope you
+                enjoy using this app to plan your future getaways!
+              </Typography>
+            </Paper>
+          </Grid>
+          <Grid item xs={2} justifyContent="center" alignItems="center">
+            <Paper elevation={4} sx={{ height: "40vh" }}>
+              <Box
+                display="flex"
+                sx={{ flexDirection: "column", height: "80%" }}
+                justifyContent="center"
+              >
                 <Stack>
-                  <Typography sx={{color: "#4c8bf5"}} variant='h5'>
+                  <Typography variant="h5">
                     Find me at:
                   </Typography>
                 </Stack>
-              <Stack direction='row' justifyContent='center' alignItems='center'>
-                <GitHubIcon />
-                <Link variant='h6' href='https://github.com/mchung89'> mChung89</Link>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <GitHubIcon />
+                  <Link variant="h6" href="https://github.com/mchung89">
+                    {" "}
+                    mChung89
+                  </Link>
                 </Stack>
-              <Stack direction='row' justifyContent='center' alignItems='center'>
-                <LinkedInIcon />
-                <Link variant='h6' href='www.linkedin.com/in/michael-chung-3371b05a'> /michael-chung-3371b05a</Link>
-              </Stack>
+                <Stack
+                  direction="row"
+                  justifyContent="center"
+                  alignItems="center"
+                >
+                  <LinkedInIcon />
+                  <Link
+                    variant="h6"
+                    href="www.linkedin.com/in/michael-chung-3371b05a"
+                  >
+                    {" "}
+                    /michael-chung-3371b05a
+                  </Link>
+                </Stack>
               </Box>
             </Paper>
           </Grid>
         </Grid>
       </Stack>
-      <Stack className='footer' sx={{height: 100}}>
-      <Grid container>
-        <Grid item xs={3}>
-          <Typography sx={{color: 'white'}}>
-            Footer Section coming soon
-          </Typography>
+      <Stack className="footer" sx={{ height: 100 }}>
+        <Grid container>
+          <Grid item xs={3}>
+            <Typography sx={{ color: "white" }}>
+              Footer Section coming soon
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ color: "white" }}>
+              Footer Section coming soon
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ color: "white" }}>
+              Footer Section coming soon
+            </Typography>
+          </Grid>
+          <Grid item xs={3}>
+            <Typography sx={{ color: "white" }}>
+              Footer Section coming soon
+            </Typography>
+          </Grid>
         </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{color: 'white'}}>
-            Footer Section coming soon
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{color: 'white'}}>
-            Footer Section coming soon
-          </Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Typography sx={{color: 'white'}}>
-            Footer Section coming soon
-          </Typography>
-        </Grid>
-      </Grid>
       </Stack>
     </>
   );
