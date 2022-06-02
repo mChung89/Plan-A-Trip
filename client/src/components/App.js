@@ -17,6 +17,7 @@ function App() {
   const [itinerary, setItinerary] = useState([]);
   const [currentTripName, setCurrentTripName] = useState('')
   const [tripSelector, setTripSelector] = useState([])
+  // Allows use of center/zoom features
 
   const { isLoaded } = useLoadScript({
     googleMapsApiKey: process.env.REACT_APP_GOOGLE_MAP_API,
@@ -35,6 +36,7 @@ function App() {
     }) : null)
     return () => "Clean up"
   },[])
+
 
   
   return (

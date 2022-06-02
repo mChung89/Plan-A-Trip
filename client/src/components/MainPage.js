@@ -29,19 +29,39 @@ function MainPage({
   const [openSnack, setOpenSnack] = useState(false);
   const [open, setOpen] = useState(false);
   const [addedPlace, setAddedPlace] = useState("")
+  const [center, setCenter] = useState({lat: 40.705543976313464, lng: -74.01357140807622})
+
 
   useEffect(() => {
     if (currentTrip) {
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
         .then((data) => {
+          //Centers map by average latLng of trip
+          const count = []
+          data[0].forEach(each => each.places.forEach(elem => count.push(elem)))
+          if(count.length > 0) {
+          const lat = data[0].map(each => {
+            if(each.places.length > 0){
+              return each.places.reduce((a,b) => a.lat + b.lat)/each.places.length
+            }
+          })
+          const combLat = lat.filter(each => each)
+          const lng = data[0].map(each => {
+            if(each.places.length > 0){
+              return each.places.reduce((a,b) => a.lng + b.lng)/each.places.length
+            }
+          })
+          const combLng = lng.filter(each => each)
+          setCenter({lat: combLat.reduce((a,b) => a+b)/combLat.length, lng: combLng.reduce((a,b) => a+b)/combLng.length })
+        }
+          // Sets state for trip places
           setItinerary(data[0]);
           setTrip(data[1]._id);
           setCurrentTripName(data[1].name)
         });
     }
   }, [currentTrip]);
-  console.log(currentTripName)
 
   //handles the drag and drop features
   const onDragEnd = (res, itinerary) => {
@@ -123,14 +143,16 @@ function MainPage({
           each._id === findItinerary._id ? findItinerary : each
         );
         setItinerary(newItinerary);
-        notifyAdd(data)
+        notify(data)
       });
   }
-  function notifyAdd (data) {
+  //Opens snack notification
+  function notify (data) {
     setAddedPlace(data.name)
     setOpenSnack(true)
   }
 
+  //If place is not in DB, adds to DB
   async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
     const details = await getDetails(parameters);
     const photos = details?.photos?.map((photo) => photo.getUrl());
@@ -153,7 +175,6 @@ function MainPage({
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log("Adding this to data", data);
         addToItinerary(data, selectedDate);
       });
   }
@@ -171,13 +192,13 @@ function MainPage({
     newItinerary.places = newItinerary.places.filter(
       (each) => each._id !== placeId
     );
-    console.log(newItinerary);
     const updateItinerary = itinerary.map((each) =>
       each._id === newItinerary._id ? newItinerary : each
     );
     setItinerary(updateItinerary);
   }
 
+  //Mapping Dates with Drag & Drop Context
   const mappedItineraryDates = itinerary?.map((date) => {
     return (
       <Grid container key={date._id}>
@@ -240,6 +261,7 @@ function MainPage({
           className="itinerary main-window-split"
         >
           <Itinerary
+            notify={notify}
             setTripSelector={setTripSelector}
             setCurrentTripName={setCurrentTripName}
             handleSave={handleSave}
@@ -263,6 +285,7 @@ function MainPage({
           <Paper sx={{height: "93vh"}}>
             {/* <div className="map-container-hidden"></div> */}
             <Map
+            center={center}
             isLoaded={isLoaded}
             itinerary={itinerary}
           />

@@ -21,7 +21,7 @@ function NavBar({ setUser, setItinerary, setTrip, user, setTripSelector }) {
     <AppBar position="static" sx={{background: 'transparent', height: "5vh", zIndex: 10}}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <ConnectingAirportsIcon sx={{ fontSize: 45, display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <ConnectingAirportsIcon id="logo" sx={{ fontSize: 45, display: { xs: 'none', md: 'flex' }, mr: 1 }} />
           <Typography
             variant="h6"
             noWrap
@@ -30,7 +30,7 @@ function NavBar({ setUser, setItinerary, setTrip, user, setTripSelector }) {
             sx={{
               mr: 2,
               display: { xs: 'none', md: 'flex' },
-              fontFamily: "Parisienne, cursive",
+              fontFamily: 'Montserrat, sans-serif',
               fontSize: 40,
               color: 'inherit',
               textDecoration: 'none',
@@ -48,7 +48,7 @@ function NavBar({ setUser, setItinerary, setTrip, user, setTripSelector }) {
               mr: 2,
               display: { xs: 'flex', md: 'none' },
               flexGrow: 1,
-              fontFamily: "Parisienne, cursive",
+              fontFamily: 'Montserrat, sans-serif',
               fontSize: 40,
               color: 'inherit',
               textDecoration: 'none',

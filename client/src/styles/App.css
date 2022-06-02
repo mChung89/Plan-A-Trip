@@ -1,7 +1,6 @@
 .App {
   text-align: center;
   background: radial-gradient(rgba(47, 183, 241, 0.955),rgba(6, 13, 46));
-  height: 100vh;
   width: 100vw;
   z-index: -2
 }
@@ -16,7 +15,7 @@
 
 .main-window {
   padding-top: 2vh;
-  height:93vh
+  height:95vh
 }
 
 .main-window-split{
