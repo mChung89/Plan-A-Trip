@@ -208,9 +208,15 @@ function Home({ user, setUser, setTrip, setItinerary, setCurrentTripName }) {
                     variant="h6"
                     href="www.linkedin.com/in/michael-chung-3371b05a"
                   >
-                    {" "}
                     /michael-chung-3371b05a
                   </Link>
+                </Stack>
+              </Box>
+              <Box sx={{height: '20%'}}>
+              <Stack>
+                  <Typography variant="p">
+                    Copyright &copy; 2022 Flatiron School NYC - Michael
+                  </Typography>
                 </Stack>
               </Box>
             </Paper>

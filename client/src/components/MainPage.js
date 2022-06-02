@@ -144,6 +144,7 @@ function MainPage({
         );
         setItinerary(newItinerary);
         notify(data)
+        setCenter({lat: place.lat,lng: place.lng})
       });
   }
   //Opens snack notification
