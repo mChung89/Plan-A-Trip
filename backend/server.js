@@ -29,4 +29,4 @@ app.use("/logout", require("./routes/logoutRoute"));
 app.use('/dnd', require('./routes/dragDropRoute'))
 
 // app.use(errorHandler)
-app.listen(port, () => console.log(`Server started on port: ${port}`));
+app.listen(port || process.env.PORT, () => console.log(`Server started on port: ${port}`));
