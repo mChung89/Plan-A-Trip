@@ -37,10 +37,18 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTri
 
   //Gets dates of start date and end date
   const handleChange = (e) => {
+    if (e > endValue) {
+      setErrors("Start date cannot be after end date");
+      return;
+    }
     setStartValue(e);
   };
 
   const handleEndChange = (e) => {
+    if (e < startValue) {
+      setErrors("End date cannot be before start date!");
+      return;
+    }
     setEndValue(e);
   };
 
