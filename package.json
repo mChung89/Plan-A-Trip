@@ -5,19 +5,23 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
-    "server": "nodemon backend/server.js"
+    "build": "cd client && npm run build",
+    "install-client": "cd client && npm install",
+    "heroku-postbuild": "npm run install-client && npm run build",
+    "server": "nodemon backend/server.js",
+    "develop": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\"",
+    "start": "concurrently --kill-others-on-fail \"npm run server\" \"npm run start --prefix client\""
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mChung89/capstone-proj.git"
+    "url": "git+https://github.com/mChung89/Plan-A-Trip.git"
   },
   "author": "Michael C",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/mChung89/capstone-proj/issues"
+    "url": "https://github.com/mChung89/Plan-A-Trip/issues"
   },
-  "homepage": "https://github.com/mChung89/capstone-proj#readme",
+  "homepage": "https://github.com/mChung89/Plan-A-Trip#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cookie-parser": "^1.4.6",
