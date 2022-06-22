@@ -26,6 +26,7 @@ const style = {
 function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify }) {
   const [startValue, setStartValue] = useState([null, null]);
   const [endValue, setEndValue] = useState([null, null]);
+  const [errors, setErrors] = useState(null)
 
   useEffect(() => {
     setStartValue(itinerary[0].date);
@@ -158,6 +159,7 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTri
               </Stack>
               <Stack xs={12}>
                 <Button onClick={handleClick}>Update itinerary dates</Button>
+                {error ? <Typography variant='p'>{error}</Typography> : null}
               </Stack>
             </Stack>
           </Box>
