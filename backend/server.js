@@ -2,7 +2,6 @@ const express = require("express");
 const mongoose = require("mongoose");
 const dotenv = require("dotenv").config();
 const { errorHandler } = require("./middleware/errorMiddleware");
-const PORT = 3000 || process.env.PORT;
 const cookieParser = require("cookie-parser");
 const cors = require('cors')
 
@@ -40,4 +39,4 @@ app.use("/refresh", require("./routes/refreshRoute"));
 app.use("/logout", require("./routes/logoutRoute"));
 
 // app.use(errorHandler)
-app.listen(PORT, () => console.log(`Server started on port: ${port}`));
+app.listen(process.env.PORT || 5000, () => console.log(`Server started on port: ${port}`));
