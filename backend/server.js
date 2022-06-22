@@ -39,4 +39,4 @@ app.use("/refresh", require("./routes/refreshRoute"));
 app.use("/logout", require("./routes/logoutRoute"));
 
 // app.use(errorHandler)
-app.listen(process.env.PORT || 5000, () => console.log(`Server started on port: ${port}`));
+app.listen(process.env.PORT || 5000, () => console.log(`Server started on port: ${process.env.PORT}!`));
