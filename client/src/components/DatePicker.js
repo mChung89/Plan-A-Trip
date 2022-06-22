@@ -159,7 +159,7 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTri
               </Stack>
               <Stack xs={12}>
                 <Button onClick={handleClick}>Update itinerary dates</Button>
-                {error ? <Typography variant='p'>{error}</Typography> : null}
+                {errors ? <Typography variant='p'>{errors}</Typography> : null}
               </Stack>
             </Stack>
           </Box>
