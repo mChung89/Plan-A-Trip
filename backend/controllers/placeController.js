@@ -1,10 +1,5 @@
 const Place = require("../model/Place");
-// This is for interacting with mongoDB
-// because we get a promise when interacting with Mongo
-// const asyncHandler = require('express-async-handler')
-// @desc        Get User Itinerary
-// @route       GET /api/itinerary
-// @access      Private
+
 const getPlace = async (req, res) => {
   const getData = await Place.find()
   res.status(200).send(getData)
@@ -15,9 +10,6 @@ const showPlace = async (req,res) => {
     getData ? res.status(200).send(getData) : res.status(400).send({error: "Can't be found"})
 }
 
-// @desc        Set User Itinerary
-// @route       POST /api/itinerary
-// @access      Private
 const postPlace = async (req, res) => {
   let newPlace;
   //Check if Place exists in database
@@ -49,18 +41,12 @@ const postPlace = async (req, res) => {
   }
 };
 
-// @desc        Update User Itinerary
-// @route       PATCH /api/itinerary/:id
-// @access      Private
 const updateItinerary = async (req, res) => {
   res
     .status(200)
     .json({ message: `Updating itinerary at ID:${req.params.id}` });
 };
 
-// @desc        Delete Itinerary
-// @route       DELETE /api/itinerary/:id
-// @access      Private
 const deleteItinerary = async (req, res) => {
   res.status(200).json({ message: `Deleting itinerary ID:${req.params.id}` });
 };

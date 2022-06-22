@@ -14,14 +14,14 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "rgba(255,255,255,.8)",
+  bgcolor: "rgba(255,255,255,.9)",
   border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "1em",
   p: 4,
 };
 
-function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }) {
+function CreateUserBox({ setUser, errors, setErrors, setToggle, navigate, setTripSelector }) {
   const defaultState = {
     email: "",
     password: "",
@@ -40,7 +40,7 @@ function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }
     }).then((res) => {
       if (res.ok) {
         res.json().then((data) => {
-          console.log(data);
+          setTripSelector(data.user.itineraries);
           setUser(data);
           navigate("/");
         });
@@ -55,6 +55,7 @@ function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }
   }
 
   function handleToggle() {
+    setErrors(null)
     setToggle((prev) => !prev);
   }
 
@@ -101,7 +102,7 @@ function CreateUserBox({ setUser, user, errors, setErrors, setToggle, navigate }
             </Stack>
             <Stack pb={2}>
             <Button onClick={handleSubmit}>Submit</Button>
-            <Button onClick={handleToggle}>New? Create an Account!</Button>
+            <Button onClick={handleToggle}>Already have an account?</Button>
             </Stack>
           </Box>
         </Stack>

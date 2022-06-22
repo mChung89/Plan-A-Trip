@@ -12,7 +12,7 @@ import {
 import "@reach/combobox/styles.css";
 import "../styles/map.css";
 
-function PlacesAutoComplete({ addToList }) {
+function PlacesAutoComplete({ addToList, setFocus }) {
   const {
     ready,
     value,
@@ -37,14 +37,17 @@ function PlacesAutoComplete({ addToList }) {
     <div className="places-container">
       <Combobox onSelect={handleSelect}>
         <ComboboxInput
+          style={{width: 400, height: 30, marginLeft: '120px', marginTop: "5px", marginBottom: "5px"}}
           value={value}
           onChange={(e) => setValue(e.target.value)}
           disabled={!ready}
           className="combobox-input"
           placeholder="Search a Place"
+          onFocus={()=> setFocus(true)}
+          onBlur={() => setFocus(false)}
         />
         <ComboboxPopover className="popover">
-          <ComboboxList>
+          <ComboboxList className="slide-down">
             {status === "OK" &&
               data.map(({ place_id, description }) => (
                 <ComboboxOption key={place_id} value={description} />

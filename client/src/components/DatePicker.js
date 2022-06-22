@@ -23,7 +23,7 @@ const style = {
   p: 4,
 };
 
-function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
+function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify }) {
   const [startValue, setStartValue] = useState([null, null]);
   const [endValue, setEndValue] = useState([null, null]);
 
@@ -35,14 +35,24 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
     };
   }, [itinerary]);
 
+  //Gets dates of start date and end date
   const handleChange = (e) => {
+    if (e > endValue) {
+      setErrors("Start date cannot be after end date");
+      return;
+    }
     setStartValue(e);
   };
 
   const handleEndChange = (e) => {
+    if (e < startValue) {
+      setErrors("End date cannot be before start date!");
+      return;
+    }
     setEndValue(e);
   };
 
+  // Handles editing of trip dates
   function handleClick() {
     const formatStart = new Date(startValue);
     const formatEnd = new Date(endValue);
@@ -68,15 +78,22 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
     if (res.length === 0 && currentDates.length > newItinerary.length) {
       const mappedSelectedDates = newItinerary.map(each => new Date(each).toISOString())
       const idsToKeep = itinerary.filter(each=> mappedSelectedDates.includes(new Date(each.date).toISOString()))
+      const idsToDelete = itinerary.filter(each=> !mappedSelectedDates.includes(new Date(each.date).toISOString()))
       fetch(`trip/${tripId}/trim`,{
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({dates: idsToKeep})
+        body: JSON.stringify({dates: idsToKeep, idsToDelete: idsToDelete, currentTripName})
       })
       .then((res) => res.json())
-      .then(data => setItinerary(data));
+      .then(data => {
+        setItinerary(data)
+        //Closes modal
+        setOpen(false)
+        //Snack
+        notify("Dates changed!")
+        });
     }
 
     if (res.length > 0) {
@@ -88,7 +105,11 @@ function DatePicker({ tripId, open, setOpen, itinerary, setItinerary }) {
         body: JSON.stringify({dates: formatFilteredDates})
       })
         .then((res) => res.json())
-        .then(data => setItinerary(data));
+        .then(data => {
+          setItinerary(data);
+          setOpen(false);
+          notify("Dates changed!")
+        });
     }
   }
 

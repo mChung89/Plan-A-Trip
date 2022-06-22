@@ -1,7 +1,6 @@
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
-import PlacesAutoComplete from "./PlacesAutoComplete";
 import "../styles/map.css";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -10,152 +9,138 @@ import DatePicker from "./DatePicker";
 import Button from "@mui/material/Button";
 import InputLabel from "@mui/material/InputLabel";
 import FormControl from "@mui/material/FormControl";
-import { getDetails } from "use-places-autocomplete";
 import TextField from "@mui/material/TextField";
+import Typography from '@mui/material/Typography'
+
 
 //CALENDAR
 
 function Itinerary({
+  notify,
+  setTripSelector,
+  setCurrentTripName,
   handleSave,
-  addToItinerary,
   setItinerary,
   itinerary,
-  isLoaded,
   user,
   tripId,
-  setTrip
+  setTrip,
+  currentTripName,
+  tripSelector
 }) {
-  const [selectedDate, setSelDate] = useState("");
   const [open, setOpen] = useState(false);
-  const [tripName, setTripName] = useState("My trip name");
-  const mappedTrips = user?.user?.itineraries.map((trip) => {
+  const mappedTrips = tripSelector.map((trip, index) => {
     return (
       <MenuItem key={trip.tripId} value={trip.tripId}>
-        {trip.tripName}
+        {trip.tripName ? trip.tripName : `Unnamed Trip ${index + 1}`}
       </MenuItem>
     );
   });
+  function dateRange(itinerary) {
+    const startDate = new Date(itinerary?.[0]?.date)
+    const endDate = new Date(itinerary?.[itinerary?.length - 1]?.date)
+    return `${startDate.getMonth() + 1}/${startDate.getDate()} - ${endDate.getMonth() + 1}/${endDate.getDate()}`
+  }
 
-  const menuItems = itinerary.map((date) => {
-    const formattedDate = new Date(date.date);
-    return (
-      <MenuItem key={date.date + date._id} value={date._id}>
-        {formattedDate.toString().slice(4, 15)}
-      </MenuItem>
-    );
-  });
-  console.log('rerender')
+  let tripDates = null
 
-
-  function handleChange(e) {
-    setSelDate(e.target.value);
+  if (itinerary.length > 0) {
+    tripDates = (
+      <>
+        <Typography>Your current trip:</Typography>
+        <Typography>{dateRange(itinerary)}</Typography>
+      </>
+    )
   }
 
   function handleClick() {
-    setOpen((prev) => !prev);
-  }
-
-  async function addIfNotInDb(parameters, results, lat, lng, selectedDate) {
-    const details = await getDetails(parameters);
-    const photos = details?.photos?.map((photo) => photo.getUrl());
-    const placeObj = {
-      name: details.name,
-      photos: photos,
-      place_id: results.place_id,
-      opening_hours: details.opening_hours,
-      website: details.website,
-      formatted_address: results.formatted_address,
-      lat: lat,
-      lng: lng,
-    };
-    fetch("/places", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(placeObj),
-    })
-      .then((res) => res.json())
-      .then((data) => {
-        console.log("Adding this to data", data);
-        addToItinerary(data, selectedDate);
-      });
+    if (itinerary) setOpen((prev) => !prev);
   }
 
   const handleChangeTrip = (e) => {
     setTrip(e.target.value)
   }
 
-  async function addToList(place_id, results, lat, lng) {
-    fetch(`/places/${place_id}`).then((res) => {
-      if (res.ok) {
-        res.json().then((data) => {
-          console.log("Add to list:", itinerary);
-          addToItinerary(data, selectedDate);
-        });
-      } else {
-        const parameters = {
-          placeId: place_id,
-          fields: ["name", "website", "opening_hours", "photo"],
-        };
-        addIfNotInDb(parameters, results, lat, lng, selectedDate);
-      }
-    });
+  const handleNameChange = () => {
+    fetch(`/trip/editname/${tripId}/${user.user._id}`,{
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({currentTripName})
+    })
+    .then(res => res.ok ? res.json().then(data => {
+      console.log(data.user.itineraries)
+      setTripSelector(prev => data.user.itineraries)
+    }) :null)
   }
 
   return (
     <Grid item justifyContent="space-between" alignItems="stretch" pb={3}>
       <Paper>
         <Stack justifyContent="center" alignItems="center" p={2} spacing={2}>
-          <TextField
-            fullWidth
-            variant="standard"
-            size="large"
-            sx={{ outline: "none" }}
-            value={tripName}
-            onChange={(e) => setTripName(e.target.value)}
-          />
-          <Grid container direction="row" sx={{ transition: "height 0.8s" }}>
-            {isLoaded ? (
-              <Grid item xs={6}>
-                <PlacesAutoComplete
-                  addToList={addToList}
-                  addToItinerary={addToItinerary}
-                />
-              </Grid>
-            ) : null}
-            <Grid item xs={6}>
-              <FormControl sx={{ width: "50%" }}>
-                <InputLabel>Select a date to add place to</InputLabel>
-                <Select
-                  onChange={handleChange}
-                  value={selectedDate}
-                  label="Select a date to add place to"
-                  placeholder="Select a date"
-                >
-                  {menuItems}
-                </Select>
-              </FormControl>
-              <FormControl sx={{width: '50%'}}>
-                <InputLabel>Choose another trip to edit</InputLabel>
-                <Select onChange={handleChangeTrip} value={tripId}>{mappedTrips}</Select>
-              </FormControl>
-              <Button variant="outlined" size="large" onClick={handleClick}>
-                Change dates
-              </Button>
-                <Button variant="outlined" size="large" onClick={handleSave}>
-                  Save itinerary
-                </Button>
+          {itinerary.length > 0 ?
+             <TextField
+             fullWidth
+             InputProps={{ style: { fontSize: 40 } }}
+             InputLabelProps={{ style: { fontSize: 40 } }}
+             placeholder="Edit trip name"
+             variant="standard"
+             size="large"
+             sx={{ outline: "none" }}
+             value={currentTripName}
+             onChange={(e) => setCurrentTripName(e.target.value)}
+             onBlur={handleNameChange}
+           /> : <Typography variant="h3">Get started at the Home Page</Typography>}
+          <Grid
+            container
+            spacing={1}
+            direction="row"
+            sx={{ transition: "height 0.8s" }}
+          >
+            <Grid item xs={3}>
+              {tripDates}
             </Grid>
-            {open ? (
-              <DatePicker
-                itinerary={itinerary}
-                tripId={tripId}
-                open={open}
-                setOpen={setOpen}
-                setItinerary={setItinerary}
-              />
-            ) : null}
+            <Grid item xs={3}>
+              {user ? (
+                <FormControl sx={{ width: "100%" }}>
+                  <InputLabel>Choose another trip to edit</InputLabel>
+                  <Select onChange={handleChangeTrip} value={tripId}>
+                    {mappedTrips}
+                  </Select>
+                </FormControl>
+              ) : null}
+            </Grid>
+            <Grid item xs={3}>
+              {open ? (
+                <DatePicker
+                  notify={notify}
+                  itinerary={itinerary}
+                  tripId={tripId}
+                  open={open}
+                  setOpen={setOpen}
+                  setItinerary={setItinerary}
+                  currentTripName={currentTripName}
+                />
+              ) : null}
+            </Grid>
+            <Grid item xs={3} align-content="space-around">
+              {itinerary.length > 0 ?
+                <Button
+                  variant='outlined'
+                  fullWidth
+                  onClick={handleClick}
+                >
+                  Change dates
+                </Button> : null}
+              {!user && itinerary.length > 0 ? <Button
+                sx={{ topBorderRadius: 1, border: "1px blue solid" }}
+                fullWidth
+                onClick={handleSave}
+              >
+                Login to save
+              </Button> : null}
+            </Grid>
           </Grid>
         </Stack>
       </Paper>

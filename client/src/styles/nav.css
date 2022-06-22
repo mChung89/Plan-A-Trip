@@ -1,0 +1,10 @@
+#logo {
+    display: inline-block;
+    animation: rotate 2s linear infinite;
+  }
+  
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }

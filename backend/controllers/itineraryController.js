@@ -9,49 +9,54 @@ const getItinerary = async (req, res) => {
 const showItinerary = async (req, res) => {
     const getData = await Itinerary.findById(req.params._id)
     // const placesData = await Place.find({place_id: { $in: getData.places}})
-    const placesData = await Place.find({place_id: { $in: getData.places}})
-
-
-    console.log(placesData)
-    res.status(200).send({placesData:placesData, itineraryDateId: getData._id})
+    const placesData = await Place.find({ place_id: { $in: getData.places } })
+    try {
+        res.status(200).send({ placesData: placesData, itineraryDateId: getData._id })
+    } catch(err) {
+        res.status(400).send(err)
+    }
 }
 
-const updateItinerary = async (req,res) => {
+const updateItinerary = async (req, res) => {
     //Check if Place exists in database
     let place = await Place.findOne({ place_id: req.body.place_id });
-    
+
     // If Place does not exist, create the Place
     if (!place) {
         place = new Place({
-        name: req.body.name,
-        place_id: req.body.place_id,
-        lat: req.body.lat,
-        lng: req.body.lng,
-        formatted_address: req.body.formatted_address,
-        opening_hours: req.body.opening_hours,
-        photos: req.body.photos,
-        website: req.body.website
-    });    
-    
-    const newPlaceInstance = await place.save()
-    // Inserting place into itinerary
-    const updatedItinerary = await Itinerary.findById(req.params._id)
-    console.log("Here without place")
-    const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, place]})
-    res.status(201).send(newPlaceInstance)
-}
+            name: req.body.name,
+            place_id: req.body.place_id,
+            lat: req.body.lat,
+            lng: req.body.lng,
+            formatted_address: req.body.formatted_address,
+            opening_hours: req.body.opening_hours,
+            photos: req.body.photos,
+            website: req.body.website
+        });
+
+        const newPlaceInstance = await place.save()
+        // Inserting place into itinerary
+        const updatedItinerary = await Itinerary.findById(req.params._id)
+        const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, { places: [...updatedItinerary.places, place] })
+        try {
+            res.status(201).send(newPlaceInstance)
+        } catch (err) {
+            res.status(400).send(err)
+        }
+    }
 
     // Inserting place into itinerary
     const updatedItinerary = await Itinerary.findById(req.params._id)
-    console.log("here with placePARAMSSSSSSSSS", updatedItinerary)
-    const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, {places: [...updatedItinerary.places, place]})
-    // This grabs all the itinerary places data
-    // const placesData = await Place.find({place_id: { $in: newItinerary.places}})
-    console.log('updating')
-    res.status(201).send(place)
+    const newItinerary = await Itinerary.findByIdAndUpdate(req.params._id, { places: [...updatedItinerary.places, place] })
+
+    try {
+        res.status(201).send(place)
+    } catch (err) {
+        res.status(400).send(err);
+    }
 }
 
-const postItinerary = async (req,res) => {
+const postItinerary = async (req, res) => {
     const newItinerary = new Itinerary({
         itineraryInfo: req.body.itineraryInfo,
         dates: req.body.dates,
@@ -61,19 +66,21 @@ const postItinerary = async (req,res) => {
     try {
         const savedItinerary = await newItinerary.save();
         res.status(201).send(savedItinerary);
-      } catch (err) {
+    } catch (err) {
         res.status(400).send(err);
-      }
+    }
 }
 
 const deleteItineraryPlace = async (req, res) => {
     try {
-        const place = await Place.findOne({_id: req.params.placeId})
-        const newItinerary = await Itinerary.findByIdAndUpdate({_id: req.params.itineraryId}, { $pull: {
-            places: { _id: place._id}
-        }})
-
-        console.log("Itinerary:", newItinerary)
+        const place = await Place.findOne({ _id: req.params.placeId })
+        const newItinerary = await Itinerary.findByIdAndUpdate(
+            { _id: req.params.itineraryId },
+            {$pull: {
+                places: { place_id: place.place_id }
+            }},
+            {returnOriginal: false})
+        console.log(newItinerary)
         res.status(201).send(newItinerary)
     } catch (err) {
         res.status(400).send(err)

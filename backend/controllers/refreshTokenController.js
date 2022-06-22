@@ -8,7 +8,7 @@ const handleRefreshToken = async (req, res) => {
   res.clearCookie('auth-jwt', { httpOnly: true });
 
   const refreshToken = cookies["auth-jwt"]
-
+  try {
   const foundUser = await User.findOne({refreshToken: refreshToken})
   // Detected refreshToken reuse!
   if(!foundUser) {
@@ -46,6 +46,9 @@ const handleRefreshToken = async (req, res) => {
           let user = foundUser
           res.json({ user, accessToken })
     } )
+  } catch(err) {
+    res.status(403).send(err)
+  }
 };
 
 module.exports = { handleRefreshToken }

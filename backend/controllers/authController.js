@@ -34,7 +34,7 @@ const newUser = async (req, res) => {
   //Create User in DB
   try {
     const savedUser = await user.save();
-    res.send({ user: savedUser._id });
+    res.send({ user: savedUser });
     
     // res.json({ user, accessToken })
   } catch (err) {
@@ -79,26 +79,10 @@ const loginUser = async (req, res) => {
 };
 
 const getMe = async (req,res) => {
+  console.log("me")
   
 }
 
-// Validating Token
-
-// const validateToken = (req, res) => {
-//     try {
-//         const token = req.header(process.env.TOKEN_HEADER_KEY);
-//         const verified = jwt.verify(token, TOKEN_SECRET)
-//         if (verified) {
-//             return res.send("Sucessfully verified")
-//         } else {
-//             // Access Denied
-//             return res.status(401).send(error)
-//         }
-//       } catch (error) {
-//           //Access Denied
-//           return res.status(401).send(err0r)
-//       }
-// }
 module.exports = {
   newUser,
   loginUser,

@@ -37,6 +37,7 @@ app.use("/places", require("./routes/placeRoute"));
 app.use("/auth", require("./routes/authRoute"));
 app.use("/refresh", require("./routes/refreshRoute"));
 app.use("/logout", require("./routes/logoutRoute"));
+app.use('/dnd', require('./routes/dragDropRoute'))
 
 // app.use(errorHandler)
 app.listen(process.env.PORT || 5000, () => console.log(`Server started on port: ${process.env.PORT}!`));

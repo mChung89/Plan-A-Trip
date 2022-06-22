@@ -5,7 +5,6 @@ import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
-import '../styles/App.css'
 
 const style = {
   position: "absolute",
@@ -13,14 +12,15 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: "rgba(255,255,255,.9)",
+  bgcolor: "rgba(255,255,255)",
   border: "2px solid #000",
   boxShadow: 24,
   borderRadius: "1em",
   p: 4,
 };
 
-function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip, setTripSelector }) {
+function LoginSave({ setUser, setErrors, errors, setToggle, setTrip, addNewTrip, setTripSelector }) {
+
   const defaultState = {
     email: "",
     password: "",
@@ -39,10 +39,9 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip, setTr
     }).then((res) => {
       if (res.ok) {
         res.json().then(data => {
-          setTrip(data.user.itineraries[0].tripId)
-          setUser(data)
-          setTripSelector(data.user.itineraries)
-          navigate('/')
+            addNewTrip(data.user._id)
+            setUser(data)
+            setTripSelector(data.user.itineraries)
         })
       } else {
         res.json().then(data => setErrors(data.errors))
@@ -65,7 +64,7 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip, setTr
         <Stack>
           <Box direction="column" sx={style} component="form">
             <Stack py={2} sx={{width: "100%"}}>
-            <Typography variant='h4' textAlign='center'>Login Here</Typography>
+            <Typography variant='h4' textAlign='center'>LoginSave Here</Typography>
             </Stack>
             <Stack pt={2} alignItems='center'>
               <Typography textAlign='center'>Email</Typography>
@@ -101,4 +100,4 @@ function Login({ setUser, navigate, setErrors, errors, setToggle, setTrip, setTr
   );
 }
 
-export default Login;
+export default LoginSave;
