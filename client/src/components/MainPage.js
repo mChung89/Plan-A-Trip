@@ -30,6 +30,8 @@ function MainPage({
   const [open, setOpen] = useState(false);
   const [addedPlace, setAddedPlace] = useState("")
   const [center, setCenter] = useState({lat: 40.705543976313464, lng: -74.01357140807622})
+  const [startValue, setStartValue] = useState([null, null]);
+  const [endValue, setEndValue] = useState([null, null]);
 
 
   useEffect(() => {
@@ -59,6 +61,8 @@ function MainPage({
           setItinerary(data[0]);
           setTrip(data[1]._id);
           setCurrentTripName(data[1].name)
+          setStartValue(itinerary[0].date);
+          setEndValue(itinerary[itinerary.length - 1].date);
         });
     }
   }, [currentTrip]);
@@ -262,6 +266,10 @@ function MainPage({
           className="itinerary main-window-split"
         >
           <Itinerary
+            startValue={startValue}
+            setStartValue={setStartValue}
+            endValue={endValue}
+            setEndValue={setEndValue}
             notify={notify}
             setTripSelector={setTripSelector}
             setCurrentTripName={setCurrentTripName}

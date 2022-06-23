@@ -1,7 +1,7 @@
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import Backdrop from "@mui/material/Backdrop";
 import Box from "@mui/material/Box";
@@ -23,18 +23,8 @@ const style = {
   p: 4,
 };
 
-function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify }) {
-  const [startValue, setStartValue] = useState(itinerary[0].date);
-  const [endValue, setEndValue] = useState(itinerary[itinerary.length - 1].date);
+function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify, startValue, setStartValue, endValue, setEndValue }) {
   const [errors, setErrors] = useState(null)
-
-  // useEffect(() => {
-  //   setStartValue(itinerary[0].date);
-  //   setEndValue(itinerary[itinerary.length - 1].date);
-  //   return () => {
-  //     "Unmounting";
-  //   };
-  // }, [itinerary]);
 
   //Gets dates of start date and end date
   const handleChange = (e) => {

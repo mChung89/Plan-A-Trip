@@ -16,6 +16,10 @@ import Typography from '@mui/material/Typography'
 //CALENDAR
 
 function Itinerary({
+  startValue,
+  setStartValue,
+  endValue,
+  setEndValue,
   notify,
   setTripSelector,
   setCurrentTripName,
@@ -114,6 +118,10 @@ function Itinerary({
             <Grid item xs={3}>
               {open ? (
                 <DatePicker
+                  startValue={startValue}
+                  setStartValue={setStartValue}
+                  endValue={endValue}
+                  setEndValue={setEndValue}
                   notify={notify}
                   itinerary={itinerary}
                   tripId={tripId}
