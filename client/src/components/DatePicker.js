@@ -24,18 +24,17 @@ const style = {
 };
 
 function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify }) {
-  console.log(itinerary)
-  const [startValue, setStartValue] = useState([null, null]);
-  const [endValue, setEndValue] = useState([null, null]);
+  const [startValue, setStartValue] = useState(itinerary[0].date);
+  const [endValue, setEndValue] = useState(itinerary[itinerary.length - 1].date);
   const [errors, setErrors] = useState(null)
 
-  useEffect(() => {
-    setStartValue(itinerary[0].date);
-    setEndValue(itinerary[itinerary.length - 1].date);
-    return () => {
-      "Unmounting";
-    };
-  }, [itinerary]);
+  // useEffect(() => {
+  //   setStartValue(itinerary[0].date);
+  //   setEndValue(itinerary[itinerary.length - 1].date);
+  //   return () => {
+  //     "Unmounting";
+  //   };
+  // }, [itinerary]);
 
   //Gets dates of start date and end date
   const handleChange = (e) => {
