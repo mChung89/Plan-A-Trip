@@ -32,7 +32,7 @@ function MainPage({
   const [center, setCenter] = useState({lat: 40.705543976313464, lng: -74.01357140807622})
 
 
-  useEffect(async () => {
+  useEffect(() => {
     if (currentTrip) {
       fetch(`trip/${currentTrip}`)
         .then((res) => res.json())
