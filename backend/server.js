@@ -31,13 +31,13 @@ app.get("*", function (request, response) {
 
 // Routes
 
-app.use("/api/trip", require("./routes/tripRoute"));
-app.use("/api/itinerary", require("./routes/itineraryRoute"));
-app.use("/api/places", require("./routes/placeRoute"));
-app.use("/api/auth", require("./routes/authRoute"));
-app.use("/api/refresh", require("./routes/refreshRoute"));
-app.use("/api/logout", require("./routes/logoutRoute"));
-app.use('/api/dnd', require('./routes/dragDropRoute'))
+app.use("/trip", require("./routes/tripRoute"));
+app.use("/itinerary", require("./routes/itineraryRoute"));
+app.use("/places", require("./routes/placeRoute"));
+app.use("/auth", require("./routes/authRoute"));
+app.use("/refresh", require("./routes/refreshRoute"));
+app.use("/logout", require("./routes/logoutRoute"));
+app.use('/dnd', require('./routes/dragDropRoute'))
 
 // app.use(errorHandler)
 app.listen(process.env.PORT || 5000, () => console.log(`Server started on port: ${process.env.PORT}!`));
