@@ -24,6 +24,7 @@ const style = {
 };
 
 function DatePicker({ tripId, open, setOpen, itinerary, setItinerary, currentTripName, notify }) {
+  console.log(itinerary)
   const [startValue, setStartValue] = useState([null, null]);
   const [endValue, setEndValue] = useState([null, null]);
   const [errors, setErrors] = useState(null)
