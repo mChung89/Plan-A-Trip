@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.1.0",
   "private": true,
-  "proxy": "https://planaitinerary.herokuapp.com/",
+  "proxy": "http://localhost:5000",
   "dependencies": {
     "@date-io/date-fns": "^2.14.0",
     "@emotion/react": "^11.9.0",
@@ -19,6 +19,7 @@
     "@testing-library/user-event": "^13.5.0",
     "date-fns": "^2.28.0",
     "gsap": "^3.10.4",
+    "http-proxy-middleware": "^2.0.6",
     "material-ui-image": "^3.3.2",
     "react": "^18.1.0",
     "react-beautiful-dnd": "^13.1.0",
