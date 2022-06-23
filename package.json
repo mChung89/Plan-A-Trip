@@ -24,6 +24,7 @@
   "homepage": "https://github.com/mChung89/Plan-A-Trip#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "concurrently": "^7.2.2",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "dotenv": "^16.0.1",
