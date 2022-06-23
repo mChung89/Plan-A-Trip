@@ -44,6 +44,7 @@ const newUser = async (req, res) => {
 
 //Login
 const loginUser = async (req, res) => {
+  console.log(req.body)
   //Validation
   const { error } = loginValidation(req.body);
   if (error) {
