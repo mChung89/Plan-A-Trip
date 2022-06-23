@@ -21,6 +21,7 @@ const editTripName = async (req, res) => {
 };
 
 const showTrip = async (req, res) => {
+  console.log("Is this working?")
   if (req.params._id === 'null') {
     return res.status(400).send({ errors: "No tripId sent" })
   }
